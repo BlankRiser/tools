@@ -1,6 +1,5 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { RouterProvider, createRouter } from "@tanstack/react-router";
-import { MapProvider } from "@vis.gl/react-maplibre";
 import ReactDOM from "react-dom/client";
 import { ThemeProvider } from "./hooks/use-theme";
 import { routeTree } from "./routeTree.gen";
@@ -31,11 +30,9 @@ if (!rootElement.innerHTML) {
   const root = ReactDOM.createRoot(rootElement);
   root.render(
     <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-      <MapProvider>
         <QueryClientProvider client={queryClient}>
           <RouterProvider router={router} />
         </QueryClientProvider>
-      </MapProvider>
     </ThemeProvider>,
   );
 }

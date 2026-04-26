@@ -1,5 +1,5 @@
 {
-  "name": "devhaven-tools",
+  "name": "@devhaven/tools",
   "private": true,
   "type": "module",
   "imports": {
@@ -30,8 +30,10 @@
     "@vis.gl/react-maplibre": "^8.1.1",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "maplibre-gl": "^5.24.0",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
+    "react-error-boundary": "^6.1.1",
     "shadcn": "^4.5.0",
     "tailwind-merge": "^3.5.0",
     "tailwindcss": "^4.1.18",
