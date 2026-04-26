@@ -1,130 +1,10 @@
 import { Button } from "#/components/ui/button";
-import { ArrowRightIcon, ArrowsClockwiseIcon, ArrowsInIcon, CalendarIcon, CodeIcon, CompassIcon, CursorTextIcon, EyeIcon, FileCodeIcon, HashIcon, ImageIcon, LinkIcon, ListBulletsIcon, MapPinIcon, MapTrifoldIcon, NavigationArrowIcon, PaletteIcon, PolygonIcon, QrCodeIcon, RocketLaunchIcon, RulerIcon, TableIcon, TextAaIcon } from "@phosphor-icons/react";
+import { toolsList } from "#/data/tools-list";
+import { ArrowRightIcon, CodeIcon, RocketLaunchIcon } from "@phosphor-icons/react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/")({ component: Home });
 
-const features = [
-  {
-    icon: MapTrifoldIcon,
-    title: "Map Wallpaper",
-    description: "Design high-res map wallpapers with custom themes and granular layer controls.",
-  },
-  {
-    icon: PolygonIcon,
-    title: "GeoJSON Viewer",
-    description: "Paste GeoJSON and visualize geometries on an interactive map for quick debugging.",
-    comingSoon: true,
-  },
-  {
-    icon: CompassIcon,
-    title: "Coordinate Converter",
-    description: "Convert between lat/lng, DMS, UTM, and MGRS coordinate formats instantly.",
-    comingSoon: true,
-  },
-  {
-    icon: NavigationArrowIcon,
-    title: "Distance Calculator",
-    description: "Calculate haversine distance between two points on the globe.",
-    comingSoon: true,
-  },
-  {
-    icon: ArrowsInIcon,
-    title: "Bounding Box Picker",
-    description: "Draw a rectangle on a map and copy the bbox coordinates for API queries.",
-    comingSoon: true,
-  },
-  {
-    icon: MapPinIcon,
-    title: "WKT ↔ GeoJSON",
-    description: "Convert between Well-Known Text and GeoJSON geometry formats.",
-    comingSoon: true,
-  },
-  {
-    icon: QrCodeIcon,
-    title: "QR Code Generator",
-    description: "Generate QR codes from any text or URL with customizable size and styling options.",
-    comingSoon: true,
-  },
-  {
-    icon: CursorTextIcon,
-    title: "Text Inspector",
-    description: "Analyze characters, bytes, words, lines, ASCII/Unicode usage, and word frequency.",
-    comingSoon: true,
-  },
-  {
-    icon: PaletteIcon,
-    title: "Color Generator",
-    description: "Generate, convert, and explore color palettes across HEX, RGB, HSL, and more.",
-    comingSoon: true,
-  },
-  {
-    icon: CalendarIcon,
-    title: "Date Converter",
-    description: "Convert dates across timezones and UTC with flexible formatting options.",
-    comingSoon: true,
-  },
-  {
-    icon: RulerIcon,
-    title: "Unit Converter",
-    description: "Convert between SI units — length, mass, temperature, volume, and more.",
-    comingSoon: true,
-  },
-  {
-    icon: ArrowsClockwiseIcon,
-    title: "Diff Checker",
-    description: "Compare two texts side-by-side and highlight additions, deletions, and changes.",
-    comingSoon: true,
-  },
-  {
-    icon: ListBulletsIcon,
-    title: "Sort Text",
-    description: "Sort lines alphabetically with options to filter duplicates and strip numbers.",
-    comingSoon: true,
-  },
-  {
-    icon: EyeIcon,
-    title: "Markdown Previewer",
-    description: "Write Markdown and see a live-rendered preview side by side.",
-    comingSoon: true,
-  },
-  {
-    icon: LinkIcon,
-    title: "URL Parser",
-    description: "Break down URLs into protocol, host, path, query params, and fragment.",
-    comingSoon: true,
-  },
-  {
-    icon: HashIcon,
-    title: "Regex Tester",
-    description: "Test regular expressions with live matching, capture groups, and flag toggles.",
-    comingSoon: true,
-  },
-  {
-    icon: FileCodeIcon,
-    title: "JSON Formatter",
-    description: "Format, validate, and minify JSON with syntax highlighting and error reporting.",
-    comingSoon: true,
-  },
-  {
-    icon: ImageIcon,
-    title: "Base64 Image Codec",
-    description: "Encode images to Base64 strings or decode Base64 back to viewable images.",
-    comingSoon: true,
-  },
-  {
-    icon: TableIcon,
-    title: "JSON ↔ CSV",
-    description: "Convert between JSON and CSV formats with automatic column detection.",
-    comingSoon: true,
-  },
-  {
-    icon: TextAaIcon,
-    title: "String Case Converter",
-    description: "Transform text between camelCase, snake_case, kebab-case, Title Case, and more.",
-    comingSoon: true,
-  },
-];
 
 function Home() {
   return (
@@ -164,7 +44,7 @@ function Home() {
       </section>
       <section className="relative z-10 mx-auto w-full max-w-5xl px-6 pb-20">
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {features.map((f) => (
+          {toolsList.map((f) => (
             <div
               key={f.title}
               className="group rounded-xl border border-border/50 bg-card/50 p-5 backdrop-blur-sm transition-colors hover:border-primary/30 hover:bg-card/80"

@@ -1,19 +1,11 @@
 import { Card, CardDescription, CardHeader, CardTitle } from "#/components/ui/card";
-import { ArrowUpRightIcon, MapTrifoldIcon } from "@phosphor-icons/react";
-import { createFileRoute, Link, linkOptions } from "@tanstack/react-router";
+import { toolsList } from "#/data/tools-list";
+import { ArrowUpRightIcon } from "@phosphor-icons/react";
+import { createFileRoute, Link } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/tools/")({
   component: ToolsRoute,
 });
-
-const toolOptions = linkOptions([
-  {
-    to: "/tools/map-wallpaper",
-    label: "Map Wallpaper",
-    description: "Design & export high-resolution map wallpapers with custom themes and granular layer controls.",
-    icon: MapTrifoldIcon,
-  },
-]);
 
 function ToolsRoute() {
   return (
@@ -24,19 +16,19 @@ function ToolsRoute() {
       </div>
 
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        {toolOptions.map((tool) => {
+        {toolsList.filter((tool) => !tool.comingSoon).map((tool) => {
           const Icon = tool.icon;
           return (
-            <Link key={tool.to} to={tool.to} className="group outline-none">
+            <Link key={tool.to} to={tool.to} params={tool.params} className="group outline-none">
               <Card className="h-full transition-colors group-focus-visible:ring-2 group-focus-visible:ring-ring hover:border-blue-500/50 hover:bg-accent/40">
                 <CardHeader>
                   <div className="flex items-start justify-between">
-                    <div className="flex h-9 w-9 items-center justify-center rounded-md bg-blue-500/10 text-blue-600 dark:text-blue-400">
-                      <Icon className="h-5 w-5" />
+                    <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary/10 text-primary transition-colors group-hover:bg-primary/20">
+                      <Icon className="size-5" weight="duotone" />
                     </div>
                     <ArrowUpRightIcon className="h-4 w-4 text-muted-foreground opacity-0 transition-opacity group-hover:opacity-100" />
                   </div>
-                  <CardTitle className="mt-2 text-sm">{tool.label}</CardTitle>
+                  <CardTitle className="mt-2 text-sm">{tool.title}</CardTitle>
                   <CardDescription className="text-xs leading-relaxed">{tool.description}</CardDescription>
                 </CardHeader>
               </Card>

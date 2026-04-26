@@ -11,7 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ToolsIndexRouteImport } from './routes/tools/index'
-import { Route as ToolsMapWallpaperIndexRouteImport } from './routes/tools/map-wallpaper/index'
+import { Route as ToolsToolIDIndexRouteImport } from './routes/tools/$toolID/index'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -23,40 +23,40 @@ const ToolsIndexRoute = ToolsIndexRouteImport.update({
   path: '/tools/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ToolsMapWallpaperIndexRoute = ToolsMapWallpaperIndexRouteImport.update({
-  id: '/tools/map-wallpaper/',
-  path: '/tools/map-wallpaper/',
+const ToolsToolIDIndexRoute = ToolsToolIDIndexRouteImport.update({
+  id: '/tools/$toolID/',
+  path: '/tools/$toolID/',
   getParentRoute: () => rootRouteImport,
 } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/tools/': typeof ToolsIndexRoute
-  '/tools/map-wallpaper/': typeof ToolsMapWallpaperIndexRoute
+  '/tools/$toolID/': typeof ToolsToolIDIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/tools': typeof ToolsIndexRoute
-  '/tools/map-wallpaper': typeof ToolsMapWallpaperIndexRoute
+  '/tools/$toolID': typeof ToolsToolIDIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/tools/': typeof ToolsIndexRoute
-  '/tools/map-wallpaper/': typeof ToolsMapWallpaperIndexRoute
+  '/tools/$toolID/': typeof ToolsToolIDIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/tools/' | '/tools/map-wallpaper/'
+  fullPaths: '/' | '/tools/' | '/tools/$toolID/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/tools' | '/tools/map-wallpaper'
-  id: '__root__' | '/' | '/tools/' | '/tools/map-wallpaper/'
+  to: '/' | '/tools' | '/tools/$toolID'
+  id: '__root__' | '/' | '/tools/' | '/tools/$toolID/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   ToolsIndexRoute: typeof ToolsIndexRoute
-  ToolsMapWallpaperIndexRoute: typeof ToolsMapWallpaperIndexRoute
+  ToolsToolIDIndexRoute: typeof ToolsToolIDIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -75,11 +75,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ToolsIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/tools/map-wallpaper/': {
-      id: '/tools/map-wallpaper/'
-      path: '/tools/map-wallpaper'
-      fullPath: '/tools/map-wallpaper/'
-      preLoaderRoute: typeof ToolsMapWallpaperIndexRouteImport
+    '/tools/$toolID/': {
+      id: '/tools/$toolID/'
+      path: '/tools/$toolID'
+      fullPath: '/tools/$toolID/'
+      preLoaderRoute: typeof ToolsToolIDIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
   }
@@ -88,7 +88,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   ToolsIndexRoute: ToolsIndexRoute,
-  ToolsMapWallpaperIndexRoute: ToolsMapWallpaperIndexRoute,
+  ToolsToolIDIndexRoute: ToolsToolIDIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

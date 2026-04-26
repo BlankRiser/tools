@@ -1,16 +1,10 @@
 import { GlobalErrorBoundary } from "#/components/common/global-error-boundary";
-import { WallpaperControls } from "#/modules/map-wallpaper/map-controls";
-import { WallpaperMap } from "#/modules/map-wallpaper/wallpaper-map";
-import { createFileRoute } from "@tanstack/react-router";
 import { MapProvider } from "@vis.gl/react-maplibre";
+import { WallpaperControls } from "./map-controls";
+import { WallpaperMap } from "./wallpaper-map";
 
-export const Route = createFileRoute("/tools/map-wallpaper/")({
-  component: RouteComponent,
-});
-
-function RouteComponent() {
+export default function MapWallpaperPage() {
   return (
-    <div>
       <GlobalErrorBoundary>
         <MapProvider>
           <div className="flex h-[calc(100dvh-2.8rem)] w-full overflow-hidden bg-background">
@@ -23,6 +17,5 @@ function RouteComponent() {
           </div>
         </MapProvider>
       </GlobalErrorBoundary>
-    </div>
   );
 }
