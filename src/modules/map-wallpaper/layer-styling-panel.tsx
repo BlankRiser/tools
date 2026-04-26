@@ -1,13 +1,12 @@
-
-import React, { useState } from "react";
 import { Button } from "#/components/ui/button";
 import { Checkbox } from "#/components/ui/checkbox";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "#/components/ui/collapsible";
 import { Input } from "#/components/ui/input";
 import { Label } from "#/components/ui/label";
-import type { LayerGroupState, PresetColors, PresetVisibility } from "#/hooks/use-layer-styles";
 import { useDebounce } from "#/hooks/use-debounce";
+import type { LayerGroupState, PresetColors, PresetVisibility } from "#/hooks/use-layer-styles";
 import { CaretDownIcon } from "@phosphor-icons/react";
+import React, { useState } from "react";
 
 const formatLayerName = (id: string) => {
   return id.replace(/[-_]/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
@@ -144,13 +143,12 @@ export function LayerStylingPanel({
               className="group/collapsible overflow-hidden rounded-md border border-border/50 bg-card transition-colors"
             >
               <div className={`flex flex-col ${someVisible ? "" : "bg-muted/20 opacity-75"}`}>
-                {/* Group Header */}
                 <div className="flex items-center justify-between p-2.5">
                   <div className="flex items-center gap-2">
                     <CollapsibleTrigger
                       render={
                         <Button variant="ghost" size="icon" className="group/trigger h-6 w-6 shrink-0 p-0 hover:bg-muted" disabled={isSearching}>
-                          <CaretDownIcon className="h-4 w-4 transition-transform duration-200 group-data-[panel-open]/trigger:-rotate-180" />
+                          <CaretDownIcon className="h-4 w-4 transition-transform duration-200 group-data-panel-open/trigger:-rotate-180" />
                           <span className="sr-only">Toggle</span>
                         </Button>
                       }
@@ -189,7 +187,6 @@ export function LayerStylingPanel({
                   </div>
                 </div>
 
-                {/* Granular Layers */}
                 <CollapsibleContent>
                   <div className="flex flex-col gap-1 border-t border-border/40 bg-muted/10 px-3 pt-1 pb-2">
                     {group.layers.map((layer) => {
