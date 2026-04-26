@@ -10,57 +10,8 @@ import { CornersOutIcon, CornersInIcon } from "@phosphor-icons/react";
 import { Virtualizer } from "@pierre/diffs";
 import { parseDiffFromFile } from "@pierre/diffs";
 import { FileDiff, VirtualizerContext } from "@pierre/diffs/react";
-import { useState, useRef, useReducer } from "react";
-
-interface DiffOptionsState {
-  diffStyle: "split" | "unified";
-  diffIndicators: "classic" | "bars" | "none";
-  lineDiffType: "word-alt" | "word" | "char" | "none";
-  theme: string;
-  disableBackground: boolean;
-  wrapLines: boolean;
-  disableLineNumbers: boolean;
-}
-
-type DiffOptionsAction =
-  | { type: "SET_DIFF_STYLE"; payload: DiffOptionsState["diffStyle"] }
-  | { type: "SET_DIFF_INDICATORS"; payload: DiffOptionsState["diffIndicators"] }
-  | { type: "SET_LINE_DIFF_TYPE"; payload: DiffOptionsState["lineDiffType"] }
-  | { type: "SET_THEME"; payload: string }
-  | { type: "TOGGLE_BACKGROUND" }
-  | { type: "TOGGLE_WRAP_LINES" }
-  | { type: "TOGGLE_LINE_NUMBERS" };
-
-function diffOptionsReducer(state: DiffOptionsState, action: DiffOptionsAction): DiffOptionsState {
-  switch (action.type) {
-    case "SET_DIFF_STYLE":
-      return { ...state, diffStyle: action.payload };
-    case "SET_DIFF_INDICATORS":
-      return { ...state, diffIndicators: action.payload };
-    case "SET_LINE_DIFF_TYPE":
-      return { ...state, lineDiffType: action.payload };
-    case "SET_THEME":
-      return { ...state, theme: action.payload };
-    case "TOGGLE_BACKGROUND":
-      return { ...state, disableBackground: !state.disableBackground };
-    case "TOGGLE_WRAP_LINES":
-      return { ...state, wrapLines: !state.wrapLines };
-    case "TOGGLE_LINE_NUMBERS":
-      return { ...state, disableLineNumbers: !state.disableLineNumbers };
-    default:
-      return state;
-  }
-}
-
-const initialDiffOptions: DiffOptionsState = {
-  diffStyle: "split",
-  diffIndicators: "bars",
-  lineDiffType: "word-alt",
-  theme: "pierre-dark",
-  disableBackground: false,
-  wrapLines: false,
-  disableLineNumbers: false,
-};
+import { useState, useRef } from "react";
+import { useDiffOptions, type DiffOptionsState } from "./use-diff-options";
 
 export default function DiffCheckerPage() {
   const [oldText, setOldText] = useState("");
@@ -70,7 +21,7 @@ export default function DiffCheckerPage() {
   const [diffKey, setDiffKey] = useState(0);
   const [isFullscreen, setIsFullscreen] = useState(false);
 
-  const [options, dispatch] = useReducer(diffOptionsReducer, initialDiffOptions);
+  const { options, dispatch } = useDiffOptions();
 
   const diffRef = useRef<HTMLDivElement>(null);
   const virtualizerInstanceRef = useRef(new Virtualizer());
@@ -100,7 +51,6 @@ export default function DiffCheckerPage() {
           <h1 className="text-3xl font-bold tracking-tight">Diff Checker</h1>
           <p className="mt-2 text-muted-foreground">Compare two snippets of text to see what changed.</p>
         </div>
-
         <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
           <div className="flex flex-col gap-2">
             <Label className="text-lg font-semibold">Original Text</Label>

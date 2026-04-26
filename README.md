@@ -9,6 +9,7 @@ A curated collection of visual utilities, generators, and visualizers, designed 
 | Tool              | Description                                                                            |
 | ----------------- | -------------------------------------------------------------------------------------- |
 | **Map Wallpaper** | Design & export high-res map wallpapers with custom themes and granular layer controls |
+| Diff Checker      | Compare two texts side-by-side with highlighted changes                                |
 
 ### Coming Soon
 
@@ -27,7 +28,6 @@ A curated collection of visual utilities, generators, and visualizers, designed 
 | Tool                  | Description                                                                      |
 | --------------------- | -------------------------------------------------------------------------------- |
 | Text Inspector        | Analyze characters, bytes, words, lines, ASCII/Unicode usage, and word frequency |
-| Diff Checker          | Compare two texts side-by-side with highlighted changes                          |
 | Sort Text             | Sort lines with options to filter duplicates and strip numbers                   |
 | String Case Converter | Transform between camelCase, snake_case, kebab-case, Title Case, etc.            |
 | Markdown Previewer    | Write Markdown with a live-rendered preview                                      |
