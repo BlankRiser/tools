@@ -182,20 +182,22 @@ export function useLayerStyles(map: maplibregl.Map | undefined | null) {
   );
 
   const applyPreset = useCallback(
-    (preset: import("../data/map-theme-presets").MapThemePreset) => {
+    (preset: import("../data/map-theme-presets").MapThemePreset, preserveLayers: boolean = false) => {
       if (!map || !isReady) return;
 
       if (preset.isReset) {
         map.setStyle(MAP_STYLES["openfreemap-liberty"]);
         setColors({});
         
-        const resetVisibility: PresetVisibility = {};
-        layerGroups.forEach(g => {
-          g.layers.forEach(l => {
-            resetVisibility[l.id] = true;
+        if (!preserveLayers) {
+          const resetVisibility: PresetVisibility = {};
+          layerGroups.forEach(g => {
+            g.layers.forEach(l => {
+              resetVisibility[l.id] = true;
+            });
           });
-        });
-        setVisibility(resetVisibility);
+          setVisibility(resetVisibility);
+        }
         return;
       }
 
@@ -274,11 +276,13 @@ export function useLayerStyles(map: maplibregl.Map | undefined | null) {
             layerVis = false;
           }
 
-          newVisibility[layer.id] = layerVis;
-          try {
-            map.setLayoutProperty(layer.id, "visibility", layerVis ? "visible" : "none");
-          } catch {
-            // Ignore unsupported layout property
+          if (!preserveLayers) {
+            newVisibility[layer.id] = layerVis;
+            try {
+              map.setLayoutProperty(layer.id, "visibility", layerVis ? "visible" : "none");
+            } catch {
+              // Ignore unsupported layout property
+            }
           }
 
           // Apply colors

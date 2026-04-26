@@ -1,9 +1,11 @@
 import { useState } from "react";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger } from "#/components/ui/select";
+import { Switch } from "#/components/ui/switch";
+import { Label } from "#/components/ui/label";
 import { MAP_PRESETS, type MapThemePreset } from "../../data/map-theme-presets";
 
 interface ThemePresetSelectorProps {
-  applyPreset: (preset: MapThemePreset) => void;
+  applyPreset: (preset: MapThemePreset, preserveLayers?: boolean) => void;
   isReady: boolean;
 }
 
@@ -37,6 +39,7 @@ function PresetColorSwatches({ colors }: { colors: NonNullable<MapThemePreset["c
 export function ThemePresetSelector({ applyPreset, isReady }: ThemePresetSelectorProps) {
   const defaultPreset = MAP_PRESETS.find((p) => p.id === "default")!;
   const [selectedPreset, setSelectedPreset] = useState<MapThemePreset>(defaultPreset);
+  const [preserveLayers, setPreserveLayers] = useState(false);
 
   const renderPresetItem = (preset: MapThemePreset) => {
     return (
@@ -50,39 +53,53 @@ export function ThemePresetSelector({ applyPreset, isReady }: ThemePresetSelecto
   };
 
   return (
-    <div className="space-y-2">
-      <h2 className="text-sm font-semibold">Theme Preset</h2>
-      <Select
-        defaultValue="default"
-        onValueChange={(val) => {
-          const preset = MAP_PRESETS.find((p) => p.id === val);
-          if (preset) {
-            setSelectedPreset(preset);
-            applyPreset(preset);
-          }
-        }}
-      >
-        <SelectTrigger disabled={!isReady} className="w-full">
-          <span className="flex flex-1 items-center justify-between gap-2 text-left">
-            <span className="truncate">{selectedPreset.name}</span>
-            {selectedPreset.colors && <PresetColorSwatches colors={selectedPreset.colors} />}
-          </span>
-        </SelectTrigger>
-        <SelectContent alignItemWithTrigger={false}>
-          <SelectGroup>
-            <SelectLabel>System</SelectLabel>
-            {MAP_PRESETS.filter((p) => p.theme === "system").map(renderPresetItem)}
-          </SelectGroup>
-          <SelectGroup>
-            <SelectLabel>Light</SelectLabel>
-            {MAP_PRESETS.filter((p) => p.theme === "light").map(renderPresetItem)}
-          </SelectGroup>
-          <SelectGroup>
-            <SelectLabel>Dark</SelectLabel>
-            {MAP_PRESETS.filter((p) => p.theme === "dark").map(renderPresetItem)}
-          </SelectGroup>
-        </SelectContent>
-      </Select>
+    <div className="space-y-3">
+      <div className="space-y-2">
+        <h2 className="text-sm font-semibold">Theme Preset</h2>
+        <Select
+          defaultValue="default"
+          onValueChange={(val) => {
+            const preset = MAP_PRESETS.find((p) => p.id === val);
+            if (preset) {
+              setSelectedPreset(preset);
+              applyPreset(preset, preserveLayers);
+            }
+          }}
+        >
+          <SelectTrigger disabled={!isReady} className="w-full">
+            <span className="flex flex-1 items-center justify-between gap-2 text-left">
+              <span className="truncate">{selectedPreset.name}</span>
+              {selectedPreset.colors && <PresetColorSwatches colors={selectedPreset.colors} />}
+            </span>
+          </SelectTrigger>
+          <SelectContent alignItemWithTrigger={false}>
+            <SelectGroup>
+              <SelectLabel>System</SelectLabel>
+              {MAP_PRESETS.filter((p) => p.theme === "system").map(renderPresetItem)}
+            </SelectGroup>
+            <SelectGroup>
+              <SelectLabel>Light</SelectLabel>
+              {MAP_PRESETS.filter((p) => p.theme === "light").map(renderPresetItem)}
+            </SelectGroup>
+            <SelectGroup>
+              <SelectLabel>Dark</SelectLabel>
+              {MAP_PRESETS.filter((p) => p.theme === "dark").map(renderPresetItem)}
+            </SelectGroup>
+          </SelectContent>
+        </Select>
+      </div>
+
+      <div className="flex items-center space-x-2">
+        <Switch 
+          id="preserve-layers" 
+          checked={preserveLayers}
+          onCheckedChange={setPreserveLayers}
+          disabled={!isReady}
+        />
+        <Label htmlFor="preserve-layers" className="text-xs text-muted-foreground font-normal leading-tight cursor-pointer select-none">
+          Preserve custom layer visibility
+        </Label>
+      </div>
     </div>
   );
 }
