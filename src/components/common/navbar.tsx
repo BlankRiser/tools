@@ -1,12 +1,12 @@
 import { Button } from "#/components/ui/button";
 import { useTheme } from "#/hooks/use-theme";
-import { MoonIcon, SunIcon } from "@phosphor-icons/react";
+import { CommandIcon, MoonStarsIcon, SunDimIcon } from "@phosphor-icons/react";
 import { Link, linkOptions } from "@tanstack/react-router";
 
 const navOptions = linkOptions([
   {
     to: "/tools",
-    label: "Explore tools",
+    label: "Explore",
     activeOptions: { exact: true },
   },
 ]);
@@ -19,19 +19,30 @@ export function Navbar() {
   };
 
   return (
-    <nav className="w-full border-b border-b-neutral-100 dark:border-b-neutral-900 ">
-      <div className="mx-auto flex max-w-7xl items-center justify-between p-1 ">
-        <Link to="/" viewTransition={{ types: ["slide-left"] }} className="px-2 text-center text-lg font-medium text-primary ">
-          DevHaven Tools
+    <nav className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/60 backdrop-blur-xl backdrop-saturate-150">
+      <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-2">
+        <Link
+          to="/"
+          viewTransition={{ types: ["slide-left"] }}
+          className="flex items-center gap-2 text-sm font-semibold tracking-tight text-foreground transition-colors hover:text-primary"
+        >
+          <span className="flex h-6 w-6 items-center justify-center rounded-md bg-primary text-primary-foreground">
+            <CommandIcon className="size-3.5" weight="bold" />
+          </span>
+          DevHaven
         </Link>
-        <div className="flex items-center gap-2">
+
+        <div className="flex items-center gap-1">
           {navOptions.map((option) => (
             <Link
               key={option.to}
               to={option.to}
-              className="px-2 text-sm text-neutral-700 hover:text-blue-600 dark:text-neutral-300 dark:hover:text-blue-400"
+              className="rounded-md px-3 py-1.5 text-xs font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
               activeProps={{
-                className: "data-[status=active]:text-blue-600 data-[status=active]:dark:text-blue-400",
+                className: "data-[status=active]:bg-accent data-[status=active]:text-foreground",
+              }}
+              activeOptions={{
+                exact: true
               }}
               viewTransition={{ types: ["slide-right"] }}
             >
@@ -39,8 +50,10 @@ export function Navbar() {
             </Link>
           ))}
 
-          <Button size="icon" variant={"ghost"} onClick={toggleTheme}>
-            {theme === "light" ? <SunIcon /> : <MoonIcon />}
+          <div className="mx-1.5 h-4 w-px bg-border/60" />
+
+          <Button size="icon-sm" variant="ghost" onClick={toggleTheme} className="text-muted-foreground hover:text-foreground">
+            {theme === "light" ? <SunDimIcon weight="bold" /> : <MoonStarsIcon weight="bold" />}
           </Button>
         </div>
       </div>
