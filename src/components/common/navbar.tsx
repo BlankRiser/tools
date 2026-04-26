@@ -1,7 +1,8 @@
 import { Button } from "#/components/ui/button";
 import { useTheme } from "#/hooks/use-theme";
-import { CommandIcon, MoonStarsIcon, SunDimIcon } from "@phosphor-icons/react";
+import { MoonStarsIcon, SunDimIcon } from "@phosphor-icons/react";
 import { Link, linkOptions } from "@tanstack/react-router";
+import { DevHavenLogo } from "./devhaven-logo";
 
 const navOptions = linkOptions([
   {
@@ -26,9 +27,7 @@ export function Navbar() {
           viewTransition={{ types: ["slide-left"] }}
           className="flex items-center gap-2 text-sm font-semibold tracking-tight text-foreground transition-colors hover:text-primary"
         >
-          <span className="flex h-6 w-6 items-center justify-center rounded-md bg-primary text-primary-foreground">
-            <CommandIcon className="size-3.5" weight="bold" />
-          </span>
+         <DevHavenLogo className="size-8 hover:text-primary" />
           DevHaven
         </Link>
 
