@@ -34,7 +34,7 @@ function Home() {
               <ArrowRightIcon className="size-4" />
             </Button>
           </Link>
-          <a href="https://github.com" target="_blank" rel="noopener noreferrer">
+          <a href="https://github.com/BlankRiser/tools" target="_blank" rel="noopener noreferrer">
             <Button variant="outline" size="lg" className="gap-2">
               <CodeIcon className="size-4" />
               Source
