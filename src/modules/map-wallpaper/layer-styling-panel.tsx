@@ -1,10 +1,10 @@
 
 import React, { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { Button } from "#/components/ui/button";
+import { Checkbox } from "#/components/ui/checkbox";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "#/components/ui/collapsible";
+import { Input } from "#/components/ui/input";
+import { Label } from "#/components/ui/label";
 import type { LayerGroupState, PresetColors, PresetVisibility } from "#/hooks/use-layer-styles";
 import { useDebounce } from "#/hooks/use-debounce";
 import { CaretDownIcon } from "@phosphor-icons/react";
@@ -123,7 +123,7 @@ export function LayerStylingPanel({
         {filteredLayerGroups.map((group) => {
           const allVisible = group.layers.every((l) => visibility[l.id] !== false);
           const someVisible = group.layers.some((l) => visibility[l.id] !== false);
-          const isChecked = allVisible ? true : someVisible ? "indeterminate" : false;
+          const isIndeterminate = someVisible && !allVisible;
 
           // !Note: For group color, we use the first layer's color as a proxy, or black
           const firstLayerId = group.layers[0]?.id;
@@ -148,22 +148,20 @@ export function LayerStylingPanel({
                 <div className="flex items-center justify-between p-2.5">
                   <div className="flex items-center gap-2">
                     <CollapsibleTrigger
-                    // render={<Button variant="ghost" size="icon" className="h-6 w-6 shrink-0 p-0 hover:bg-muted" disabled={isSearching}>
-                    //     <CaretDownIcon className="h-4 w-4 transition-transform duration-200 group-data-[panel=open]/collapsible:-rotate-180" />
-                    //     <span className="sr-only">Toggle</span>
-                    //   </Button>}
-                    >
-                        <Button variant="ghost" size="icon" className="h-6 w-6 shrink-0 p-0 hover:bg-muted" disabled={isSearching}>
-                        <CaretDownIcon className="h-4 w-4 transition-transform duration-200 group-data-[panel=open]/collapsible:-rotate-180 group-data-[panel=closed]/collapsible:text-red-400" />
-                        <span className="sr-only">Toggle</span>
-                      </Button>
-                        </CollapsibleTrigger>
+                      render={
+                        <Button variant="ghost" size="icon" className="group/trigger h-6 w-6 shrink-0 p-0 hover:bg-muted" disabled={isSearching}>
+                          <CaretDownIcon className="h-4 w-4 transition-transform duration-200 group-data-[panel-open]/trigger:-rotate-180" />
+                          <span className="sr-only">Toggle</span>
+                        </Button>
+                      }
+                    />
                     <Checkbox
                       id={`group-visibility-${group.id}`}
-                      checked={isChecked === "indeterminate" ? true : isChecked}
+                      checked={allVisible || isIndeterminate}
+                      indeterminate={isIndeterminate}
                       onCheckedChange={(checked) => toggleGroupVisibility(group.id, !!checked)}
                       disabled={!isReady}
-                      className={`h-4 w-4 ${isChecked === "indeterminate" ? "opacity-50" : ""}`}
+                      className={`h-4 w-4 ${isIndeterminate ? "opacity-50" : ""}`}
                     />
                     <Label htmlFor={`group-visibility-${group.id}`} className="cursor-pointer text-xs font-medium">
                       {group.label}

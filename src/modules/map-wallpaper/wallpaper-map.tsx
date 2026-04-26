@@ -1,6 +1,6 @@
 import { type MapRef } from "@vis.gl/react-maplibre";
 import { useRef } from "react";
-import { MAP_STYLES, MapWrapper } from "@/components/common/map-wrapper";
+import { MAP_STYLES, MapWrapper } from "#/components/common/map-wrapper";
 
 
 export function WallpaperMap() {

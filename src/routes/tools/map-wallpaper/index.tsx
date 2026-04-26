@@ -9,16 +9,20 @@ export const Route = createFileRoute("/tools/map-wallpaper/")({
 });
 
 function RouteComponent() {
-  return <div><GlobalErrorBoundary>
-      <MapProvider>
-        <div className="flex h-[calc(100dvh-2.8rem)] w-full bg-background overflow-hidden">
-          <div className="w-80 shrink-0 h-full border-r bg-card z-10 shadow-xl">
-            <WallpaperControls />
+  return (
+    <div>
+      <GlobalErrorBoundary>
+        <MapProvider>
+          <div className="flex h-[calc(100dvh-2.8rem)] w-full overflow-hidden bg-background">
+            <div className="z-10 h-full w-80 shrink-0 border-r bg-card shadow-xl">
+              <WallpaperControls />
+            </div>
+            <div className="relative h-full flex-1">
+              <WallpaperMap />
+            </div>
           </div>
-          <div className="flex-1 h-full relative">
-            <WallpaperMap />
-          </div>
-        </div>
-      </MapProvider>
-    </GlobalErrorBoundary></div>;
+        </MapProvider>
+      </GlobalErrorBoundary>
+    </div>
+  );
 }

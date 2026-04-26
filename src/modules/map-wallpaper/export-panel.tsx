@@ -1,5 +1,5 @@
 import { EXPORT_RESOLUTIONS, useMapExport } from "#/hooks/use-map-export";
-import { Button } from "@/components/ui/button";
+import { Button } from "#/components/ui/button";
 
 import maplibregl from "maplibre-gl";
 
