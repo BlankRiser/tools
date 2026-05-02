@@ -28,7 +28,7 @@ export function Navbar() {
           className="flex items-center gap-2 text-sm font-semibold tracking-tight text-foreground transition-colors hover:text-primary"
         >
          <DevHavenLogo className="size-8 hover:text-primary" />
-          DevHaven
+          DevHaven Tools
         </Link>
 
         <div className="flex items-center gap-1">

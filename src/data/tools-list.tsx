@@ -65,8 +65,8 @@ export const toolsList = linkOptions([
   {
     icon: QrCodeIcon,
     title: "QR Code Generator",
-    description: "Generate QR codes from any text or URL with customizable size and styling options.",
-    comingSoon: true,
+    description: "Generate QR codes from any text or URL.",
+    comingSoon: false,
     to: "/tools/$toolID",
     params: {
       toolID:"qr-code-generator",
@@ -203,3 +203,6 @@ export const toolsList = linkOptions([
     },
   },
 ]);
+
+
+export type ToolID = typeof toolsList[number]["params"]["toolID"];
