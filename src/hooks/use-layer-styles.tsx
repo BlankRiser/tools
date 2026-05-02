@@ -1,7 +1,7 @@
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useCallback } from "react";
 import maplibregl from "maplibre-gl";
 import { MAP_STYLES } from "#/components/common/map-wrapper";
-
+import { useMapWallpaperStore } from "../modules/map-wallpaper/store";
 
 export type PresetColors = Record<string, { fill?: string; stroke?: string }>;
 export type PresetVisibility = Record<string, boolean>;
@@ -13,11 +13,18 @@ export interface LayerGroupState {
 }
 
 export function useLayerStyles(map: maplibregl.Map | undefined | null) {
-  // Now keyed by layer.id, not group.id
-  const [colors, setColors] = useState<PresetColors>({});
-  const [visibility, setVisibility] = useState<PresetVisibility>({});
-  const [layerGroups, setLayerGroups] = useState<LayerGroupState[]>([]);
-  const [isReady, setIsReady] = useState(false);
+  const {
+    colors,
+    visibility,
+    layerGroups,
+    isReady,
+    selectedLayerId,
+    setColors,
+    setVisibility,
+    setLayerGroups,
+    setIsReady,
+    deletedElements
+  } = useMapWallpaperStore();
 
   useEffect(() => {
     if (!map) return;
@@ -325,6 +332,39 @@ export function useLayerStyles(map: maplibregl.Map | undefined | null) {
     },
     [map, isReady, layerGroups, colors, visibility]
   );
+
+  // !NOTE: Highlight logic for selected layer and hide deleted elements
+  useEffect(() => {
+    if (!map || !isReady) return;
+
+    layerGroups.forEach(group => {
+      group.layers.forEach(layer => {
+        const isSelected = layer.id === selectedLayerId;
+        const baseOpacity = selectedLayerId ? (isSelected ? 1 : 0.2) : 1;
+        
+        let targetOpacity: any = baseOpacity;
+        
+        const deletedInLayer = deletedElements.filter(e => e.layerId === layer.id && e.isHidden);
+        if (deletedInLayer.length > 0) {
+          const cases: any[] = ["case"];
+          deletedInLayer.forEach(del => {
+            cases.push(del.featureKey === "id" ? ["==", ["id"], del.featureValue] : ["==", ["get", del.featureKey], del.featureValue]);
+            cases.push(0);
+          });
+          cases.push(baseOpacity);
+          targetOpacity = cases;
+        }
+        
+        try {
+          if (layer.type === "fill" || layer.type === "background") map.setPaintProperty(layer.id, "fill-opacity", targetOpacity);
+          if (layer.type === "line") map.setPaintProperty(layer.id, "line-opacity", targetOpacity);
+          if (layer.type === "symbol") map.setPaintProperty(layer.id, "text-opacity", targetOpacity);
+          if (layer.type === "circle") map.setPaintProperty(layer.id, "circle-opacity", targetOpacity);
+          if (layer.type === "fill-extrusion") map.setPaintProperty(layer.id, "fill-extrusion-opacity", targetOpacity);
+        } catch {}
+      });
+    });
+  }, [map, isReady, selectedLayerId, layerGroups, deletedElements]);
 
   return {
     layerGroups,
