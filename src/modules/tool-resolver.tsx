@@ -1,6 +1,7 @@
 import type { ToolID } from "#/data/tools-list";
 import * as React from "react";
 import QRCodeGenPage from "./qr-code-gen/qr-code-gen-page";
+import { URLParserPage } from "./url-parser/url-parser-page";
 const MapWallpaperPage = React.lazy(() => import("./map-wallpaper/map-wallpaper-page"));
 const DiffCheckerPage = React.lazy(() => import("./diff-checker/diff-checker-page"));
 
@@ -8,6 +9,7 @@ const ToolMap: Partial<Record<ToolID, React.ComponentType>> = {
   "map-wallpaper": MapWallpaperPage,
   "diff-checker": DiffCheckerPage,
   "qr-code-generator": QRCodeGenPage,
+  "url-parser": URLParserPage
 };
 
 export function ToolResolver({ toolID }: { toolID: ToolID }) {

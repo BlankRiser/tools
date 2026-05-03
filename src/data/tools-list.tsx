@@ -145,8 +145,8 @@ export const toolsList = linkOptions([
   {
     icon: LinkIcon,
     title: "URL Parser",
-    description: "Break down URLs into protocol, host, path, query params, and fragment.",
-    comingSoon: true,
+    description: "Parse, inspect, and safely copy URLs. Automatically detects and strips tracking parameters.",
+    comingSoon: false,
     to: "/tools/$toolID",
     params: {
       toolID:"url-parser",
