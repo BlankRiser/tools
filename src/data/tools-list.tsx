@@ -96,10 +96,10 @@ export const toolsList = linkOptions([
     icon: CalendarIcon,
     title: "Date Converter",
     description: "Convert dates across timezones and UTC with flexible formatting options.",
-    comingSoon: true,
+    comingSoon: false,
     to: "/tools/$toolID",
     params: {
-      toolID:"date-converter",
+      toolID:"date-time-converter",
     },
   },
   {

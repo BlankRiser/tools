@@ -10,6 +10,8 @@ A curated collection of visual utilities, generators, and visualizers, designed 
 | ----------------- | -------------------------------------------------------------------------------------- |
 | **Map Wallpaper** | Design & export high-res map wallpapers with custom themes and granular layer controls |
 | Diff Checker      | Compare two texts side-by-side with highlighted changes                                |
+| QR Code Generator | Generate QR codes from text or URLs                                                    |
+| URL Parser        | Break down URLs into protocol, host, path, query params, and fragment                  |
 
 ### Coming Soon
 

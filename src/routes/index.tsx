@@ -5,7 +5,6 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/")({ component: Home });
 
-
 function Home() {
   return (
     <div className="relative flex min-h-[calc(100dvh-2.8rem)] flex-col overflow-hidden">
@@ -54,7 +53,7 @@ function Home() {
                   <f.icon className="size-5" weight="duotone" />
                 </div>
                 {f.comingSoon && (
-                  <span className="rounded-full border border-border/60 bg-muted/50 px-2 py-0.5 text-[10px] font-medium text-muted-foreground">
+                  <span className="rounded-full border border-border/60 bg-muted/50 px-2 py-0.5 text-2xs font-medium text-muted-foreground">
                     Coming Soon
                   </span>
                 )}

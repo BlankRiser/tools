@@ -39,7 +39,7 @@ export function URLParserPage() {
 
   return (
     <GlobalErrorBoundary>
-      <div className="mx-auto flex h-full w-full max-w-6xl flex-col gap-6 p-6">
+      <div className="mx-auto flex h-full w-full max-w-7xl flex-col gap-6 p-6">
         <div>
           <h1 className="text-3xl font-bold tracking-tight">URL Parser</h1>
           <p className="mt-2 text-muted-foreground">Parse, inspect, and safely copy URLs. Automatically detects and strips tracking parameters.</p>
