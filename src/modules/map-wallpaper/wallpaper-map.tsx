@@ -3,10 +3,22 @@ import { useRef, useCallback } from "react";
 import { MAP_STYLES, MapWrapper } from "#/components/common/map-wrapper";
 import { useMapWallpaperStore } from "./store";
 import { MapSelectionToolbar } from "./map-selection-toolbar";
+import { Route as ToolRoute } from "#/routes/tools/$toolID/index";
 
 export function WallpaperMap() {
   const mapRef = useRef<MapRef>(null);
   const { isSelectionMode, setSelectedLayerId, setSelectedFeature, deletedElements } = useMapWallpaperStore();
+  
+  const loaderData = ToolRoute.useLoaderData();
+  const initialViewState = loaderData?.mapCenter ? {
+    zoom: loaderData.mapCenter.zoom ?? 14.65,
+    latitude: loaderData.mapCenter.lat,
+    longitude: loaderData.mapCenter.lng,
+  } : {
+    zoom: 14.65,
+    latitude: 12.91524,
+    longitude: 77.62513,
+  };
 
   const handleMapClick = useCallback((e: any) => {
     if (!isSelectionMode) return;
@@ -56,11 +68,7 @@ export function WallpaperMap() {
           reuseMaps={true}
           mapStyle={MAP_STYLES["openfreemap-liberty"]}
           canvasContextAttributes={{ preserveDrawingBuffer: true }}
-          initialViewState={{
-            zoom: 14.65,
-            latitude: 12.91524,
-            longitude: 77.62513,
-          }}
+          initialViewState={initialViewState}
           onClick={handleMapClick}
           cursor={isSelectionMode ? "crosshair" : "auto"}
         >

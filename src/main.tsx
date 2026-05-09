@@ -5,6 +5,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { ThemeProvider } from "@/hooks/use-theme";
 import "./styles.css";
 import { routeTree } from "./routeTree.gen";
+import { Toaster } from "sonner";
 
 const queryClient = new QueryClient();
 
@@ -36,6 +37,7 @@ if (!rootElement.innerHTML) {
           <RouterProvider router={router} />
         </QueryClientProvider>
       </TooltipProvider>
+      <Toaster richColors position="bottom-right" />
     </ThemeProvider>,
   );
 }

@@ -5,6 +5,7 @@ import { ThemePresetSelector } from "./theme-preset-selector";
 import { LayerStylingPanel } from "./layer-styling-panel";
 import { ExportPanel } from "./export-panel";
 import { ScrollArea } from "#/components/ui/scroll-area";
+import { LocationSearch } from "./location-search";
 
 export function WallpaperControls() {
   const { "wallpaper-map": mapInfo } = useMap();
@@ -33,6 +34,7 @@ export function WallpaperControls() {
 
       <ScrollArea className="flex-1 min-h-0">
         <div className="p-4 space-y-4">
+          <LocationSearch />
           <ThemePresetSelector applyPreset={applyPreset} isReady={isReady} />
 
           <LayerStylingPanel
