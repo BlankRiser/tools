@@ -20,15 +20,12 @@ export interface TimezoneEntry {
 }
 
 interface DateTimeState {
-  // The user-selected base datetime (ISO string). Null = use page-load time.
   baseDatetime: string | null;
   displayFormat: DisplayFormat;
   customFormat: string;
   timezones: TimezoneEntry[];
   inputValue: string;
   inputMode: InputMode;
-
-  // Actions
   setBaseDatetime: (dt: string) => void;
   clearBaseDatetime: () => void;
   setDisplayFormat: (format: DisplayFormat) => void;
@@ -42,9 +39,6 @@ interface DateTimeState {
 
 const DEFAULT_TIMEZONES: TimezoneEntry[] = [
   { id: "utc", timezone: "UTC", pinned: true },
-  { id: "ny", timezone: "America/New_York", pinned: false },
-  { id: "london", timezone: "Europe/London", pinned: false },
-  { id: "tokyo", timezone: "Asia/Tokyo", pinned: false },
 ];
 
 export const useDateTimeStore = create<DateTimeState>()((set) => ({

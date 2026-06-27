@@ -1,4 +1,7 @@
 import { GlobalErrorBoundary } from "#/components/common/global-error-boundary";
+import { Button } from "#/components/ui/button";
+import { Popover, PopoverContent, PopoverTrigger } from "#/components/ui/popover";
+import { SlidersIcon } from "@phosphor-icons/react";
 import { ClockHeader } from "./clock-header";
 import { DateInputPanel } from "./date-input-panel";
 import { FormatPanel } from "./format-panel";
@@ -30,11 +33,26 @@ export function DateTimeConverterPage() {
   return (
     <GlobalErrorBoundary>
       <div className="mx-auto flex h-full w-full max-w-7xl flex-col gap-2 p-6">
-        <div>
-          <h1 className="text-3xl font-bold tracking-tight">Date Time Converter</h1>
-          <p className="mt-2 text-muted-foreground">Convert dates across timezones and UTC with flexible formatting options.</p>
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-3xl font-bold tracking-tight">Date Time Converter</h1>
+            <p className="mt-2 text-muted-foreground">Convert dates across timezones and UTC with flexible formatting options.</p>
+          </div>
+          <Popover>
+            <PopoverTrigger render={<Button variant="outline" size={'icon-lg'}>
+              <SlidersIcon />
+            </Button>} />
+            <PopoverContent align="end" className="w-96">
+              <FormatPanel
+                displayFormat={displayFormat}
+                customFormat={customFormat}
+                effectiveDate={effectiveDate}
+                onFormatChange={setDisplayFormat}
+                onCustomFormatChange={setCustomFormat}
+              />
+            </PopoverContent>
+          </Popover>
         </div>
-
         <ClockHeader effectiveDate={effectiveDate} systemTimezone={systemTimezone} systemOffset={systemOffset} utcDisplay={utcDisplay} />
         <div className="grid grid-cols-2 gap-2 lg:grid-cols-2">
           <div className="flex flex-col gap-2">
@@ -46,16 +64,7 @@ export function DateTimeConverterPage() {
               onInputChange={handleInputChange}
               onModeChange={handleInputModeChange}
             />
-
-            <FormatPanel
-              displayFormat={displayFormat}
-              customFormat={customFormat}
-              effectiveDate={effectiveDate}
-              onFormatChange={setDisplayFormat}
-              onCustomFormatChange={setCustomFormat}
-            />
           </div>
-
           <div className="flex flex-col gap-6">
             <TimezoneComparisonPanel
               timezoneData={timezoneData}

@@ -1,6 +1,7 @@
 import { formatDatetime, formatInTimezone, formatOffset, getMetadata, getOffsetMinutes, getSystemTimezone, isDaytime, parseInput, } from "@/lib/date-time-utils";
 import { format as dateFnsFormat, getUnixTime, isValid, parseISO } from "date-fns";
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { useNavigate, useSearch } from "@tanstack/react-router";
 import { useDateTimeStore, type InputMode } from "./use-date-time-store";
 
 export function useDateTimeEngine() {
@@ -25,6 +26,40 @@ export function useDateTimeEngine() {
   // Captured once at component mount — never changes
   const mountTimeRef = useRef(new Date());
   const [parseError, setParseError] = useState<string | null>(null);
+
+  const search = useSearch({ strict: false }) as { timezones?: string; dt?: string };
+  const navigate = useNavigate();
+  const isMounted = useRef(false);
+
+  // Sync URL state to Store on mount, and Store to URL on subsequent changes
+  useEffect(() => {
+    if (!isMounted.current) {
+      isMounted.current = true;
+      if (search.timezones) {
+        useDateTimeStore.setState({
+          timezones: search.timezones.split(",").map((tz, i) => ({ id: `${tz}-${i}`, timezone: tz, pinned: tz === "UTC" }))
+        });
+      }
+      if (search.dt) {
+        useDateTimeStore.setState({ baseDatetime: search.dt, inputValue: search.dt });
+      }
+      return;
+    }
+
+    const timezonesStr = timezones.map(t => t.timezone).join(",");
+    
+    if (search.timezones !== timezonesStr || search.dt !== (baseDatetime || undefined)) {
+      navigate({
+        from: "/tools/$toolID/",
+        search: (prev: any) => ({
+          ...prev,
+          timezones: timezonesStr,
+          dt: baseDatetime || undefined,
+        }),
+        replace: true,
+      });
+    }
+  }, [timezones, baseDatetime, search.timezones, search.dt, navigate]);
 
   // The effective date: user-provided OR the page-load snapshot
   const effectiveDate: Date = (() => {
