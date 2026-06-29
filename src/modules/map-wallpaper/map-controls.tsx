@@ -31,7 +31,6 @@ export function WallpaperControls() {
           Design & export high-res map wallpapers.
         </p>
       </div>
-
       <ScrollArea className="flex-1 min-h-0">
         <div className="p-4 space-y-4">
           <LocationSearch />
@@ -49,7 +48,6 @@ export function WallpaperControls() {
           />
         </div>
       </ScrollArea>
-
       <ExportPanel map={map} isReady={isReady} />
     </div>
   );

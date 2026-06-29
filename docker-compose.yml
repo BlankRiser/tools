@@ -1,0 +1,12 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: devhaven-tools
+    ports:
+      - "3000:80"
+    restart: unless-stopped
+    # Uncomment and configure if your app uses environment variables
+    # environment:
+    #   - VITE_API_URL=https://api.example.com

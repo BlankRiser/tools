@@ -72,14 +72,14 @@ bun install
 bun run dev
 ```
 
-## Building for Production
+### Building for Production
 
 ```bash
 bun run build
 bun run preview
 ```
 
-## Project Structure
+### Project Structure
 
 ```
 src/
@@ -95,4 +95,16 @@ src/
 │   ├── index.tsx         # Landing page
 │   └── tools/            # Tool routes
 └── styles.css           # Global styles & theme tokens
+```
+
+### Self-host
+
+```yml
+services:
+  app:
+    image: ghcr.io/blankriser/tools:latest
+    container_name: devhaven-tools
+    ports:
+      - "3000:80"
+    restart: unless-stopped
 ```

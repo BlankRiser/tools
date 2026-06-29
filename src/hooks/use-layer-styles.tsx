@@ -73,10 +73,28 @@ export function useLayerStyles(map: maplibregl.Map | undefined | null) {
 
       // Initialize visibility state based on actual layer layout properties (per layer)
       const initialVisibility: PresetVisibility = {};
+      const defaultHiddenGroups = ["building", "poi", "transportation_name", "landuse", "aerodrome_label"];
+
       parsedGroups.forEach(group => {
         group.layers.forEach(layer => {
             const layout = style.layers?.find(sl => sl.id === layer.id)?.layout;
-            initialVisibility[layer.id] = layout && (layout as any).visibility === "none" ? false : true;
+            let isVisible = layout && (layout as any).visibility === "none" ? false : true;
+
+            if (defaultHiddenGroups.includes(group.id)) {
+              isVisible = false;
+            } else if (group.id === "place") {
+              isVisible = layer.id === "label_country_1";
+            }
+
+            initialVisibility[layer.id] = isVisible;
+
+            if (!isVisible) {
+              try {
+                map.setLayoutProperty(layer.id, "visibility", "none");
+              } catch {
+                // Ignore unsupported layout property
+              }
+            }
         });
       });
       
@@ -198,9 +216,19 @@ export function useLayerStyles(map: maplibregl.Map | undefined | null) {
         
         if (!preserveLayers) {
           const resetVisibility: PresetVisibility = {};
-          layerGroups.forEach(g => {
-            g.layers.forEach(l => {
-              resetVisibility[l.id] = true;
+          const defaultHiddenGroups = ["building", "poi", "transportation_name", "landuse", "aerodrome_label"];
+
+          layerGroups.forEach(group => {
+            group.layers.forEach(layer => {
+              let isVisible = true;
+              
+              if (defaultHiddenGroups.includes(group.id)) {
+                isVisible = false;
+              } else if (group.id === "place") {
+                isVisible = layer.id === "label_country_1";
+              }
+
+              resetVisibility[layer.id] = isVisible;
             });
           });
           setVisibility(resetVisibility);
