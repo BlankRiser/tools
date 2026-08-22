@@ -12,6 +12,7 @@ A curated collection of visual utilities, generators, and visualizers, designed 
 | Diff Checker      | Compare two texts side-by-side with highlighted changes                                |
 | QR Code Generator | Generate QR codes from text or URLs                                                    |
 | URL Parser        | Break down URLs into protocol, host, path, query params, and fragment                  |
+| Text Inspector    | Analyze characters, bytes, words, lines, ASCII/Unicode usage, and word frequency       |
 
 ### Coming Soon
 
@@ -27,10 +28,9 @@ A curated collection of visual utilities, generators, and visualizers, designed 
 
 #### 🔤 Text & Data
 
-| Tool                  | Description                                                                      |
-| --------------------- | -------------------------------------------------------------------------------- |
-| Text Inspector        | Analyze characters, bytes, words, lines, ASCII/Unicode usage, and word frequency |
-| Sort Text             | Sort lines with options to filter duplicates and strip numbers                   |
+| Tool                  | Description                                                           |
+| --------------------- | --------------------------------------------------------------------- |
+| Sort Text             | Sort lines with options to filter duplicates and strip numbers        |
 | String Case Converter | Transform between camelCase, snake_case, kebab-case, Title Case, etc.            |
 | Markdown Previewer    | Write Markdown with a live-rendered preview                                      |
 | Regex Tester          | Test regular expressions with live matching and capture groups                   |
@@ -90,7 +90,8 @@ src/
 ├── hooks/               # Custom hooks (useTheme, useLayerStyles, useDebounce, etc.)
 ├── lib/                 # Utilities (cn, etc.)
 ├── modules/             # Feature modules
-│   └── map-wallpaper/   # Map wallpaper tool components
+│   ├── map-wallpaper/   # Map wallpaper tool components
+│   └── text-inspector/  # Text analysis (counts, encoding, frequency)
 ├── routes/              # File-based routes (TanStack Router)
 │   ├── index.tsx         # Landing page
 │   └── tools/            # Tool routes

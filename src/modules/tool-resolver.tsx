@@ -2,6 +2,7 @@ import type { ToolID } from "#/data/tools-list";
 import * as React from "react";
 import { DateTimeConverterPage } from "./date-time-converter/date-time-converter-page";
 import QRCodeGenPage from "./qr-code-gen/qr-code-gen-page";
+import { TextInspectorPage } from "./text-inspector/text-inspector-page";
 import { URLParserPage } from "./url-parser/url-parser-page";
 const MapWallpaperPage = React.lazy(() => import("./map-wallpaper/map-wallpaper-page"));
 const DiffCheckerPage = React.lazy(() => import("./diff-checker/diff-checker-page"));
@@ -12,6 +13,7 @@ const ToolMap: Partial<Record<ToolID, React.ComponentType>> = {
   "qr-code-generator": QRCodeGenPage,
   "url-parser": URLParserPage,
   "date-time-converter": DateTimeConverterPage,
+  "text-inspector": TextInspectorPage,
 };
 
 export function ToolResolver({ toolID }: { toolID: ToolID }) {

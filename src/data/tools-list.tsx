@@ -76,7 +76,7 @@ export const toolsList = linkOptions([
     icon: CursorTextIcon,
     title: "Text Inspector",
     description: "Analyze characters, bytes, words, lines, ASCII/Unicode usage, and word frequency.",
-    comingSoon: true,
+    comingSoon: false,
     to: "/tools/$toolID",
     params: {
       toolID:"text-inspector",
