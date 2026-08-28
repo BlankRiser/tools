@@ -6,13 +6,17 @@ A curated collection of visual utilities, generators, and visualizers, designed 
 
 ### Available
 
-| Tool              | Description                                                                            |
-| ----------------- | -------------------------------------------------------------------------------------- |
-| **Map Wallpaper** | Design & export high-res map wallpapers with custom themes and granular layer controls |
-| Diff Checker      | Compare two texts side-by-side with highlighted changes                                |
-| QR Code Generator | Generate QR codes from text or URLs                                                    |
-| URL Parser        | Break down URLs into protocol, host, path, query params, and fragment                  |
-| Text Inspector    | Analyze characters, bytes, words, lines, ASCII/Unicode usage, and word frequency       |
+| Tool                  | Description                                                                            |
+| --------------------- | -------------------------------------------------------------------------------------- |
+| **Map Wallpaper**     | Design & export high-res map wallpapers with custom themes and granular layer controls |
+| Diff Checker          | Compare two texts side-by-side with highlighted changes                                |
+| QR Code Generator     | Generate QR codes from text or URLs                                                    |
+| URL Parser            | Break down URLs into protocol, host, path, query params, and fragment                  |
+| Text Inspector        | Analyze characters, bytes, words, lines, ASCII/Unicode usage, and word frequency       |
+| Base64 Image Codec    | Encode images to Base64 or decode Base64 back to viewable images                       |
+| String Case Converter | Transform text between camelCase, snake_case, kebab-case, Title Case, and more         |
+| Regex Tester          | Test regular expressions with live matching, capture groups, and flag toggles          |
+| Distance Calculator   | Calculate haversine distance between two points on the globe                           |
 
 ### Coming Soon
 
@@ -22,7 +26,6 @@ A curated collection of visual utilities, generators, and visualizers, designed 
 | -------------------- | ------------------------------------------------------------ |
 | GeoJSON Viewer       | Paste GeoJSON and visualize geometries on an interactive map |
 | Coordinate Converter | Convert between lat/lng, DMS, UTM, and MGRS formats          |
-| Distance Calculator  | Calculate haversine distance between two points              |
 | Bounding Box Picker  | Draw a bbox on a map and copy coordinates for API queries    |
 | WKT ↔ GeoJSON        | Convert between Well-Known Text and GeoJSON formats          |
 
@@ -31,9 +34,7 @@ A curated collection of visual utilities, generators, and visualizers, designed 
 | Tool                  | Description                                                           |
 | --------------------- | --------------------------------------------------------------------- |
 | Sort Text             | Sort lines with options to filter duplicates and strip numbers        |
-| String Case Converter | Transform between camelCase, snake_case, kebab-case, Title Case, etc.            |
-| Markdown Previewer    | Write Markdown with a live-rendered preview                                      |
-| Regex Tester          | Test regular expressions with live matching and capture groups                   |
+| Markdown Previewer    | Write Markdown with a live-rendered preview                           |
 
 #### 🛠️ Converters & Formatters
 
@@ -41,7 +42,6 @@ A curated collection of visual utilities, generators, and visualizers, designed 
 | ------------------ | --------------------------------------------------------------------- |
 | JSON Formatter     | Format, validate, and minify JSON with error reporting                |
 | JSON ↔ CSV         | Bidirectional conversion with automatic column detection              |
-| Base64 Image Codec | Encode images to Base64 or decode Base64 to images                    |
 | URL Parser         | Break down URLs into protocol, host, path, query params, and fragment |
 | Date Converter     | Convert dates across timezones and UTC with formatting options        |
 | Unit Converter     | Convert between SI units — length, mass, temperature, volume          |
@@ -90,8 +90,12 @@ src/
 ├── hooks/               # Custom hooks (useTheme, useLayerStyles, useDebounce, etc.)
 ├── lib/                 # Utilities (cn, etc.)
 ├── modules/             # Feature modules
-│   ├── map-wallpaper/   # Map wallpaper tool components
-│   └── text-inspector/  # Text analysis (counts, encoding, frequency)
+│   ├── map-wallpaper/          # Map wallpaper tool components
+│   ├── text-inspector/         # Text analysis (counts, encoding, frequency)
+│   ├── base64-image-codec/     # Encode/decode images as Base64
+│   ├── string-case-converter/  # Identifier and prose case transforms
+│   ├── regex-tester/           # Live regex matching and capture groups
+│   └── distance-calculator/    # Haversine distance on a MapLibre map
 ├── routes/              # File-based routes (TanStack Router)
 │   ├── index.tsx         # Landing page
 │   └── tools/            # Tool routes

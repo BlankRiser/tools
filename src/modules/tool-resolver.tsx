@@ -1,11 +1,15 @@
 import type { ToolID } from "#/data/tools-list";
 import * as React from "react";
+import { Base64ImageCodecPage } from "./base64-image-codec/base64-image-codec-page";
 import { DateTimeConverterPage } from "./date-time-converter/date-time-converter-page";
 import QRCodeGenPage from "./qr-code-gen/qr-code-gen-page";
+import { RegexTesterPage } from "./regex-tester/regex-tester-page";
+import { StringCaseConverterPage } from "./string-case-converter/string-case-converter-page";
 import { TextInspectorPage } from "./text-inspector/text-inspector-page";
 import { URLParserPage } from "./url-parser/url-parser-page";
 const MapWallpaperPage = React.lazy(() => import("./map-wallpaper/map-wallpaper-page"));
 const DiffCheckerPage = React.lazy(() => import("./diff-checker/diff-checker-page"));
+const DistanceCalculatorPage = React.lazy(() => import("./distance-calculator/distance-calculator-page"));
 
 const ToolMap: Partial<Record<ToolID, React.ComponentType>> = {
   "map-wallpaper": MapWallpaperPage,
@@ -14,6 +18,10 @@ const ToolMap: Partial<Record<ToolID, React.ComponentType>> = {
   "url-parser": URLParserPage,
   "date-time-converter": DateTimeConverterPage,
   "text-inspector": TextInspectorPage,
+  "base64-image-codec": Base64ImageCodecPage,
+  "string-case-converter": StringCaseConverterPage,
+  "regex-tester": RegexTesterPage,
+  "distance-calculator": DistanceCalculatorPage,
 };
 
 export function ToolResolver({ toolID }: { toolID: ToolID }) {
@@ -23,7 +31,15 @@ export function ToolResolver({ toolID }: { toolID: ToolID }) {
     return <ToolNotFound />;
   }
 
-  return <Tool />;
+  return (
+    <React.Suspense
+      fallback={
+        <div className="flex min-h-[calc(100dvh-2.8rem)] items-center justify-center text-sm text-muted-foreground">Loading tool…</div>
+      }
+    >
+      <Tool />
+    </React.Suspense>
+  );
 }
 
 function ToolNotFound() {

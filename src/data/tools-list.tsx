@@ -36,7 +36,7 @@ export const toolsList = linkOptions([
     icon: NavigationArrowIcon,
     title: "Distance Calculator",
     description: "Calculate haversine distance between two points on the globe.",
-    comingSoon: true,
+    comingSoon: false,
     to: "/tools/$toolID",
     params: {
       toolID:"distance-calculator",
@@ -156,7 +156,7 @@ export const toolsList = linkOptions([
     icon: HashIcon,
     title: "Regex Tester",
     description: "Test regular expressions with live matching, capture groups, and flag toggles.",
-    comingSoon: true,
+    comingSoon: false,
     to: "/tools/$toolID",
     params: {
       toolID:"regex-tester",
@@ -176,7 +176,7 @@ export const toolsList = linkOptions([
     icon: ImageIcon,
     title: "Base64 Image Codec",
     description: "Encode images to Base64 strings or decode Base64 back to viewable images.",
-    comingSoon: true,
+    comingSoon: false,
     to: "/tools/$toolID",
     params: {
       toolID:"base64-image-codec",
@@ -196,7 +196,7 @@ export const toolsList = linkOptions([
     icon: TextAaIcon,
     title: "String Case Converter",
     description: "Transform text between camelCase, snake_case, kebab-case, Title Case, and more.",
-    comingSoon: true,
+    comingSoon: false,
     to: "/tools/$toolID",
     params: {
       toolID:"string-case-converter",
