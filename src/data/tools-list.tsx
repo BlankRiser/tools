@@ -1,4 +1,4 @@
-import { ArrowsClockwiseIcon, ArrowsInIcon, CalendarIcon, CompassIcon, CursorTextIcon, EyeIcon, FileCodeIcon, HashIcon, ImageIcon, LinkIcon, ListBulletsIcon, MapPinIcon, MapTrifoldIcon, NavigationArrowIcon, PaletteIcon, PolygonIcon, QrCodeIcon, RulerIcon, TableIcon, TextAaIcon } from "@phosphor-icons/react";
+import { ArrowsClockwiseIcon, ArrowsInIcon, CalendarIcon, CompassIcon, CursorTextIcon, EyeIcon, FileCodeIcon, HashIcon, ImageIcon, KeyIcon, LinkIcon, ListBulletsIcon, MapPinIcon, MapTrifoldIcon, NavigationArrowIcon, PaletteIcon, PolygonIcon, QrCodeIcon, RulerIcon, TableIcon, TextAaIcon } from "@phosphor-icons/react";
 import { linkOptions } from "@tanstack/react-router";
 
 export const toolsList = linkOptions([
@@ -150,6 +150,16 @@ export const toolsList = linkOptions([
     to: "/tools/$toolID",
     params: {
       toolID:"url-parser",
+    },
+  },
+  {
+    icon: KeyIcon,
+    title: "JWT Encoder / Decoder",
+    description: "Decode JWTs, inspect header and payload, verify signatures, and create tokens with HMAC, RSA, or ECDSA.",
+    comingSoon: false,
+    to: "/tools/$toolID",
+    params: {
+      toolID: "jwt-encoder-decoder",
     },
   },
   {

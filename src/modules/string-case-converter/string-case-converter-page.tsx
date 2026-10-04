@@ -55,7 +55,7 @@ export function StringCaseConverterPage() {
               onChange={(event) => setText(event.target.value)}
               spellCheck={false}
               placeholder="Paste a variable name, a heading, or one identifier per line."
-              className="h-[32rem] min-h-[20rem] resize-none overflow-auto font-mono text-sm [field-sizing:fixed]"
+              className="h-128 min-h-80 resize-none overflow-auto font-mono text-sm field-sizing-fixed"
             />
           </div>
 

@@ -11,19 +11,7 @@ import { URLParserInput } from "./url-parser-input";
 import { useUrlParser } from "./use-url-parser";
 
 export function URLParserPage() {
-  const {
-    inputUrl,
-    setInputUrl,
-    isValid,
-    parsedUrl,
-    searchParams,
-    toggleSearchParam,
-    updateSearchParam,
-    hashParams,
-    toggleHashParam,
-    updateHashParam,
-    finalUrl,
-  } = useUrlParser();
+  const { inputUrl, setInputUrl, isValid, parsedUrl, searchParams, toggleSearchParam, updateSearchParam, hashParams, toggleHashParam, updateHashParam, finalUrl, } = useUrlParser();
 
   const [copied, setCopied] = useState(false);
 
@@ -39,13 +27,12 @@ export function URLParserPage() {
 
   return (
     <GlobalErrorBoundary>
-      <div className="mx-auto flex h-full w-full max-w-7xl flex-col gap-6 p-6">
+      <div className="mx-auto flex h-full w-full max-w-7xl flex-col gap-4 p-6">
         <div>
           <h1 className="text-3xl font-bold tracking-tight">URL Parser</h1>
           <p className="mt-2 text-muted-foreground">Parse, inspect, and safely copy URLs. Automatically detects and strips tracking parameters.</p>
         </div>
 
-        <div className="flex flex-col gap-6">
           <div className="space-y-2">
             <Label htmlFor="url-input">Enter URL</Label>
             <Input
@@ -65,26 +52,8 @@ export function URLParserPage() {
             </Alert>
           )}
 
-          {finalUrl && (
-            <Card className="border-primary/20 bg-primary/5">
-              <CardHeader>
-                <CardTitle className="text-lg">Final URL</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="flex gap-2">
-                  <Input value={finalUrl} readOnly className="h-10 bg-background font-mono text-sm" />
-                  <Button size="icon" variant="default" onClick={handleCopy} className="size-10 shrink-0">
-                    {copied ? <CheckIcon weight="bold" /> : <CopyIcon weight="bold" />}
-                    <span className="sr-only">Copy</span>
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
-          )}
-        </div>
-
         {parsedUrl && (
-          <div className="flex flex-col gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
             <URLParserInput parsedUrl={parsedUrl} />
             <URLParserBuilder
               searchParams={searchParams}
@@ -95,6 +64,23 @@ export function URLParserPage() {
               updateHashParam={updateHashParam}
             />
           </div>
+        )}
+
+        {finalUrl && (
+          <Card className="border-primary/20 bg-primary/5">
+            <CardHeader>
+              <CardTitle className="text-lg">Final URL</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="flex gap-2">
+                <Input value={finalUrl} readOnly className="h-10 bg-background font-mono text-sm" />
+                <Button size="icon" variant="default" onClick={handleCopy} className="size-10 shrink-0">
+                  {copied ? <CheckIcon weight="bold" /> : <CopyIcon weight="bold" />}
+                  <span className="sr-only">Copy</span>
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
         )}
       </div>
     </GlobalErrorBoundary>
