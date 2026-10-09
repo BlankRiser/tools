@@ -203,16 +203,16 @@ export const toolsList = linkOptions([
     },
   },
   {
-    id: "markdown-previewer",
-    name: "Markdown Previewer",
-    title: "Markdown Previewer",
-    description: "Write Markdown and see a live-rendered preview side by side.",
+    id: "markdown-to-rich-text",
+    name: "Markdown to Rich Text Previewer",
+    title: "Markdown to Rich Text",
+    description: "Convert Markdown into formatted rich text ready to paste into Docs, Notion, Word, or email.",
     category: "Text & Regex" as ToolCategory,
     icon: EyeIcon,
-    comingSoon: true,
+    comingSoon: false,
     to: "/tools/$toolID",
     params: {
-      toolID: "markdown-previewer",
+      toolID: "markdown-to-rich-text",
     },
   },
   {
