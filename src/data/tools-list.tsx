@@ -12,6 +12,7 @@ import {
   KeyIcon,
   LinkIcon,
   ListBulletsIcon,
+  ListNumbersIcon,
   MapPinIcon,
   MapTrifoldIcon,
   NavigationArrowIcon,
@@ -227,6 +228,19 @@ export const toolsList = linkOptions([
     to: "/tools/$toolID",
     params: {
       toolID: "markdown-stripper",
+    },
+  },
+  {
+    id: "markdown-toc-generator",
+    name: "Markdown Table of Contents Generator GitHub",
+    title: "Markdown TOC Generator",
+    description: "Generate a GitHub-ready Markdown Table of Contents with hierarchical numbering and anchor links.",
+    category: "Text & Regex" as ToolCategory,
+    icon: ListNumbersIcon,
+    comingSoon: false,
+    to: "/tools/$toolID",
+    params: {
+      toolID: "markdown-toc-generator",
     },
   },
   {
