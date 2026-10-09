@@ -1,6 +1,6 @@
 import { Button } from "#/components/ui/button";
 import { toolsList } from "#/data/tools-list";
-import { ArrowRightIcon, CodeIcon, RocketLaunchIcon } from "@phosphor-icons/react";
+import { ArrowRightIcon, ArrowUpRightIcon, CodeIcon, RocketLaunchIcon } from "@phosphor-icons/react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/")({ component: Home });
@@ -43,25 +43,46 @@ function Home() {
       </section>
       <section className="relative z-10 mx-auto w-full max-w-5xl px-6 pb-20">
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {toolsList.map((f) => (
-            <div
-              key={f.title}
-              className="group rounded-xl border border-border/50 bg-card/50 p-5 backdrop-blur-sm transition-colors hover:border-primary/30 hover:bg-card/80"
-            >
-              <div className="mb-4 flex items-center justify-between">
-                <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary/10 text-primary transition-colors group-hover:bg-primary/20">
-                  <f.icon className="size-5" weight="duotone" />
+          {toolsList.map((f) => {
+            if (f.comingSoon) {
+              return (
+                <div
+                  key={f.params.toolID}
+                  aria-disabled="true"
+                  className="rounded-xl border border-border/40 bg-card/30 p-5 opacity-70 backdrop-blur-sm select-none"
+                >
+                  <div className="mb-4 flex items-center justify-between">
+                    <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary/10 text-primary">
+                      <f.icon className="size-5" weight="duotone" />
+                    </div>
+                    <span className="rounded-full border border-border/60 bg-muted/50 px-2 py-0.5 text-2xs font-medium text-muted-foreground">
+                      Coming Soon
+                    </span>
+                  </div>
+                  <h3 className="text-sm font-semibold">{f.title}</h3>
+                  <p className="mt-1.5 text-xs leading-relaxed text-muted-foreground">{f.description}</p>
                 </div>
-                {f.comingSoon && (
-                  <span className="rounded-full border border-border/60 bg-muted/50 px-2 py-0.5 text-2xs font-medium text-muted-foreground">
-                    Coming Soon
-                  </span>
-                )}
-              </div>
-              <h3 className="text-sm font-semibold">{f.title}</h3>
-              <p className="mt-1.5 text-xs leading-relaxed text-muted-foreground">{f.description}</p>
-            </div>
-          ))}
+              );
+            }
+
+            return (
+              <Link
+                key={f.params.toolID}
+                to={f.to}
+                params={f.params}
+                className="group block rounded-xl border border-border/50 bg-card/50 p-5 backdrop-blur-sm transition-colors outline-none hover:border-primary/40 hover:bg-card/80 focus-visible:ring-2 focus-visible:ring-ring"
+              >
+                <div className="mb-4 flex items-center justify-between">
+                  <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary/10 text-primary transition-colors group-hover:bg-primary/20">
+                    <f.icon className="size-5" weight="duotone" />
+                  </div>
+                  <ArrowUpRightIcon className="size-4 text-muted-foreground opacity-0 transition-opacity group-hover:opacity-100" />
+                </div>
+                <h3 className="text-sm font-semibold">{f.title}</h3>
+                <p className="mt-1.5 text-xs leading-relaxed text-muted-foreground">{f.description}</p>
+              </Link>
+            );
+          })}
         </div>
       </section>
 
