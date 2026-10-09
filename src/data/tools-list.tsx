@@ -4,6 +4,7 @@ import {
   CalendarIcon,
   CompassIcon,
   CursorTextIcon,
+  EraserIcon,
   EyeIcon,
   FileCodeIcon,
   HashIcon,
@@ -213,6 +214,19 @@ export const toolsList = linkOptions([
     to: "/tools/$toolID",
     params: {
       toolID: "markdown-to-rich-text",
+    },
+  },
+  {
+    id: "markdown-stripper",
+    name: "Markdown Stripper to Plain Text",
+    title: "Markdown Stripper",
+    description: "Strip Markdown symbols, formatting, frontmatter, and HTML tags to get clean plain text.",
+    category: "Text & Regex" as ToolCategory,
+    icon: EraserIcon,
+    comingSoon: false,
+    to: "/tools/$toolID",
+    params: {
+      toolID: "markdown-stripper",
     },
   },
   {

@@ -3,6 +3,7 @@ import * as React from "react";
 import { Base64ImageCodecPage } from "./base64-image-codec/base64-image-codec-page";
 import { DateTimeConverterPage } from "./date-time-converter/date-time-converter-page";
 import { JwtCodecPage } from "./jwt-codec/jwt-codec-page";
+import { MarkdownStripperPage } from "./markdown-stripper/markdown-stripper-page";
 import { MarkdownToRichTextPage } from "./markdown-to-rich-text/markdown-to-rich-text-page";
 import QRCodeGenPage from "./qr-code-gen/qr-code-gen-page";
 import { RegexTesterPage } from "./regex-tester/regex-tester-page";
@@ -26,6 +27,7 @@ const ToolMap: Partial<Record<ToolID, React.ComponentType>> = {
   "distance-calculator": DistanceCalculatorPage,
   "jwt-encoder-decoder": JwtCodecPage,
   "markdown-to-rich-text": MarkdownToRichTextPage,
+  "markdown-stripper": MarkdownStripperPage,
 };
 
 export function ToolResolver({ toolID }: { toolID: ToolID }) {
