@@ -50,12 +50,12 @@ export const toolsList = linkOptions([
   },
   {
     id: "geojson-viewer",
-    name: "GeoJSON Viewer",
-    title: "GeoJSON Viewer",
-    description: "Paste GeoJSON and visualize geometries on an interactive map for quick debugging.",
+    name: "GeoJSON Shapefile Viewer Map",
+    title: "GeoJSON & Shapefile Viewer",
+    description: "Paste or upload GeoJSON or Shapefiles (.zip, .shp) to visualize geometries on an interactive map.",
     category: "Geospatial & Maps" as ToolCategory,
     icon: PolygonIcon,
-    comingSoon: true,
+    comingSoon: false,
     to: "/tools/$toolID",
     params: {
       toolID: "geojson-viewer",
@@ -89,12 +89,12 @@ export const toolsList = linkOptions([
   },
   {
     id: "bounding-box-picker",
-    name: "Bounding Box Picker",
+    name: "Bounding Box Picker Bbox Draw Map",
     title: "Bounding Box Picker",
-    description: "Draw a rectangle on a map and copy the bbox coordinates for API queries.",
+    description: "Draw rectangles, circles, or polygons on the map to extract precise bounding boxes in multiple formats.",
     category: "Geospatial & Maps" as ToolCategory,
     icon: ArrowsInIcon,
-    comingSoon: true,
+    comingSoon: false,
     to: "/tools/$toolID",
     params: {
       toolID: "bounding-box-picker",

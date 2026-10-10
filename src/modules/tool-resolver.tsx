@@ -15,6 +15,12 @@ import { URLParserPage } from "./url-parser/url-parser-page";
 const MapWallpaperPage = React.lazy(() => import("./map-wallpaper/map-wallpaper-page"));
 const DiffCheckerPage = React.lazy(() => import("./diff-checker/diff-checker-page"));
 const DistanceCalculatorPage = React.lazy(() => import("./distance-calculator/distance-calculator-page"));
+const GeoJsonViewerPageLazy = React.lazy(() =>
+  import("./geojson-viewer/geojson-viewer-page").then((m) => ({ default: m.GeoJsonViewerPage })),
+);
+
+const GeoJsonViewerPageRoute = () => <GeoJsonViewerPageLazy initialMode="viewer" />;
+const BoundingBoxPickerPageRoute = () => <GeoJsonViewerPageLazy initialMode="bbox" />;
 
 const ToolMap: Partial<Record<ToolID, React.ComponentType>> = {
   "map-wallpaper": MapWallpaperPage,
@@ -32,6 +38,8 @@ const ToolMap: Partial<Record<ToolID, React.ComponentType>> = {
   "markdown-stripper": MarkdownStripperPage,
   "markdown-toc-generator": MarkdownTocGeneratorPage,
   "json-csv": DataConverterPage,
+  "geojson-viewer": GeoJsonViewerPageRoute,
+  "bounding-box-picker": BoundingBoxPickerPageRoute,
 };
 
 export function ToolResolver({ toolID }: { toolID: ToolID }) {
