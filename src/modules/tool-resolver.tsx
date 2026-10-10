@@ -1,6 +1,7 @@
 import type { ToolID } from "#/data/tools-list";
 import * as React from "react";
 import { Base64ImageCodecPage } from "./base64-image-codec/base64-image-codec-page";
+import { DataConverterPage } from "./data-converter/data-converter-page";
 import { DateTimeConverterPage } from "./date-time-converter/date-time-converter-page";
 import { JwtCodecPage } from "./jwt-codec/jwt-codec-page";
 import { MarkdownStripperPage } from "./markdown-stripper/markdown-stripper-page";
@@ -30,6 +31,7 @@ const ToolMap: Partial<Record<ToolID, React.ComponentType>> = {
   "markdown-to-rich-text": MarkdownToRichTextPage,
   "markdown-stripper": MarkdownStripperPage,
   "markdown-toc-generator": MarkdownTocGeneratorPage,
+  "json-csv": DataConverterPage,
 };
 
 export function ToolResolver({ toolID }: { toolID: ToolID }) {

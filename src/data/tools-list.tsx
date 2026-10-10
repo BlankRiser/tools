@@ -310,12 +310,12 @@ export const toolsList = linkOptions([
   },
   {
     id: "json-csv",
-    name: "JSON to CSV",
-    title: "JSON ↔ CSV",
-    description: "Convert between JSON and CSV formats with automatic column detection.",
+    name: "Data Format Converter JSON CSV TSV YAML TOML JSONL XML",
+    title: "Data Format Converter",
+    description: "Convert seamlessly between JSON, JSONL, CSV, TSV, YAML, TOML, and XML in any direction.",
     category: "Converters & Formatters" as ToolCategory,
     icon: TableIcon,
-    comingSoon: true,
+    comingSoon: false,
     to: "/tools/$toolID",
     params: {
       toolID: "json-csv",
