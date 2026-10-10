@@ -26,28 +26,28 @@ export interface NextRunItem {
 }
 
 export const MONTH_NAMES = [
-  "January", "February", "March", "April", "May", "June",
-  "July", "August", "September", "October", "November", "December",
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
 ] as const;
 
-export const MONTH_ABBRS = [
-  "JAN", "FEB", "MAR", "APR", "MAY", "JUN",
-  "JUL", "AUG", "SEP", "OCT", "NOV", "DEC",
-] as const;
+export const MONTH_ABBRS = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"] as const;
 
-export const DAY_NAMES = [
-  "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday",
-] as const;
+export const DAY_NAMES = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"] as const;
 
 export const DAY_ABBRS = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"] as const;
 
 // Parses a single cron field (e.g. "1-5", "*/15", "0,12,18") into a Set of allowed integers.
-export function parseCronField(
-  field: string,
-  minVal: number,
-  maxVal: number,
-  nameMap?: Record<string, number>,
-): Set<number> | null {
+export function parseCronField(field: string, minVal: number, maxVal: number, nameMap?: Record<string, number>): Set<number> | null {
   const clean = field.trim().toUpperCase();
   if (!clean) return null;
 
@@ -316,12 +316,7 @@ function formatMonth(mon: string): string {
 /**
  * Calculates the next N scheduled trigger dates for a 5-part cron expression.
  */
-export function getNextCronRuns(
-  expression: string,
-  count = 5,
-  startDate: Date = new Date(),
-  useUtc = false,
-): NextRunItem[] {
+export function getNextCronRuns(expression: string, count = 5, startDate: Date = new Date(), useUtc = false): NextRunItem[] {
   const validation = validateCron(expression);
   if (!validation.isValid || !validation.parts) {
     return [];

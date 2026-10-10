@@ -2,9 +2,10 @@ import { GlobalErrorBoundary } from "#/components/common/global-error-boundary";
 import { Button } from "#/components/ui/button";
 import { cn } from "#/lib/utils";
 import { useState, type ReactNode } from "react";
-import type { CodecMode } from "./codec";
 import { DecodePanel } from "./decode-panel";
 import { EncodePanel } from "./encode-panel";
+
+import type { CodecMode } from "./codec";
 
 export function Base64ImageCodecPage() {
   const [mode, setMode] = useState<CodecMode>("encode");

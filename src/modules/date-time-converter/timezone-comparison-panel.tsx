@@ -86,7 +86,6 @@ export function TimezoneComparisonPanel({ timezoneData, userTimezone, onAdd, onR
           onValueChange={handleSelect}
           inputValue={inputValue}
           onInputValueChange={setInputValue}
-  
           // disabled base-ui default filter so it doesn't hide fuzzy matches
           filter={() => true}
         >

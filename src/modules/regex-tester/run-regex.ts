@@ -25,9 +25,7 @@ export type RegexMatch = {
   groups: CaptureGroup[];
 };
 
-export type RegexRun =
-  | { ok: true; matches: RegexMatch[]; source: string }
-  | { ok: false; error: string };
+export type RegexRun = { ok: true; matches: RegexMatch[]; source: string } | { ok: false; error: string };
 
 const MAX_MATCHES = 500;
 

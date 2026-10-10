@@ -4,9 +4,10 @@ import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "#/component
 import { Input } from "#/components/ui/input";
 import { Label } from "#/components/ui/label";
 import { useDebounce } from "#/hooks/use-debounce";
-import type { LayerGroupState, PresetColors, PresetVisibility } from "#/hooks/use-layer-styles";
 import { CaretDownIcon } from "@phosphor-icons/react";
 import React, { useState } from "react";
+
+import type { LayerGroupState, PresetColors, PresetVisibility } from "#/hooks/use-layer-styles";
 
 const formatLayerName = (id: string) => {
   return id.replace(/[-_]/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());

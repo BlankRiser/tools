@@ -1,4 +1,5 @@
 import { cn } from "#/lib/utils";
+
 import type { RegexMatch } from "./run-regex";
 
 const TINTS = ["bg-chart-1/35", "bg-chart-2/35", "bg-chart-3/35", "bg-chart-4/35", "bg-chart-5/35"];
@@ -41,15 +42,12 @@ export function MatchHighlight({ text, matches }: { text: string; matches: Regex
   }
 
   return (
-    <pre className="max-h-64 overflow-auto whitespace-pre-wrap break-all font-mono text-sm leading-relaxed">
+    <pre className="max-h-64 overflow-auto font-mono text-sm leading-relaxed break-all whitespace-pre-wrap">
       {segments.map((segment, index) =>
         segment.matchIndex === null ? (
           <span key={index}>{segment.text}</span>
         ) : (
-          <mark
-            key={index}
-            className={cn("rounded-sm px-0.5 text-foreground", TINTS[segment.matchIndex % TINTS.length])}
-          >
+          <mark key={index} className={cn("rounded-sm px-0.5 text-foreground", TINTS[segment.matchIndex % TINTS.length])}>
             {segment.text}
           </mark>
         ),

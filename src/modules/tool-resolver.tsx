@@ -1,4 +1,3 @@
-import type { ToolID } from "#/data/tools-list";
 import * as React from "react";
 import { Base64ImageCodecPage } from "./base64-image-codec/base64-image-codec-page";
 import { DataConverterPage } from "./data-converter/data-converter-page";
@@ -12,21 +11,18 @@ import { RegexTesterPage } from "./regex-tester/regex-tester-page";
 import { StringCaseConverterPage } from "./string-case-converter/string-case-converter-page";
 import { TextInspectorPage } from "./text-inspector/text-inspector-page";
 import { URLParserPage } from "./url-parser/url-parser-page";
+
+import type { ToolID } from "#/data/tools-list";
 const MapWallpaperPage = React.lazy(() => import("./map-wallpaper/map-wallpaper-page"));
 const DiffCheckerPage = React.lazy(() => import("./diff-checker/diff-checker-page"));
 const DistanceCalculatorPage = React.lazy(() => import("./distance-calculator/distance-calculator-page"));
-const GeoJsonViewerPageLazy = React.lazy(() =>
-  import("./geojson-viewer/geojson-viewer-page").then((m) => ({ default: m.GeoJsonViewerPage })),
-);
+const GeoJsonViewerPageLazy = React.lazy(() => import("./geojson-viewer/geojson-viewer-page").then((m) => ({ default: m.GeoJsonViewerPage })));
 
 const GeoJsonViewerPageRoute = () => <GeoJsonViewerPageLazy initialMode="viewer" />;
 const BoundingBoxPickerPageRoute = () => <GeoJsonViewerPageLazy initialMode="bbox" />;
-const SortTextPageLazy = React.lazy(() =>
-  import("./sort-text/sort-text-page").then((m) => ({ default: m.SortTextPage })),
-);
-const CronBuilderPageLazy = React.lazy(() =>
-  import("./cron-expression-builder/cron-builder-page").then((m) => ({ default: m.CronBuilderPage })),
-);
+const SortTextPageLazy = React.lazy(() => import("./sort-text/sort-text-page").then((m) => ({ default: m.SortTextPage })));
+const CronBuilderPageLazy = React.lazy(() => import("./cron-expression-builder/cron-builder-page").then((m) => ({ default: m.CronBuilderPage })));
+const PdfToolsPageLazy = React.lazy(() => import("./pdf-tools/pdf-tools-page").then((m) => ({ default: m.PdfToolsPage })));
 
 const ToolMap: Partial<Record<ToolID, React.ComponentType>> = {
   "map-wallpaper": MapWallpaperPage,
@@ -48,6 +44,7 @@ const ToolMap: Partial<Record<ToolID, React.ComponentType>> = {
   "geojson-viewer": GeoJsonViewerPageRoute,
   "bounding-box-picker": BoundingBoxPickerPageRoute,
   "sort-text": SortTextPageLazy,
+  "pdf-tools": PdfToolsPageLazy,
 };
 
 export function ToolResolver({ toolID }: { toolID: ToolID }) {
@@ -59,9 +56,7 @@ export function ToolResolver({ toolID }: { toolID: ToolID }) {
 
   return (
     <React.Suspense
-      fallback={
-        <div className="flex min-h-[calc(100dvh-2.8rem)] items-center justify-center text-sm text-muted-foreground">Loading tool…</div>
-      }
+      fallback={<div className="flex min-h-[calc(100dvh-2.8rem)] items-center justify-center text-sm text-muted-foreground">Loading tool…</div>}
     >
       <Tool />
     </React.Suspense>

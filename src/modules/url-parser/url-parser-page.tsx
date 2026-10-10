@@ -11,7 +11,19 @@ import { URLParserInput } from "./url-parser-input";
 import { useUrlParser } from "./use-url-parser";
 
 export function URLParserPage() {
-  const { inputUrl, setInputUrl, isValid, parsedUrl, searchParams, toggleSearchParam, updateSearchParam, hashParams, toggleHashParam, updateHashParam, finalUrl, } = useUrlParser();
+  const {
+    inputUrl,
+    setInputUrl,
+    isValid,
+    parsedUrl,
+    searchParams,
+    toggleSearchParam,
+    updateSearchParam,
+    hashParams,
+    toggleHashParam,
+    updateHashParam,
+    finalUrl,
+  } = useUrlParser();
 
   const [copied, setCopied] = useState(false);
 
@@ -33,27 +45,27 @@ export function URLParserPage() {
           <p className="mt-2 text-muted-foreground">Parse, inspect, and safely copy URLs. Automatically detects and strips tracking parameters.</p>
         </div>
 
-          <div className="space-y-2">
-            <Label htmlFor="url-input">Enter URL</Label>
-            <Input
-              id="url-input"
-              placeholder="https://example.com/path?param=value"
-              value={inputUrl}
-              onChange={(e) => setInputUrl(e.target.value)}
-              className={!isValid && inputUrl ? "border-destructive focus-visible:ring-destructive" : ""}
-            />
-            {!isValid && inputUrl && <p className="text-sm font-medium text-destructive">Please enter a valid URL.</p>}
-          </div>
+        <div className="space-y-2">
+          <Label htmlFor="url-input">Enter URL</Label>
+          <Input
+            id="url-input"
+            placeholder="https://example.com/path?param=value"
+            value={inputUrl}
+            onChange={(e) => setInputUrl(e.target.value)}
+            className={!isValid && inputUrl ? "border-destructive focus-visible:ring-destructive" : ""}
+          />
+          {!isValid && inputUrl && <p className="text-sm font-medium text-destructive">Please enter a valid URL.</p>}
+        </div>
 
-          {!parsedUrl && !inputUrl && (
-            <Alert>
-              <WarningCircleIcon className="h-4 w-4" />
-              <AlertDescription>Enter a URL to see its metadata and edit its parameters.</AlertDescription>
-            </Alert>
-          )}
+        {!parsedUrl && !inputUrl && (
+          <Alert>
+            <WarningCircleIcon className="h-4 w-4" />
+            <AlertDescription>Enter a URL to see its metadata and edit its parameters.</AlertDescription>
+          </Alert>
+        )}
 
         {parsedUrl && (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+          <div className="grid grid-cols-1 gap-2 md:grid-cols-2">
             <URLParserInput parsedUrl={parsedUrl} />
             <URLParserBuilder
               searchParams={searchParams}

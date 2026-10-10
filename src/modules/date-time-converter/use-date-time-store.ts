@@ -1,15 +1,6 @@
 import { create } from "zustand";
 
-export type DisplayFormat =
-  | "iso8601"
-  | "rfc2822"
-  | "rfc3339"
-  | "unix"
-  | "locale"
-  | "human"
-  | "12hour"
-  | "24hour"
-  | "custom";
+export type DisplayFormat = "iso8601" | "rfc2822" | "rfc3339" | "unix" | "locale" | "human" | "12hour" | "24hour" | "custom";
 
 export type InputMode = "iso" | "unix-s" | "unix-ms" | "rfc" | "custom";
 
@@ -37,9 +28,7 @@ interface DateTimeState {
   togglePin: (id: string) => void;
 }
 
-const DEFAULT_TIMEZONES: TimezoneEntry[] = [
-  { id: "utc", timezone: "UTC", pinned: true },
-];
+const DEFAULT_TIMEZONES: TimezoneEntry[] = [{ id: "utc", timezone: "UTC", pinned: true }];
 
 export const useDateTimeStore = create<DateTimeState>()((set) => ({
   baseDatetime: null,
@@ -60,10 +49,7 @@ export const useDateTimeStore = create<DateTimeState>()((set) => ({
     set((state) => {
       if (state.timezones.some((t) => t.timezone === tz)) return state;
       return {
-        timezones: [
-          ...state.timezones,
-          { id: `${tz}-${Date.now()}`, timezone: tz, pinned: false },
-        ],
+        timezones: [...state.timezones, { id: `${tz}-${Date.now()}`, timezone: tz, pinned: false }],
       };
     }),
 
@@ -74,8 +60,6 @@ export const useDateTimeStore = create<DateTimeState>()((set) => ({
 
   togglePin: (id) =>
     set((state) => ({
-      timezones: state.timezones.map((t) =>
-        t.id === id ? { ...t, pinned: !t.pinned } : t
-      ),
+      timezones: state.timezones.map((t) => (t.id === id ? { ...t, pinned: !t.pinned } : t)),
     })),
 }));

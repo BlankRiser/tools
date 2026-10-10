@@ -39,9 +39,13 @@ export function DateTimeConverterPage() {
             <p className="mt-2 text-muted-foreground">Convert dates across timezones and UTC with flexible formatting options.</p>
           </div>
           <Popover>
-            <PopoverTrigger render={<Button variant="outline" size={'icon-lg'}>
-              <SlidersIcon />
-            </Button>} />
+            <PopoverTrigger
+              render={
+                <Button variant="outline" size={"icon-lg"}>
+                  <SlidersIcon />
+                </Button>
+              }
+            />
             <PopoverContent align="end" className="w-96">
               <FormatPanel
                 displayFormat={displayFormat}

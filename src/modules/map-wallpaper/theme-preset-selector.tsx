@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { Label } from "#/components/ui/label";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger } from "#/components/ui/select";
 import { Switch } from "#/components/ui/switch";
-import { Label } from "#/components/ui/label";
+import { useState } from "react";
 import { MAP_PRESETS, type MapThemePreset } from "../../data/map-theme-presets";
 
 interface ThemePresetSelectorProps {
@@ -17,21 +17,9 @@ function PresetColorSwatches({ colors }: { colors: NonNullable<MapThemePreset["c
         style={{ backgroundColor: colors.background }}
         title="Background"
       />
-      <div
-        className="z-3 h-3.5 w-3.5 rounded-full border border-border shadow-sm"
-        style={{ backgroundColor: colors.water }}
-        title="Water"
-      />
-      <div
-        className="z-2 h-3.5 w-3.5 rounded-full border border-border shadow-sm"
-        style={{ backgroundColor: colors.roads }}
-        title="Roads"
-      />
-      <div
-        className="z-1 h-3.5 w-3.5 rounded-full border border-border shadow-sm"
-        style={{ backgroundColor: colors.highways }}
-        title="Highways"
-      />
+      <div className="z-3 h-3.5 w-3.5 rounded-full border border-border shadow-sm" style={{ backgroundColor: colors.water }} title="Water" />
+      <div className="z-2 h-3.5 w-3.5 rounded-full border border-border shadow-sm" style={{ backgroundColor: colors.roads }} title="Roads" />
+      <div className="z-1 h-3.5 w-3.5 rounded-full border border-border shadow-sm" style={{ backgroundColor: colors.highways }} title="Highways" />
     </div>
   );
 }
@@ -90,13 +78,8 @@ export function ThemePresetSelector({ applyPreset, isReady }: ThemePresetSelecto
       </div>
 
       <div className="flex items-center space-x-2">
-        <Switch 
-          id="preserve-layers" 
-          checked={preserveLayers}
-          onCheckedChange={setPreserveLayers}
-          disabled={!isReady}
-        />
-        <Label htmlFor="preserve-layers" className="text-xs text-muted-foreground font-normal leading-tight cursor-pointer select-none">
+        <Switch id="preserve-layers" checked={preserveLayers} onCheckedChange={setPreserveLayers} disabled={!isReady} />
+        <Label htmlFor="preserve-layers" className="cursor-pointer text-xs leading-tight font-normal text-muted-foreground select-none">
           Preserve custom layer visibility
         </Label>
       </div>

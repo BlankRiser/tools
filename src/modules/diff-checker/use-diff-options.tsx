@@ -8,7 +8,7 @@ export type DiffOptionsState = {
   disableBackground: boolean;
   wrapLines: boolean;
   disableLineNumbers: boolean;
-}
+};
 
 export type DiffOptionsAction =
   | { type: "SET_DIFF_STYLE"; payload: DiffOptionsState["diffStyle"] }
@@ -49,7 +49,6 @@ const initialDiffOptions: DiffOptionsState = {
   wrapLines: false,
   disableLineNumbers: false,
 };
-
 
 export function useDiffOptions() {
   const [options, dispatch] = useReducer(diffOptionsReducer, initialDiffOptions);

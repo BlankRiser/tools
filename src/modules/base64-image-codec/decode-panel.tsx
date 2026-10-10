@@ -81,7 +81,7 @@ export function DecodePanel() {
           }}
           spellCheck={false}
           placeholder="Paste a data URL or raw Base64 string."
-          className="h-48 resize-none overflow-auto font-mono text-xs [field-sizing:fixed]"
+          className="[field-sizing:fixed] h-48 resize-none overflow-auto font-mono text-xs"
         />
       </div>
 
@@ -106,10 +106,7 @@ export function DecodePanel() {
             </div>
             <div className="flex flex-wrap gap-2">
               <CopyButton value={payload.dataUrl} variant="outline" />
-              <Button
-                onClick={() => downloadBytes(payload.bytes, downloadFilename(payload.mime), payload.mime)}
-                disabled={Boolean(renderError)}
-              >
+              <Button onClick={() => downloadBytes(payload.bytes, downloadFilename(payload.mime), payload.mime)} disabled={Boolean(renderError)}>
                 <DownloadSimpleIcon data-icon="inline-start" />
                 Download {downloadFilename(payload.mime)}
               </Button>

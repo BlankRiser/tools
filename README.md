@@ -31,20 +31,20 @@ A curated collection of visual utilities, generators, and visualizers, designed 
 
 #### 🔤 Text & Data
 
-| Tool                  | Description                                                           |
-| --------------------- | --------------------------------------------------------------------- |
-| Sort Text             | Sort lines with options to filter duplicates and strip numbers        |
-| Markdown Previewer    | Write Markdown with a live-rendered preview                           |
+| Tool               | Description                                                    |
+| ------------------ | -------------------------------------------------------------- |
+| Sort Text          | Sort lines with options to filter duplicates and strip numbers |
+| Markdown Previewer | Write Markdown with a live-rendered preview                    |
 
 #### 🛠️ Converters & Formatters
 
-| Tool               | Description                                                           |
-| ------------------ | --------------------------------------------------------------------- |
-| JSON Formatter     | Format, validate, and minify JSON with error reporting                |
-| JSON ↔ CSV         | Bidirectional conversion with automatic column detection              |
-| URL Parser         | Break down URLs into protocol, host, path, query params, and fragment |
-| Date Converter     | Convert dates across timezones and UTC with formatting options        |
-| Unit Converter     | Convert between SI units — length, mass, temperature, volume          |
+| Tool           | Description                                                           |
+| -------------- | --------------------------------------------------------------------- |
+| JSON Formatter | Format, validate, and minify JSON with error reporting                |
+| JSON ↔ CSV     | Bidirectional conversion with automatic column detection              |
+| URL Parser     | Break down URLs into protocol, host, path, query params, and fragment |
+| Date Converter | Convert dates across timezones and UTC with formatting options        |
+| Unit Converter | Convert between SI units — length, mass, temperature, volume          |
 
 #### 🎨 Visual
 

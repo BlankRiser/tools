@@ -1,6 +1,6 @@
-import { useEffect, useCallback } from "react";
-import maplibregl from "maplibre-gl";
 import { MAP_STYLES } from "#/components/common/map-wrapper";
+import maplibregl from "maplibre-gl";
+import { useEffect, useCallback } from "react";
 import { useMapWallpaperStore } from "../modules/map-wallpaper/store";
 
 export type PresetColors = Record<string, { fill?: string; stroke?: string }>;
@@ -13,18 +13,8 @@ export interface LayerGroupState {
 }
 
 export function useLayerStyles(map: maplibregl.Map | undefined | null) {
-  const {
-    colors,
-    visibility,
-    layerGroups,
-    isReady,
-    selectedLayerId,
-    setColors,
-    setVisibility,
-    setLayerGroups,
-    setIsReady,
-    deletedElements
-  } = useMapWallpaperStore();
+  const { colors, visibility, layerGroups, isReady, selectedLayerId, setColors, setVisibility, setLayerGroups, setIsReady, deletedElements } =
+    useMapWallpaperStore();
 
   useEffect(() => {
     if (!map) return;
@@ -38,16 +28,16 @@ export function useLayerStyles(map: maplibregl.Map | undefined | null) {
       style.layers.forEach((layer) => {
         const id = layer.id;
         const type = layer.type;
-        
+
         // Group by source-layer if available, else by type
         const sourceLayer = (layer as any)["source-layer"];
         let groupId = sourceLayer || type;
-        
+
         // If it's a background layer, just call it background
         if (type === "background") {
           groupId = "background";
         }
-        
+
         if (!groupId) groupId = "other";
 
         if (!groupsMap.has(groupId)) {
@@ -75,29 +65,29 @@ export function useLayerStyles(map: maplibregl.Map | undefined | null) {
       const initialVisibility: PresetVisibility = {};
       const defaultHiddenGroups = ["building", "poi", "transportation_name", "landuse", "aerodrome_label"];
 
-      parsedGroups.forEach(group => {
-        group.layers.forEach(layer => {
-            const layout = style.layers?.find(sl => sl.id === layer.id)?.layout;
-            let isVisible = layout && (layout as any).visibility === "none" ? false : true;
+      parsedGroups.forEach((group) => {
+        group.layers.forEach((layer) => {
+          const layout = style.layers?.find((sl) => sl.id === layer.id)?.layout;
+          let isVisible = layout && (layout as any).visibility === "none" ? false : true;
 
-            if (defaultHiddenGroups.includes(group.id)) {
-              isVisible = false;
-            } else if (group.id === "place") {
-              isVisible = layer.id === "label_country_1";
+          if (defaultHiddenGroups.includes(group.id)) {
+            isVisible = false;
+          } else if (group.id === "place") {
+            isVisible = layer.id === "label_country_1";
+          }
+
+          initialVisibility[layer.id] = isVisible;
+
+          if (!isVisible) {
+            try {
+              map.setLayoutProperty(layer.id, "visibility", "none");
+            } catch {
+              // Ignore unsupported layout property
             }
-
-            initialVisibility[layer.id] = isVisible;
-
-            if (!isVisible) {
-              try {
-                map.setLayoutProperty(layer.id, "visibility", "none");
-              } catch {
-                // Ignore unsupported layout property
-              }
-            }
+          }
         });
       });
-      
+
       setVisibility(initialVisibility);
       setIsReady(true);
       return true;
@@ -157,11 +147,11 @@ export function useLayerStyles(map: maplibregl.Map | undefined | null) {
         try {
           map.setPaintProperty(layerId, prop, color);
         } catch (e) {
-          console.error(e)
+          console.error(e);
         }
       });
     },
-    [map, isReady]
+    [map, isReady],
   );
 
   // Update an entire group's color at once
@@ -174,7 +164,7 @@ export function useLayerStyles(map: maplibregl.Map | undefined | null) {
         updateLayerColor(layer.id, layer.type, type, color);
       });
     },
-    [layerGroups, updateLayerColor]
+    [layerGroups, updateLayerColor],
   );
 
   // Toggle a single layer's visibility
@@ -186,11 +176,11 @@ export function useLayerStyles(map: maplibregl.Map | undefined | null) {
 
       try {
         map.setLayoutProperty(layerId, "visibility", isVisible ? "visible" : "none");
-      } catch  {
+      } catch {
         // Ignore unsupported layout property
       }
     },
-    [map, isReady]
+    [map, isReady],
   );
 
   // Toggle an entire group's visibility at once
@@ -203,7 +193,7 @@ export function useLayerStyles(map: maplibregl.Map | undefined | null) {
         toggleLayerVisibility(layer.id, isVisible);
       });
     },
-    [layerGroups, toggleLayerVisibility]
+    [layerGroups, toggleLayerVisibility],
   );
 
   const applyPreset = useCallback(
@@ -213,15 +203,15 @@ export function useLayerStyles(map: maplibregl.Map | undefined | null) {
       if (preset.isReset) {
         map.setStyle(MAP_STYLES["openfreemap-liberty"]);
         setColors({});
-        
+
         if (!preserveLayers) {
           const resetVisibility: PresetVisibility = {};
           const defaultHiddenGroups = ["building", "poi", "transportation_name", "landuse", "aerodrome_label"];
 
-          layerGroups.forEach(group => {
-            group.layers.forEach(layer => {
+          layerGroups.forEach((group) => {
+            group.layers.forEach((layer) => {
               let isVisible = true;
-              
+
               if (defaultHiddenGroups.includes(group.id)) {
                 isVisible = false;
               } else if (group.id === "place") {
@@ -255,17 +245,10 @@ export function useLayerStyles(map: maplibregl.Map | undefined | null) {
         } else if (group.id === "water" || group.id === "waterway") {
           fill = preset.colors.water;
           stroke = preset.colors.water;
-        } else if (
-          group.id === "highways_&_primary_roads" ||
-          group.id === "transportation"
-        ) {
+        } else if (group.id === "highways_&_primary_roads" || group.id === "transportation") {
           fill = preset.colors.highways;
           stroke = preset.colors.highways;
-        } else if (
-          group.id === "secondary_streets" ||
-          group.id === "minor_streets" ||
-          group.id === "other_transportation"
-        ) {
+        } else if (group.id === "secondary_streets" || group.id === "minor_streets" || group.id === "other_transportation") {
           fill = preset.colors.roads;
           stroke = preset.colors.roads;
         } else if (group.id === "building") {
@@ -282,31 +265,31 @@ export function useLayerStyles(map: maplibregl.Map | undefined | null) {
         group.layers.forEach((layer) => {
           // Apply visibility
           let layerVis = isGroupVisible;
-          
+
           const hiddenLayers = [
-            "transportation_name", 
+            "transportation_name",
             "water_name_point_label",
             "water_name_line_label",
             "waterway_tunnel",
             "waterway_river",
             "waterway_other",
             "waterway_line_label",
-            "road_minor", 
-            "road_minor_casing", 
-            "road_service_track_casing", 
-            "highway-name-major", 
-            "highway-name-minor", 
-            "highway-shield-non-us", 
-            "label_other", 
+            "road_minor",
+            "road_minor_casing",
+            "road_service_track_casing",
+            "highway-name-major",
+            "highway-name-minor",
+            "highway-shield-non-us",
+            "label_other",
             "waterway_line_label",
             "road_path_pedestrian",
             "road_one_way_arrow",
             "road_oneway_arrow",
             "road_one_way_arrow_opposite",
             "road_oneway_arrow_opposite",
-            "road_service_track"
+            "road_service_track",
           ];
-          
+
           if (!preset.isReset && hiddenLayers.includes(layer.id)) {
             layerVis = false;
           }
@@ -322,7 +305,7 @@ export function useLayerStyles(map: maplibregl.Map | undefined | null) {
 
           // Apply colors
           newColors[layer.id] = { fill, stroke };
-          
+
           const fills: string[] = [];
           const strokes: string[] = [];
 
@@ -358,31 +341,31 @@ export function useLayerStyles(map: maplibregl.Map | undefined | null) {
       setVisibility(newVisibility);
       setColors(newColors);
     },
-    [map, isReady, layerGroups, colors, visibility]
+    [map, isReady, layerGroups, colors, visibility],
   );
 
   // !NOTE: Highlight logic for selected layer and hide deleted elements
   useEffect(() => {
     if (!map || !isReady) return;
 
-    layerGroups.forEach(group => {
-      group.layers.forEach(layer => {
+    layerGroups.forEach((group) => {
+      group.layers.forEach((layer) => {
         const isSelected = layer.id === selectedLayerId;
         const baseOpacity = selectedLayerId ? (isSelected ? 1 : 0.2) : 1;
-        
+
         let targetOpacity: any = baseOpacity;
-        
-        const deletedInLayer = deletedElements.filter(e => e.layerId === layer.id && e.isHidden);
+
+        const deletedInLayer = deletedElements.filter((e) => e.layerId === layer.id && e.isHidden);
         if (deletedInLayer.length > 0) {
           const cases: any[] = ["case"];
-          deletedInLayer.forEach(del => {
+          deletedInLayer.forEach((del) => {
             cases.push(del.featureKey === "id" ? ["==", ["id"], del.featureValue] : ["==", ["get", del.featureKey], del.featureValue]);
             cases.push(0);
           });
           cases.push(baseOpacity);
           targetOpacity = cases;
         }
-        
+
         try {
           if (layer.type === "fill" || layer.type === "background") map.setPaintProperty(layer.id, "fill-opacity", targetOpacity);
           if (layer.type === "line") map.setPaintProperty(layer.id, "line-opacity", targetOpacity);

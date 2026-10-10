@@ -5,13 +5,15 @@ export const geoCodedQueryOptions = (apiParams: GeoCodedSearchAPI) =>
   queryOptions({
     queryKey: ["geocoded", apiParams],
     queryFn: async () => {
-      return await apiClient().geocoded().search({
-        ...apiParams,
-        limit: apiParams.limit ?? 25,
-        offset: apiParams.offset ?? 0,
-        query: apiParams.query,
-        type: apiParams.type,
-      });
+      return await apiClient()
+        .geocoded()
+        .search({
+          ...apiParams,
+          limit: apiParams.limit ?? 25,
+          offset: apiParams.offset ?? 0,
+          query: apiParams.query,
+          type: apiParams.type,
+        });
     },
   });
 

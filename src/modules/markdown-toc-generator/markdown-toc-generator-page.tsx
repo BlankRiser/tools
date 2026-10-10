@@ -4,23 +4,10 @@ import { Checkbox } from "#/components/ui/checkbox";
 import { Label } from "#/components/ui/label";
 import { Textarea } from "#/components/ui/textarea";
 import { cn } from "#/lib/utils";
-import {
-  CheckIcon,
-  CodeIcon,
-  CopyIcon,
-  EyeIcon,
-  FileArrowUpIcon,
-  ListNumbersIcon,
-  TrashIcon,
-} from "@phosphor-icons/react";
+import { CheckIcon, CodeIcon, CopyIcon, EyeIcon, FileArrowUpIcon, ListNumbersIcon, TrashIcon } from "@phosphor-icons/react";
 import { useCallback, useMemo, useRef, useState } from "react";
 import { toast } from "sonner";
-import {
-  DEFAULT_TOC_OPTIONS,
-  generateMarkdownToc,
-  type TocGeneratorOptions,
-  type TocListStyle,
-} from "./generate-toc";
+import { DEFAULT_TOC_OPTIONS, generateMarkdownToc, type TocGeneratorOptions, type TocListStyle } from "./generate-toc";
 
 const SAMPLE_MARKDOWN = `# Introduction
 
@@ -83,10 +70,7 @@ export function MarkdownTocGeneratorPage() {
   const [copied, setCopied] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const result = useMemo(
-    () => generateMarkdownToc(markdown, options),
-    [markdown, options],
-  );
+  const result = useMemo(() => generateMarkdownToc(markdown, options), [markdown, options]);
 
   const handleCopy = useCallback(async () => {
     if (!result.tocMarkdown) return;
@@ -133,18 +117,10 @@ export function MarkdownTocGeneratorPage() {
               <FileArrowUpIcon data-icon="inline-start" />
               Load .md
             </Button>
-            <Button
-              variant="outline"
-              onClick={() => setMarkdown(SAMPLE_MARKDOWN)}
-              disabled={markdown === SAMPLE_MARKDOWN}
-            >
+            <Button variant="outline" onClick={() => setMarkdown(SAMPLE_MARKDOWN)} disabled={markdown === SAMPLE_MARKDOWN}>
               Sample
             </Button>
-            <Button
-              variant="ghost"
-              onClick={() => setMarkdown("")}
-              disabled={!markdown}
-            >
+            <Button variant="ghost" onClick={() => setMarkdown("")} disabled={!markdown}>
               <TrashIcon data-icon="inline-start" />
               Clear
             </Button>
@@ -162,14 +138,10 @@ export function MarkdownTocGeneratorPage() {
                   <button
                     key={style.value}
                     type="button"
-                    onClick={() =>
-                      setOptions((prev) => ({ ...prev, listStyle: style.value }))
-                    }
+                    onClick={() => setOptions((prev) => ({ ...prev, listStyle: style.value }))}
                     className={cn(
                       "rounded-md px-2.5 py-1 font-mono text-xs font-medium transition-colors",
-                      options.listStyle === style.value
-                        ? "bg-background text-foreground shadow-xs"
-                        : "text-muted-foreground hover:text-foreground",
+                      options.listStyle === style.value ? "bg-background text-foreground shadow-xs" : "text-muted-foreground hover:text-foreground",
                     )}
                   >
                     {style.label}
@@ -195,9 +167,7 @@ export function MarkdownTocGeneratorPage() {
                     }
                     className={cn(
                       "rounded-md px-2 py-1 font-mono text-xs font-medium transition-colors",
-                      options.maxDepth === depth
-                        ? "bg-background text-foreground shadow-xs"
-                        : "text-muted-foreground hover:text-foreground",
+                      options.maxDepth === depth ? "bg-background text-foreground shadow-xs" : "text-muted-foreground hover:text-foreground",
                     )}
                   >
                     H{depth}
@@ -214,14 +184,10 @@ export function MarkdownTocGeneratorPage() {
                   <button
                     key={spaces}
                     type="button"
-                    onClick={() =>
-                      setOptions((prev) => ({ ...prev, indentSize: spaces }))
-                    }
+                    onClick={() => setOptions((prev) => ({ ...prev, indentSize: spaces }))}
                     className={cn(
                       "rounded-md px-2 py-1 font-mono text-xs font-medium transition-colors",
-                      options.indentSize === spaces
-                        ? "bg-background text-foreground shadow-xs"
-                        : "text-muted-foreground hover:text-foreground",
+                      options.indentSize === spaces ? "bg-background text-foreground shadow-xs" : "text-muted-foreground hover:text-foreground",
                     )}
                   >
                     {spaces}sp
@@ -234,9 +200,7 @@ export function MarkdownTocGeneratorPage() {
           <label className="flex cursor-pointer items-center gap-2 text-sm select-none">
             <Checkbox
               checked={options.includeLinks}
-              onCheckedChange={(checked) =>
-                setOptions((prev) => ({ ...prev, includeLinks: checked === true }))
-              }
+              onCheckedChange={(checked) => setOptions((prev) => ({ ...prev, includeLinks: checked === true }))}
             />
             <span className="font-medium">Include GitHub anchor links</span>
           </label>
@@ -249,7 +213,7 @@ export function MarkdownTocGeneratorPage() {
               <Label htmlFor="toc-markdown-input" className="text-base font-semibold">
                 Markdown Document
               </Label>
-              <span className="font-mono text-xs tabular-nums text-muted-foreground">
+              <span className="font-mono text-xs text-muted-foreground tabular-nums">
                 {result.items.length} of {result.totalHeadingsInDoc} headings included
               </span>
             </div>
@@ -260,7 +224,7 @@ export function MarkdownTocGeneratorPage() {
               onChange={(e) => setMarkdown(e.target.value)}
               spellCheck={false}
               placeholder="Paste your Markdown document with # headings..."
-              className="h-[32rem] min-h-[24rem] resize-none overflow-auto font-mono text-sm leading-relaxed [field-sizing:fixed]"
+              className="[field-sizing:fixed] h-[32rem] min-h-[24rem] resize-none overflow-auto font-mono text-sm leading-relaxed"
             />
           </div>
 
@@ -277,9 +241,7 @@ export function MarkdownTocGeneratorPage() {
                     onClick={() => setActiveView("markdown")}
                     className={cn(
                       "inline-flex items-center gap-1.5 rounded-md px-2.5 py-1 text-xs font-medium transition-colors",
-                      activeView === "markdown"
-                        ? "bg-background text-foreground shadow-xs"
-                        : "text-muted-foreground hover:text-foreground",
+                      activeView === "markdown" ? "bg-background text-foreground shadow-xs" : "text-muted-foreground hover:text-foreground",
                     )}
                   >
                     <CodeIcon className="size-3.5" />
@@ -290,9 +252,7 @@ export function MarkdownTocGeneratorPage() {
                     onClick={() => setActiveView("preview")}
                     className={cn(
                       "inline-flex items-center gap-1.5 rounded-md px-2.5 py-1 text-xs font-medium transition-colors",
-                      activeView === "preview"
-                        ? "bg-background text-foreground shadow-xs"
-                        : "text-muted-foreground hover:text-foreground",
+                      activeView === "preview" ? "bg-background text-foreground shadow-xs" : "text-muted-foreground hover:text-foreground",
                     )}
                   >
                     <EyeIcon className="size-3.5" />
@@ -301,12 +261,7 @@ export function MarkdownTocGeneratorPage() {
                 </div>
               </div>
 
-              <Button
-                size="sm"
-                onClick={handleCopy}
-                disabled={!result.tocMarkdown}
-                className="gap-1.5"
-              >
+              <Button size="sm" onClick={handleCopy} disabled={!result.tocMarkdown} className="gap-1.5">
                 {copied ? (
                   <>
                     <CheckIcon weight="bold" className="size-4" />
@@ -324,12 +279,8 @@ export function MarkdownTocGeneratorPage() {
             {!result.tocMarkdown ? (
               <div className="flex h-[32rem] min-h-[24rem] flex-col items-center justify-center rounded-lg border border-dashed border-border/70 bg-card/30 p-6 text-center">
                 <ListNumbersIcon className="mb-2 size-8 text-muted-foreground/60" weight="duotone" />
-                <p className="text-sm font-medium text-muted-foreground">
-                  No headings found for the selected depth
-                </p>
-                <p className="mt-1 text-xs text-muted-foreground/80">
-                  Add Markdown headings (#, ##, ###) or increase the Max Depth setting.
-                </p>
+                <p className="text-sm font-medium text-muted-foreground">No headings found for the selected depth</p>
+                <p className="mt-1 text-xs text-muted-foreground/80">Add Markdown headings (#, ##, ###) or increase the Max Depth setting.</p>
               </div>
             ) : activeView === "markdown" ? (
               <Textarea
@@ -337,39 +288,27 @@ export function MarkdownTocGeneratorPage() {
                 value={result.tocMarkdown}
                 readOnly
                 spellCheck={false}
-                className="h-[32rem] min-h-[24rem] resize-none overflow-auto font-mono text-sm leading-relaxed [field-sizing:fixed]"
+                className="[field-sizing:fixed] h-[32rem] min-h-[24rem] resize-none overflow-auto font-mono text-sm leading-relaxed"
               />
             ) : (
               <div className="h-[32rem] min-h-[24rem] overflow-auto rounded-lg border border-input bg-card p-5 dark:bg-input/20">
                 <ul className="space-y-1.5 text-sm">
                   {result.items.map((item, idx) => {
                     const marker =
-                      options.listStyle === "hierarchical"
-                        ? item.numberLabel
-                        : options.listStyle === "ordered"
-                          ? `${item.orderedNumber}.`
-                          : "•";
+                      options.listStyle === "hierarchical" ? item.numberLabel : options.listStyle === "ordered" ? `${item.orderedNumber}.` : "•";
                     return (
                       <li
                         key={`${item.slug}-${idx}`}
                         style={{ paddingLeft: `${item.level * 1.25}rem` }}
                         className="flex items-baseline gap-2 leading-relaxed"
                       >
-                        <span className="shrink-0 font-mono text-xs text-muted-foreground">
-                          {marker}
-                        </span>
+                        <span className="shrink-0 font-mono text-xs text-muted-foreground">{marker}</span>
                         {options.includeLinks ? (
-                          <span className="font-medium text-primary underline underline-offset-4">
-                            {item.text}
-                          </span>
+                          <span className="font-medium text-primary underline underline-offset-4">{item.text}</span>
                         ) : (
-                          <span className="font-medium text-foreground">
-                            {item.text}
-                          </span>
+                          <span className="font-medium text-foreground">{item.text}</span>
                         )}
-                        <span className="font-mono text-2xs text-muted-foreground/70">
-                          #{item.slug}
-                        </span>
+                        <span className="font-mono text-2xs text-muted-foreground/70">#{item.slug}</span>
                       </li>
                     );
                   })}

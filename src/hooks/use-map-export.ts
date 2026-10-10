@@ -1,5 +1,5 @@
-import { useState, useCallback } from "react";
 import maplibregl from "maplibre-gl";
+import { useState, useCallback } from "react";
 
 export interface ExportResolution {
   name: string;
@@ -89,7 +89,7 @@ export function useMapExport(map: maplibregl.Map | undefined | null) {
         setExportProgress(0);
       }
     },
-    [map]
+    [map],
   );
 
   return {

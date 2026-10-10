@@ -38,10 +38,7 @@ function cleanTextFragment(raw: string, options: StripMarkdownOptions): string {
   return text;
 }
 
-function renderInlineTokens(
-  tokens: Token[] | undefined,
-  options: StripMarkdownOptions,
-): string {
+function renderInlineTokens(tokens: Token[] | undefined, options: StripMarkdownOptions): string {
   if (!tokens || tokens.length === 0) return "";
 
   let out = "";
@@ -91,9 +88,7 @@ function renderInlineTokens(
         if (/^<br\s*\/?>$/i.test(t.raw.trim())) {
           out += "\n";
         } else if (options.stripHtmlTags) {
-          out += t.raw
-            .replace(/<br\s*\/?>/gi, "\n")
-            .replace(/<\/?[a-z][^>]*>/gi, "");
+          out += t.raw.replace(/<br\s*\/?>/gi, "\n").replace(/<\/?[a-z][^>]*>/gi, "");
         } else {
           out += t.raw;
         }
@@ -122,22 +117,12 @@ function renderInlineTokens(
   return out;
 }
 
-function renderList(
-  list: Tokens.List,
-  options: StripMarkdownOptions,
-  depth = 0,
-): string {
+function renderList(list: Tokens.List, options: StripMarkdownOptions, depth = 0): string {
   const startNum = typeof list.start === "number" ? list.start : 1;
   const indent = "  ".repeat(depth);
 
   const renderedItems = list.items.map((item, idx) => {
-    const bullet = options.keepListBullets
-      ? list.ordered
-        ? `${indent}${startNum + idx}. `
-        : `${indent}• `
-      : depth > 0
-        ? indent
-        : "";
+    const bullet = options.keepListBullets ? (list.ordered ? `${indent}${startNum + idx}. ` : `${indent}• `) : depth > 0 ? indent : "";
 
     const childParts: string[] = [];
     for (const child of item.tokens) {
@@ -148,10 +133,7 @@ function renderList(
         const nested = renderList(child as Tokens.List, options, depth + 1);
         if (nested) childParts.push(nested);
       } else if (child.type === "text" || child.type === "paragraph") {
-        const inline = renderInlineTokens(
-          (child as Tokens.Text | Tokens.Paragraph).tokens ?? [child],
-          options,
-        ).trim();
+        const inline = renderInlineTokens((child as Tokens.Text | Tokens.Paragraph).tokens ?? [child], options).trim();
         if (inline) childParts.push(inline);
       } else {
         const block = renderBlockTokens([child], options, depth + 1);
@@ -167,12 +149,8 @@ function renderList(
 }
 
 function renderTable(table: Tokens.Table, options: StripMarkdownOptions): string {
-  const headerCells = table.header.map((cell) =>
-    renderInlineTokens(cell.tokens, options).trim(),
-  );
-  const bodyRows = table.rows.map((row) =>
-    row.map((cell) => renderInlineTokens(cell.tokens, options).trim()),
-  );
+  const headerCells = table.header.map((cell) => renderInlineTokens(cell.tokens, options).trim());
+  const bodyRows = table.rows.map((row) => row.map((cell) => renderInlineTokens(cell.tokens, options).trim()));
 
   const colCount = headerCells.length;
   if (colCount === 0) return "";
@@ -188,26 +166,16 @@ function renderTable(table: Tokens.Table, options: StripMarkdownOptions): string
 
   const formatRow = (cells: string[]) =>
     cells
-      .map((cell, colIdx) =>
-        colIdx === colCount - 1 ? cell : cell.padEnd(colWidths[colIdx], " "),
-      )
+      .map((cell, colIdx) => (colIdx === colCount - 1 ? cell : cell.padEnd(colWidths[colIdx], " ")))
       .join("  ")
       .trimEnd();
 
   const separatorRow = colWidths.map((w) => "-".repeat(w)).join("  ");
 
-  return [
-    formatRow(headerCells),
-    separatorRow,
-    ...bodyRows.map(formatRow),
-  ].join("\n");
+  return [formatRow(headerCells), separatorRow, ...bodyRows.map(formatRow)].join("\n");
 }
 
-function renderBlockTokens(
-  tokens: Token[],
-  options: StripMarkdownOptions,
-  listDepth = 0,
-): string {
+function renderBlockTokens(tokens: Token[], options: StripMarkdownOptions, listDepth = 0): string {
   const blocks: string[] = [];
 
   for (const token of tokens) {
@@ -230,11 +198,7 @@ function renderBlockTokens(
       }
       case "text": {
         const t = token as Tokens.Text;
-        const text = (
-          t.tokens && t.tokens.length > 0
-            ? renderInlineTokens(t.tokens, options)
-            : cleanTextFragment(t.raw, options)
-        ).trim();
+        const text = (t.tokens && t.tokens.length > 0 ? renderInlineTokens(t.tokens, options) : cleanTextFragment(t.raw, options)).trim();
         if (text) blocks.push(text);
         break;
       }
@@ -287,10 +251,7 @@ function renderBlockTokens(
   return blocks.join("\n\n");
 }
 
-export function stripMarkdown(
-  input: string,
-  options: StripMarkdownOptions = DEFAULT_STRIP_OPTIONS,
-): StripMarkdownResult {
+export function stripMarkdown(input: string, options: StripMarkdownOptions = DEFAULT_STRIP_OPTIONS): StripMarkdownResult {
   const originalChars = input.length;
 
   if (!input.trim()) {

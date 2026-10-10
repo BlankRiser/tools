@@ -1,11 +1,11 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { RouterProvider, createRouter } from "@tanstack/react-router";
 import ReactDOM from "react-dom/client";
+import { Toaster } from "sonner";
+import { routeTree } from "./routeTree.gen";
+import "./styles.css";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { ThemeProvider } from "@/hooks/use-theme";
-import "./styles.css";
-import { routeTree } from "./routeTree.gen";
-import { Toaster } from "sonner";
 
 const queryClient = new QueryClient();
 

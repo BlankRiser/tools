@@ -33,7 +33,9 @@ export function URLParserInput({ parsedUrl }: URLParserInputProps) {
             <div className="flex flex-col gap-2">
               {segments.map((segment, index) => (
                 <div key={index} className="flex items-center gap-2">
-                  <span className="select-none inline-flex h-5 w-5 items-center justify-center rounded-full bg-muted text-xs font-medium">{index + 1}</span>
+                  <span className="inline-flex h-5 w-5 items-center justify-center rounded-full bg-muted text-xs font-medium select-none">
+                    {index + 1}
+                  </span>
                   <span className="font-mono text-sm break-all">{segment}</span>
                 </div>
               ))}

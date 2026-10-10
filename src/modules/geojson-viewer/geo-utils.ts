@@ -23,9 +23,7 @@ export function normalizeToFeatureCollection(input: any): any {
   if (input.type === "FeatureCollection") {
     return {
       type: "FeatureCollection",
-      features: Array.isArray(input.features)
-        ? input.features.filter((f: any) => f && f.geometry)
-        : [],
+      features: Array.isArray(input.features) ? input.features.filter((f: any) => f && f.geometry) : [],
     };
   }
 
@@ -168,11 +166,7 @@ export function generateBboxPolygon(bbox: BBox) {
 /**
  * Generates an approximated circle as a GeoJSON Polygon.
  */
-export function generateCirclePolygon(
-  center: [number, number],
-  radiusKm: number,
-  points = 64,
-) {
+export function generateCirclePolygon(center: [number, number], radiusKm: number, points = 64) {
   const [centerLng, centerLat] = center;
   const coords: [number, number][] = [];
   const kmPerLatDegree = 111.32;
@@ -200,17 +194,12 @@ export function generateCirclePolygon(
 /**
  * Calculates haversine distance between two coordinates in km.
  */
-export function haversineDistanceKm(
-  [lng1, lat1]: [number, number],
-  [lng2, lat2]: [number, number],
-): number {
+export function haversineDistanceKm([lng1, lat1]: [number, number], [lng2, lat2]: [number, number]): number {
   const R = 6371.0088;
   const toRad = (d: number) => (d * Math.PI) / 180;
   const dLat = toRad(lat2 - lat1);
   const dLng = toRad(lng2 - lng1);
-  const a =
-    Math.sin(dLat / 2) ** 2 +
-    Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * Math.sin(dLng / 2) ** 2;
+  const a = Math.sin(dLat / 2) ** 2 + Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * Math.sin(dLng / 2) ** 2;
   return 2 * R * Math.asin(Math.sqrt(a));
 }
 

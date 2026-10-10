@@ -25,10 +25,7 @@ function ToolsRoute() {
       }
 
       const target = e.target as HTMLElement | null;
-      const isEditable =
-        target?.tagName === "INPUT" ||
-        target?.tagName === "TEXTAREA" ||
-        target?.isContentEditable;
+      const isEditable = target?.tagName === "INPUT" || target?.tagName === "TEXTAREA" || target?.isContentEditable;
 
       if (e.key === "/" && !isEditable) {
         e.preventDefault();
@@ -40,10 +37,7 @@ function ToolsRoute() {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, []);
 
-  const availableTools = useMemo(
-    () => toolsList.filter((tool) => !tool.comingSoon),
-    [],
-  );
+  const availableTools = useMemo(() => toolsList.filter((tool) => !tool.comingSoon), []);
 
   const filteredTools = useMemo(() => {
     const query = searchQuery.trim();
@@ -66,9 +60,7 @@ function ToolsRoute() {
       }
     }
 
-    const categoriesOrder = query
-      ? Array.from(groupsMap.keys())
-      : TOOL_CATEGORIES;
+    const categoriesOrder = query ? Array.from(groupsMap.keys()) : TOOL_CATEGORIES;
 
     return categoriesOrder
       .map((category) => ({
@@ -83,9 +75,7 @@ function ToolsRoute() {
       <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
         <div>
           <h1 className="text-2xl font-bold tracking-tight">Tools</h1>
-          <p className="mt-1 text-sm text-muted-foreground">
-            A collection of utilities and generators to explore and visualize data.
-          </p>
+          <p className="mt-1 text-sm text-muted-foreground">A collection of utilities and generators to explore and visualize data.</p>
         </div>
 
         <div className="w-full sm:w-80">
@@ -162,24 +152,15 @@ function ToolsRoute() {
           {groupedTools.map(({ category, tools }) => (
             <section key={category} className="space-y-4">
               <div className="flex items-center justify-between border-b border-border/50 pb-2">
-                <h2 className="text-sm font-semibold tracking-tight text-foreground">
-                  {category}
-                </h2>
-                <span className="rounded-full bg-muted px-2 py-0.5 font-mono text-2xs font-medium text-muted-foreground">
-                  {tools.length}
-                </span>
+                <h2 className="text-sm font-semibold tracking-tight text-foreground">{category}</h2>
+                <span className="rounded-full bg-muted px-2 py-0.5 font-mono text-2xs font-medium text-muted-foreground">{tools.length}</span>
               </div>
 
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
                 {tools.map((tool) => {
                   const Icon = tool.icon;
                   return (
-                    <Link
-                      key={tool.params.toolID}
-                      to={tool.to}
-                      params={tool.params}
-                      className="group outline-none"
-                    >
+                    <Link key={tool.params.toolID} to={tool.to} params={tool.params} className="group outline-none">
                       <Card className="h-full transition-colors group-focus-visible:ring-2 group-focus-visible:ring-ring hover:border-primary/40 hover:bg-accent/40">
                         <CardHeader>
                           <div className="flex items-start justify-between">
@@ -189,9 +170,7 @@ function ToolsRoute() {
                             <ArrowUpRightIcon className="h-4 w-4 text-muted-foreground opacity-0 transition-opacity group-hover:opacity-100" />
                           </div>
                           <CardTitle className="mt-2 text-sm">{tool.title}</CardTitle>
-                          <CardDescription className="text-xs leading-relaxed">
-                            {tool.description}
-                          </CardDescription>
+                          <CardDescription className="text-xs leading-relaxed">{tool.description}</CardDescription>
                         </CardHeader>
                       </Card>
                     </Link>

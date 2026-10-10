@@ -45,9 +45,7 @@ export function RegexTesterPage() {
         <div className="flex flex-wrap items-start justify-between gap-4">
           <div>
             <h1 className="text-3xl font-bold tracking-tight">Regex Tester</h1>
-            <p className="mt-2 max-w-2xl text-muted-foreground">
-              Test regular expressions with live matching, capture groups, and flag toggles.
-            </p>
+            <p className="mt-2 max-w-2xl text-muted-foreground">Test regular expressions with live matching, capture groups, and flag toggles.</p>
           </div>
           <div className="flex flex-wrap items-center gap-2">
             <Button variant="outline" onClick={loadSample}>
@@ -95,10 +93,7 @@ export function RegexTesterPage() {
           <div className="flex flex-wrap gap-x-4 gap-y-2">
             {REGEX_FLAGS.map((flag) => (
               <label key={flag.id} className="flex items-center gap-1.5 text-sm">
-                <Checkbox
-                  checked={flags.includes(flag.id)}
-                  onCheckedChange={(checked) => toggleFlag(flag.id, checked === true)}
-                />
+                <Checkbox checked={flags.includes(flag.id)} onCheckedChange={(checked) => toggleFlag(flag.id, checked === true)} />
                 <span className="font-mono font-medium">{flag.label}</span>
                 <span className="text-xs text-muted-foreground">{flag.hint}</span>
               </label>
@@ -118,7 +113,7 @@ export function RegexTesterPage() {
               onChange={(event) => setText(event.target.value)}
               spellCheck={false}
               placeholder="Paste text to search."
-              className="h-56 resize-none overflow-auto font-mono text-sm [field-sizing:fixed]"
+              className="[field-sizing:fixed] h-56 resize-none overflow-auto font-mono text-sm"
             />
             <div className="rounded-xl border bg-muted/20 p-3">
               <p className="mb-2 text-2xs font-semibold tracking-wide text-muted-foreground uppercase">Highlight</p>
@@ -129,7 +124,7 @@ export function RegexTesterPage() {
           <div className="flex flex-col gap-2">
             <div className="flex items-baseline justify-between gap-2">
               <h2 className="text-lg font-semibold">Matches</h2>
-              <p className="text-xs tabular-nums text-muted-foreground">
+              <p className="text-xs text-muted-foreground tabular-nums">
                 {result.ok ? `${result.matches.length} match${result.matches.length === 1 ? "" : "es"}` : "—"}
               </p>
             </div>

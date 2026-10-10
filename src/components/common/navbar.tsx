@@ -27,7 +27,7 @@ export function Navbar() {
           viewTransition={{ types: ["slide-left"] }}
           className="flex items-center gap-2 text-sm font-semibold tracking-tight text-foreground transition-colors hover:text-primary"
         >
-         <DevHavenLogo className="size-8 hover:text-primary" />
+          <DevHavenLogo className="size-8 hover:text-primary" />
           DevHaven Tools
         </Link>
 
@@ -41,7 +41,7 @@ export function Navbar() {
                 className: "data-[status=active]:bg-accent data-[status=active]:text-foreground",
               }}
               activeOptions={{
-                exact: true
+                exact: true,
               }}
               viewTransition={{ types: ["slide-right"] }}
             >

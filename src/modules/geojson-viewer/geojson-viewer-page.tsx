@@ -20,14 +20,7 @@ import {
   WarningCircleIcon,
   XIcon,
 } from "@phosphor-icons/react";
-import {
-  Layer,
-  NavigationControl,
-  Popup,
-  Source,
-  type MapLayerMouseEvent,
-  type MapRef,
-} from "@vis.gl/react-maplibre";
+import { Layer, NavigationControl, Popup, Source, type MapLayerMouseEvent, type MapRef } from "@vis.gl/react-maplibre";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { toast } from "sonner";
 import {
@@ -125,26 +118,29 @@ export function GeoJsonViewerPage({ initialMode = "viewer" }: { initialMode?: To
   }, [rawInput]);
 
   // Fit map to parsed GeoJSON
-  const fitToGeoJson = useCallback((bboxOverride?: BBox) => {
-    const box = bboxOverride || parsedData?.bbox;
-    if (!box || !mapRef.current) return;
-    const [minLng, minLat, maxLng, maxLat] = box;
-    const map = mapRef.current.getMap();
-    if (!map) return;
+  const fitToGeoJson = useCallback(
+    (bboxOverride?: BBox) => {
+      const box = bboxOverride || parsedData?.bbox;
+      if (!box || !mapRef.current) return;
+      const [minLng, minLat, maxLng, maxLat] = box;
+      const map = mapRef.current.getMap();
+      if (!map) return;
 
-    if (minLng === maxLng && minLat === maxLat) {
-      map.flyTo({ center: [minLng, minLat], zoom: 14, duration: 800 });
-      return;
-    }
+      if (minLng === maxLng && minLat === maxLat) {
+        map.flyTo({ center: [minLng, minLat], zoom: 14, duration: 800 });
+        return;
+      }
 
-    map.fitBounds(
-      [
-        [minLng, minLat],
-        [maxLng, maxLat],
-      ],
-      { padding: 60, maxZoom: 16, duration: 800 },
-    );
-  }, [parsedData?.bbox]);
+      map.fitBounds(
+        [
+          [minLng, minLat],
+          [maxLng, maxLat],
+        ],
+        { padding: 60, maxZoom: 16, duration: 800 },
+      );
+    },
+    [parsedData?.bbox],
+  );
 
   useEffect(() => {
     if (mode === "viewer" && parsedData?.bbox) {
@@ -383,10 +379,7 @@ export function GeoJsonViewerPage({ initialMode = "viewer" }: { initialMode?: To
     const coords: [number, number] = [e.lngLat.lng, e.lngLat.lat];
 
     // Distance in screen pixels between pointerdown and pointerup
-    const pixelDist = Math.hypot(
-      e.point.x - pointerDownRef.current.point.x,
-      e.point.y - pointerDownRef.current.point.y,
-    );
+    const pixelDist = Math.hypot(e.point.x - pointerDownRef.current.point.x, e.point.y - pointerDownRef.current.point.y);
 
     if (pixelDist > 8) {
       // User dragged to create the shape -> complete on mouseup!
@@ -460,8 +453,6 @@ export function GeoJsonViewerPage({ initialMode = "viewer" }: { initialMode?: To
     toast.success("Polygon captured — drag shape to reposition");
   };
 
-
-
   // Handle file upload (GeoJSON or Shapefile)
   const handleFileUpload = async (file: File | undefined) => {
     if (!file) return;
@@ -524,9 +515,7 @@ export function GeoJsonViewerPage({ initialMode = "viewer" }: { initialMode?: To
                 }}
                 className={cn(
                   "inline-flex items-center gap-1.5 rounded-md px-3 py-1.5 text-xs font-medium transition-colors",
-                  mode === "viewer"
-                    ? "bg-background text-foreground shadow-xs"
-                    : "text-muted-foreground hover:text-foreground",
+                  mode === "viewer" ? "bg-background text-foreground shadow-xs" : "text-muted-foreground hover:text-foreground",
                 )}
               >
                 <MapTrifoldIcon className="size-4" weight="duotone" />
@@ -540,9 +529,7 @@ export function GeoJsonViewerPage({ initialMode = "viewer" }: { initialMode?: To
                 }}
                 className={cn(
                   "inline-flex items-center gap-1.5 rounded-md px-3 py-1.5 text-xs font-medium transition-colors",
-                  mode === "bbox"
-                    ? "bg-background text-foreground shadow-xs"
-                    : "text-muted-foreground hover:text-foreground",
+                  mode === "bbox" ? "bg-background text-foreground shadow-xs" : "text-muted-foreground hover:text-foreground",
                 )}
               >
                 <SelectionAllIcon className="size-4" weight="duotone" />
@@ -583,20 +570,8 @@ export function GeoJsonViewerPage({ initialMode = "viewer" }: { initialMode?: To
                 latitude: 40.77,
                 zoom: 12,
               }}
-              cursor={
-                isDraggingShape
-                  ? "grabbing"
-                  : drawMode === "pan"
-                    ? "grab"
-                    : drawMode === "select"
-                      ? "default"
-                      : "crosshair"
-              }
-              interactiveLayerIds={
-                mode === "viewer" && drawMode === "pan"
-                  ? ["geojson-polygons-fill", "geojson-lines", "geojson-points"]
-                  : undefined
-              }
+              cursor={isDraggingShape ? "grabbing" : drawMode === "pan" ? "grab" : drawMode === "select" ? "default" : "crosshair"}
+              interactiveLayerIds={mode === "viewer" && drawMode === "pan" ? ["geojson-polygons-fill", "geojson-lines", "geojson-points"] : undefined}
               onMove={() => setMapVersion((v) => v + 1)}
               onZoom={() => setMapVersion((v) => v + 1)}
               onRotate={() => setMapVersion((v) => v + 1)}
@@ -755,17 +730,7 @@ export function GeoJsonViewerPage({ initialMode = "viewer" }: { initialMode?: To
                   const lastPt = project(polygonPoints[polygonPoints.length - 1]);
                   const curPt = project(mouseCoords);
                   if (!lastPt || !curPt) return null;
-                  return (
-                    <line
-                      x1={lastPt.x}
-                      y1={lastPt.y}
-                      x2={curPt.x}
-                      y2={curPt.y}
-                      stroke="#2563eb"
-                      strokeWidth={2.5}
-                      strokeDasharray="6,4"
-                    />
-                  );
+                  return <line x1={lastPt.x} y1={lastPt.y} x2={curPt.x} y2={curPt.y} stroke="#2563eb" strokeWidth={2.5} strokeDasharray="6,4" />;
                 })()}
 
               {/* 3. Polygon: Closing preview line from cursor back to node 1 */}
@@ -797,14 +762,7 @@ export function GeoJsonViewerPage({ initialMode = "viewer" }: { initialMode?: To
                   if (!p) return null;
                   return (
                     <g key={`polygon-node-${pt[0]}-${pt[1]}-${i}`} className="pointer-events-none select-none">
-                      <circle
-                        cx={p.x}
-                        cy={p.y}
-                        r={10}
-                        fill="#2563eb"
-                        stroke="#ffffff"
-                        strokeWidth={2}
-                      />
+                      <circle cx={p.x} cy={p.y} r={10} fill="#2563eb" stroke="#ffffff" strokeWidth={2} />
                       <text
                         x={p.x}
                         y={p.y}
@@ -904,7 +862,7 @@ export function GeoJsonViewerPage({ initialMode = "viewer" }: { initialMode?: To
                       strokeLinejoin="round"
                       className={cn(
                         drawMode === "select"
-                          ? "pointer-events-auto cursor-grab active:cursor-grabbing hover:fill-sky-500/30"
+                          ? "pointer-events-auto cursor-grab hover:fill-sky-500/30 active:cursor-grabbing"
                           : "pointer-events-none",
                       )}
                       onPointerDown={handleShapePointerDown}
@@ -920,15 +878,7 @@ export function GeoJsonViewerPage({ initialMode = "viewer" }: { initialMode?: To
                   const pCenter = project(centerPt);
                   if (!pCenter) return null;
                   return (
-                    <circle
-                      cx={pCenter.x}
-                      cy={pCenter.y}
-                      r={4.5}
-                      fill="#0284c7"
-                      stroke="#ffffff"
-                      strokeWidth={2}
-                      className="pointer-events-none"
-                    />
+                    <circle cx={pCenter.x} cy={pCenter.y} r={4.5} fill="#0284c7" stroke="#ffffff" strokeWidth={2} className="pointer-events-none" />
                   );
                 })()}
 
@@ -1077,21 +1027,12 @@ export function GeoJsonViewerPage({ initialMode = "viewer" }: { initialMode?: To
                 <div className="flex items-center justify-between gap-2 rounded-lg border border-primary/30 bg-primary/10 px-3 py-1.5 text-xs text-primary shadow-sm backdrop-blur-md">
                   <span className="font-medium">
                     {drawMode === "select" &&
-                      (drawnFeature
-                        ? "Click & drag the shape to reposition it on the map"
-                        : "Draw a shape above to move or inspect it")}
+                      (drawnFeature ? "Click & drag the shape to reposition it on the map" : "Draw a shape above to move or inspect it")}
                     {drawMode === "rectangle" &&
-                      (drawStart
-                        ? "Click opposite corner (or release drag) to finish"
-                        : "Click map to set 1st corner (or drag)")}
-                    {drawMode === "circle" &&
-                      (drawStart
-                        ? "Move cursor and click to set circle radius"
-                        : "Click map to set circle center")}
+                      (drawStart ? "Click opposite corner (or release drag) to finish" : "Click map to set 1st corner (or drag)")}
+                    {drawMode === "circle" && (drawStart ? "Move cursor and click to set circle radius" : "Click map to set circle center")}
                     {drawMode === "polygon" &&
-                      (polygonPoints.length === 0
-                        ? "Click map to place 1st vertex"
-                        : `Placed ${polygonPoints.length} points. Click to add more.`)}
+                      (polygonPoints.length === 0 ? "Click map to place 1st vertex" : `Placed ${polygonPoints.length} points. Click to add more.`)}
                   </span>
 
                   <div className="flex items-center gap-1">
@@ -1101,12 +1042,7 @@ export function GeoJsonViewerPage({ initialMode = "viewer" }: { initialMode?: To
                       </Button>
                     )}
                     {(drawStart || polygonPoints.length > 0) && (
-                      <button
-                        type="button"
-                        onClick={cancelDrawing}
-                        className="rounded p-0.5 hover:bg-primary/20"
-                        title="Cancel drawing"
-                      >
+                      <button type="button" onClick={cancelDrawing} className="rounded p-0.5 hover:bg-primary/20" title="Cancel drawing">
                         <XIcon className="size-3.5" />
                       </button>
                     )}
@@ -1118,12 +1054,7 @@ export function GeoJsonViewerPage({ initialMode = "viewer" }: { initialMode?: To
             {/* Quick Fit Button (bottom left) */}
             {mode === "viewer" && parsedData?.bbox && (
               <div className="absolute bottom-4 left-3 z-10">
-                <Button
-                  size="sm"
-                  variant="secondary"
-                  onClick={() => fitToGeoJson()}
-                  className="shadow-md backdrop-blur-md"
-                >
+                <Button size="sm" variant="secondary" onClick={() => fitToGeoJson()} className="shadow-md backdrop-blur-md">
                   <ArrowsOutIcon data-icon="inline-start" />
                   Fit to features
                 </Button>
@@ -1141,20 +1072,10 @@ export function GeoJsonViewerPage({ initialMode = "viewer" }: { initialMode?: To
                     <div className="flex items-center justify-between">
                       <CardTitle className="text-sm">GeoJSON Data</CardTitle>
                       <div className="flex items-center gap-1">
-                        <Button
-                          variant="ghost"
-                          size="xs"
-                          onClick={() => setRawInput(SAMPLE_GEOJSON)}
-                          disabled={rawInput === SAMPLE_GEOJSON}
-                        >
+                        <Button variant="ghost" size="xs" onClick={() => setRawInput(SAMPLE_GEOJSON)} disabled={rawInput === SAMPLE_GEOJSON}>
                           Sample
                         </Button>
-                        <Button
-                          variant="ghost"
-                          size="xs"
-                          onClick={() => setRawInput("")}
-                          disabled={!rawInput}
-                        >
+                        <Button variant="ghost" size="xs" onClick={() => setRawInput("")} disabled={!rawInput}>
                           Clear
                         </Button>
                       </div>
@@ -1196,14 +1117,8 @@ export function GeoJsonViewerPage({ initialMode = "viewer" }: { initialMode?: To
                   <Card className="py-3">
                     <CardHeader className="py-0 pb-2">
                       <div className="flex items-center justify-between">
-                        <CardTitle className="text-xs font-semibold text-muted-foreground uppercase">
-                          Bounding Box
-                        </CardTitle>
-                        <CopyButton
-                          value={JSON.stringify(parsedData.bbox)}
-                          size="icon-xs"
-                          variant="ghost"
-                        />
+                        <CardTitle className="text-xs font-semibold text-muted-foreground uppercase">Bounding Box</CardTitle>
+                        <CopyButton value={JSON.stringify(parsedData.bbox)} size="icon-xs" variant="ghost" />
                       </div>
                     </CardHeader>
                     <CardContent className="py-0">
@@ -1231,9 +1146,7 @@ export function GeoJsonViewerPage({ initialMode = "viewer" }: { initialMode?: To
                     {bboxMetrics && (
                       <Card className="py-3">
                         <CardHeader className="py-0 pb-2">
-                          <CardTitle className="text-xs font-semibold text-muted-foreground uppercase">
-                            Dimensions & Area
-                          </CardTitle>
+                          <CardTitle className="text-xs font-semibold text-muted-foreground uppercase">Dimensions & Area</CardTitle>
                         </CardHeader>
                         <CardContent className="grid grid-cols-2 gap-2 text-xs">
                           <div>
@@ -1261,35 +1174,25 @@ export function GeoJsonViewerPage({ initialMode = "viewer" }: { initialMode?: To
                     {/* Formats Card */}
                     <Card className="flex-1 overflow-auto py-3">
                       <CardHeader className="py-0 pb-2">
-                        <CardTitle className="text-xs font-semibold text-muted-foreground uppercase">
-                          Bounding Box Formats
-                        </CardTitle>
+                        <CardTitle className="text-xs font-semibold text-muted-foreground uppercase">Bounding Box Formats</CardTitle>
                       </CardHeader>
                       <CardContent className="space-y-3 py-0">
                         {/* GeoJSON Bbox */}
                         <div>
                           <div className="mb-1 flex items-center justify-between">
-                            <span className="text-2xs font-semibold text-muted-foreground">
-                              GeoJSON [minX, minY, maxX, maxY]
-                            </span>
+                            <span className="text-2xs font-semibold text-muted-foreground">GeoJSON [minX, minY, maxX, maxY]</span>
                             <CopyButton value={bboxFormats.geojson} size="icon-xs" />
                           </div>
-                          <code className="block rounded bg-muted/60 p-2 font-mono text-2xs break-all">
-                            {bboxFormats.geojson}
-                          </code>
+                          <code className="block rounded bg-muted/60 p-2 font-mono text-2xs break-all">{bboxFormats.geojson}</code>
                         </div>
 
                         {/* Leaflet / MapLibre 2D Array */}
                         <div>
                           <div className="mb-1 flex items-center justify-between">
-                            <span className="text-2xs font-semibold text-muted-foreground">
-                              2D Array [[w, s], [e, n]]
-                            </span>
+                            <span className="text-2xs font-semibold text-muted-foreground">2D Array [[w, s], [e, n]]</span>
                             <CopyButton value={bboxFormats.array2d} size="icon-xs" />
                           </div>
-                          <code className="block rounded bg-muted/60 p-2 font-mono text-2xs break-all">
-                            {bboxFormats.array2d}
-                          </code>
+                          <code className="block rounded bg-muted/60 p-2 font-mono text-2xs break-all">{bboxFormats.array2d}</code>
                         </div>
 
                         {/* WKT Polygon */}
@@ -1298,9 +1201,7 @@ export function GeoJsonViewerPage({ initialMode = "viewer" }: { initialMode?: To
                             <span className="text-2xs font-semibold text-muted-foreground">WKT Polygon</span>
                             <CopyButton value={bboxFormats.wkt} size="icon-xs" />
                           </div>
-                          <code className="block rounded bg-muted/60 p-2 font-mono text-2xs break-all">
-                            {bboxFormats.wkt}
-                          </code>
+                          <code className="block rounded bg-muted/60 p-2 font-mono text-2xs break-all">{bboxFormats.wkt}</code>
                         </div>
 
                         {/* Lat / Lng SW-NE */}
@@ -1309,9 +1210,7 @@ export function GeoJsonViewerPage({ initialMode = "viewer" }: { initialMode?: To
                             <span className="text-2xs font-semibold text-muted-foreground">SW / NE LatLng</span>
                             <CopyButton value={bboxFormats.southWestNorthEast} size="icon-xs" />
                           </div>
-                          <code className="block rounded bg-muted/60 p-2 font-mono text-2xs break-all">
-                            {bboxFormats.southWestNorthEast}
-                          </code>
+                          <code className="block rounded bg-muted/60 p-2 font-mono text-2xs break-all">{bboxFormats.southWestNorthEast}</code>
                         </div>
 
                         {/* OpenSearch Query param */}
@@ -1320,9 +1219,7 @@ export function GeoJsonViewerPage({ initialMode = "viewer" }: { initialMode?: To
                             <span className="text-2xs font-semibold text-muted-foreground">Query Param (bbox=...)</span>
                             <CopyButton value={bboxFormats.openSearchQuery} size="icon-xs" />
                           </div>
-                          <code className="block rounded bg-muted/60 p-2 font-mono text-2xs break-all">
-                            {bboxFormats.openSearchQuery}
-                          </code>
+                          <code className="block rounded bg-muted/60 p-2 font-mono text-2xs break-all">{bboxFormats.openSearchQuery}</code>
                         </div>
 
                         {/* Download Bbox GeoJSON */}

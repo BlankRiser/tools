@@ -3,8 +3,9 @@ import { Label } from "#/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "#/components/ui/select";
 import { CopyButton } from "../../components/ui/copy-button";
 import { getFormatsForFormat } from "../../lib/date-time-utils";
-import type { DisplayFormat } from "./use-date-time-store";
 import { formatDatetime } from "../../lib/date-time-utils";
+
+import type { DisplayFormat } from "./use-date-time-store";
 
 interface FormatPanelProps {
   displayFormat: DisplayFormat;
@@ -26,13 +27,7 @@ const FORMAT_OPTIONS: { value: DisplayFormat; label: string }[] = [
   { value: "custom", label: "Custom Token" },
 ];
 
-export function FormatPanel({
-  displayFormat,
-  customFormat,
-  effectiveDate,
-  onFormatChange,
-  onCustomFormatChange,
-}: FormatPanelProps) {
+export function FormatPanel({ displayFormat, customFormat, effectiveDate, onFormatChange, onCustomFormatChange }: FormatPanelProps) {
   const preview = formatDatetime(effectiveDate, displayFormat, customFormat);
   const tokenHint = getFormatsForFormat(displayFormat, customFormat);
 
@@ -44,11 +39,7 @@ export function FormatPanel({
           <Label className="text-xs text-muted-foreground">Display Format</Label>
           <Select value={displayFormat} onValueChange={(v: any) => onFormatChange(v)}>
             <SelectTrigger className="w-full">
-              <SelectValue>
-                {(value: string | null) =>
-                  value ? FORMAT_OPTIONS.find((o) => o.value === value)?.label ?? value : ""
-                }
-              </SelectValue>
+              <SelectValue>{(value: string | null) => (value ? (FORMAT_OPTIONS.find((o) => o.value === value)?.label ?? value) : "")}</SelectValue>
             </SelectTrigger>
             <SelectContent>
               {FORMAT_OPTIONS.map((opt) => (
@@ -85,14 +76,9 @@ export function FormatPanel({
           <Label className="text-xs text-muted-foreground">Live Preview</Label>
           <div className="group flex items-center justify-between gap-2 rounded-lg border border-primary/20 bg-primary/5 px-3 py-2.5">
             <span className="flex-1 truncate font-mono text-sm font-medium">{preview}</span>
-            <CopyButton
-              value={preview}
-              className="shrink-0 opacity-0 group-hover:opacity-100 transition-opacity"
-            />
+            <CopyButton value={preview} className="shrink-0 opacity-0 transition-opacity group-hover:opacity-100" />
           </div>
-          {tokenHint && (
-            <p className="text-2xs font-mono text-muted-foreground">{tokenHint}</p>
-          )}
+          {tokenHint && <p className="font-mono text-2xs text-muted-foreground">{tokenHint}</p>}
         </div>
       </div>
     </div>

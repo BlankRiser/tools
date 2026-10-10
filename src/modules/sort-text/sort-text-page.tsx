@@ -4,13 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "#/components/ui/card";
 import { Checkbox } from "#/components/ui/checkbox";
 import { CopyButton } from "#/components/ui/copy-button";
 import { Label } from "#/components/ui/label";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "#/components/ui/select";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "#/components/ui/select";
 import { Textarea } from "#/components/ui/textarea";
 import { cn } from "#/lib/utils";
 import {
@@ -259,7 +253,8 @@ export function SortTextPage() {
           <div>
             <h1 className="text-2xl font-bold tracking-tight lg:text-3xl">Sort Text & Lists</h1>
             <p className="mt-1 text-xs text-muted-foreground lg:text-sm">
-              Sort lines alphabetically, naturally, or chronologically by date. Filter duplicates, strip numbers, and render in custom ordered list formats.
+              Sort lines alphabetically, naturally, or chronologically by date. Filter duplicates, strip numbers, and render in custom ordered list
+              formats.
             </p>
           </div>
 
@@ -357,10 +352,7 @@ export function SortTextPage() {
           {/* 2. Number Stripping */}
           <div className="flex flex-col gap-1.5">
             <Label className="text-xs font-semibold text-muted-foreground uppercase">Number Stripping</Label>
-            <Select
-              value={options.stripNumbers}
-              onValueChange={(val) => setOptions((prev) => ({ ...prev, stripNumbers: val as NumberStripMode }))}
-            >
+            <Select value={options.stripNumbers} onValueChange={(val) => setOptions((prev) => ({ ...prev, stripNumbers: val as NumberStripMode }))}>
               <SelectTrigger className="w-full text-xs">
                 <SelectValue />
               </SelectTrigger>
@@ -379,9 +371,7 @@ export function SortTextPage() {
             <Label className="text-xs font-semibold text-muted-foreground uppercase">Duplicate Filter</Label>
             <Select
               value={options.duplicateMode}
-              onValueChange={(val) =>
-                setOptions((prev) => ({ ...prev, duplicateMode: val as DuplicateFilterMode }))
-              }
+              onValueChange={(val) => setOptions((prev) => ({ ...prev, duplicateMode: val as DuplicateFilterMode }))}
             >
               <SelectTrigger className="w-full text-xs">
                 <SelectValue />
@@ -399,10 +389,7 @@ export function SortTextPage() {
           {/* 4. Output View Format */}
           <div className="flex flex-col gap-1.5">
             <Label className="text-xs font-semibold text-muted-foreground uppercase">Output Format</Label>
-            <Select
-              value={options.outputView}
-              onValueChange={(val) => setOptions((prev) => ({ ...prev, outputView: val as OutputView }))}
-            >
+            <Select value={options.outputView} onValueChange={(val) => setOptions((prev) => ({ ...prev, outputView: val as OutputView }))}>
               <SelectTrigger className="w-full text-xs">
                 <SelectValue />
               </SelectTrigger>
@@ -419,15 +406,12 @@ export function SortTextPage() {
 
         {/* Secondary Options Toggles */}
         <div className="flex flex-wrap items-center gap-x-5 gap-y-2 rounded-lg border border-border/70 bg-muted/20 px-3 py-2 text-xs">
-          <label className="flex items-center gap-2 cursor-pointer select-none">
-            <Checkbox
-              checked={options.trimLines}
-              onCheckedChange={(checked) => setOptions((prev) => ({ ...prev, trimLines: !!checked }))}
-            />
+          <label className="flex cursor-pointer items-center gap-2 select-none">
+            <Checkbox checked={options.trimLines} onCheckedChange={(checked) => setOptions((prev) => ({ ...prev, trimLines: !!checked }))} />
             <span>Trim whitespace</span>
           </label>
 
-          <label className="flex items-center gap-2 cursor-pointer select-none">
+          <label className="flex cursor-pointer items-center gap-2 select-none">
             <Checkbox
               checked={options.ignoreEmptyLines}
               onCheckedChange={(checked) => setOptions((prev) => ({ ...prev, ignoreEmptyLines: !!checked }))}
@@ -435,7 +419,7 @@ export function SortTextPage() {
             <span>Remove blank lines</span>
           </label>
 
-          <label className="flex items-center gap-2 cursor-pointer select-none">
+          <label className="flex cursor-pointer items-center gap-2 select-none">
             <Checkbox
               checked={options.caseSensitiveSort}
               onCheckedChange={(checked) => setOptions((prev) => ({ ...prev, caseSensitiveSort: !!checked }))}
@@ -443,12 +427,10 @@ export function SortTextPage() {
             <span>Case-sensitive sort</span>
           </label>
 
-          <label className="flex items-center gap-2 cursor-pointer select-none">
+          <label className="flex cursor-pointer items-center gap-2 select-none">
             <Checkbox
               checked={options.caseSensitiveDuplicates}
-              onCheckedChange={(checked) =>
-                setOptions((prev) => ({ ...prev, caseSensitiveDuplicates: !!checked }))
-              }
+              onCheckedChange={(checked) => setOptions((prev) => ({ ...prev, caseSensitiveDuplicates: !!checked }))}
             />
             <span>Case-sensitive duplicates</span>
           </label>
@@ -495,9 +477,15 @@ export function SortTextPage() {
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="auto" className="text-2xs">Auto-detect</SelectItem>
-                  <SelectItem value="us" className="text-2xs">US Format (MM/DD)</SelectItem>
-                  <SelectItem value="eu" className="text-2xs">EU Format (DD/MM)</SelectItem>
+                  <SelectItem value="auto" className="text-2xs">
+                    Auto-detect
+                  </SelectItem>
+                  <SelectItem value="us" className="text-2xs">
+                    US Format (MM/DD)
+                  </SelectItem>
+                  <SelectItem value="eu" className="text-2xs">
+                    EU Format (DD/MM)
+                  </SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -517,12 +505,8 @@ export function SortTextPage() {
           <Card className="flex flex-1 flex-col overflow-hidden py-3">
             <CardHeader className="py-0 pb-2">
               <div className="flex items-center justify-between">
-                <CardTitle className="text-xs font-semibold text-muted-foreground uppercase">
-                  Input Lines ({result.stats.inputCount})
-                </CardTitle>
-                <span className="font-mono text-2xs text-muted-foreground">
-                  {inputText.length} chars
-                </span>
+                <CardTitle className="text-xs font-semibold text-muted-foreground uppercase">Input Lines ({result.stats.inputCount})</CardTitle>
+                <span className="font-mono text-2xs text-muted-foreground">{inputText.length} chars</span>
               </div>
             </CardHeader>
             <CardContent className="flex flex-1 flex-col py-0">
@@ -547,9 +531,7 @@ export function SortTextPage() {
                     onClick={() => setViewTab("text")}
                     className={cn(
                       "flex items-center gap-1.5 rounded-md px-2.5 py-1 text-xs font-medium transition-colors",
-                      viewTab === "text"
-                        ? "bg-background text-foreground shadow-xs"
-                        : "text-muted-foreground hover:text-foreground",
+                      viewTab === "text" ? "bg-background text-foreground shadow-xs" : "text-muted-foreground hover:text-foreground",
                     )}
                   >
                     <CodeIcon className="size-3.5" />
@@ -560,9 +542,7 @@ export function SortTextPage() {
                     onClick={() => setViewTab("rendered")}
                     className={cn(
                       "flex items-center gap-1.5 rounded-md px-2.5 py-1 text-xs font-medium transition-colors",
-                      viewTab === "rendered"
-                        ? "bg-background text-foreground shadow-xs"
-                        : "text-muted-foreground hover:text-foreground",
+                      viewTab === "rendered" ? "bg-background text-foreground shadow-xs" : "text-muted-foreground hover:text-foreground",
                     )}
                   >
                     <EyeIcon className="size-3.5" />
@@ -604,15 +584,13 @@ export function SortTextPage() {
                   readOnly
                   placeholder="Sorted output will appear here..."
                   spellCheck={false}
-                  className="h-full min-h-[18rem] resize-none font-mono text-xs leading-relaxed bg-muted/30"
+                  className="h-full min-h-[18rem] resize-none bg-muted/30 font-mono text-xs leading-relaxed"
                 />
               ) : (
                 /* Visual Rendered List view */
                 <div className="flex-1 overflow-auto rounded-lg border border-border/80 bg-muted/10 p-3">
                   {result.items.length === 0 ? (
-                    <div className="flex h-full min-h-[16rem] items-center justify-center text-xs text-muted-foreground">
-                      No lines to display
-                    </div>
+                    <div className="flex h-full min-h-[16rem] items-center justify-center text-xs text-muted-foreground">No lines to display</div>
                   ) : (
                     <div className="flex flex-col gap-1.5">
                       {result.items.map((item, idx) => (
@@ -622,19 +600,17 @@ export function SortTextPage() {
                         >
                           <div className="flex items-center gap-2.5 overflow-hidden">
                             {/* Number / Position Badge */}
-                            <span className="flex size-5 shrink-0 items-center justify-center rounded-md bg-muted font-mono text-3xs font-semibold text-muted-foreground group-hover:bg-primary group-hover:text-primary-foreground">
+                            <span className="text-3xs flex size-5 shrink-0 items-center justify-center rounded-md bg-muted font-mono font-semibold text-muted-foreground group-hover:bg-primary group-hover:text-primary-foreground">
                               {idx + 1}
                             </span>
 
                             {/* Item Text */}
-                            <span className="truncate font-mono text-xs text-foreground">
-                              {item.processed}
-                            </span>
+                            <span className="truncate font-mono text-xs text-foreground">{item.processed}</span>
 
                             {/* Date Badge if detected */}
                             {item.extractedDate && (
                               <span
-                                className="inline-flex shrink-0 items-center gap-1 rounded bg-sky-500/10 px-1.5 py-0.5 font-mono text-3xs text-sky-600 dark:text-sky-400"
+                                className="text-3xs inline-flex shrink-0 items-center gap-1 rounded bg-sky-500/10 px-1.5 py-0.5 font-mono text-sky-600 dark:text-sky-400"
                                 title={`Parsed date: ${item.extractedDate.toISOString()}`}
                               >
                                 <CalendarBlankIcon className="size-2.5" />
@@ -645,7 +621,7 @@ export function SortTextPage() {
                             {/* Duplicate count badge */}
                             {item.occurrenceCount > 1 && (
                               <span
-                                className="inline-flex shrink-0 items-center rounded-full bg-amber-500/10 px-1.5 py-0.5 text-3xs font-medium text-amber-600 dark:text-amber-400"
+                                className="text-3xs inline-flex shrink-0 items-center rounded-full bg-amber-500/10 px-1.5 py-0.5 font-medium text-amber-600 dark:text-amber-400"
                                 title={`Found ${item.occurrenceCount} occurrences`}
                               >
                                 ×{item.occurrenceCount}

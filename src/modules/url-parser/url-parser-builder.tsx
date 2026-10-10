@@ -64,8 +64,7 @@ export function URLParserBuilder({
                       />
                       {param.isTracking && (
                         <span className="ml-auto inline-flex items-center gap-1 rounded bg-destructive/10 px-1.5 py-0.5 text-2xs font-bold text-destructive uppercase">
-                          <WarningIcon
-                           weight="bold" />
+                          <WarningIcon weight="bold" />
                           Tracker
                         </span>
                       )}

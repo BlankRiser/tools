@@ -164,7 +164,13 @@ export function EncodePanel() {
                 </Button>
               </div>
             </div>
-            <Textarea id="encode-output" readOnly value={output} spellCheck={false} className="h-56 resize-none overflow-auto font-mono text-xs [field-sizing:fixed]" />
+            <Textarea
+              id="encode-output"
+              readOnly
+              value={output}
+              spellCheck={false}
+              className="[field-sizing:fixed] h-56 resize-none overflow-auto font-mono text-xs"
+            />
           </div>
         </>
       )}

@@ -106,10 +106,7 @@ export function createGitHubSlugger() {
   };
 }
 
-export function generateMarkdownToc(
-  markdown: string,
-  options: TocGeneratorOptions = DEFAULT_TOC_OPTIONS,
-): TocGenerationResult {
+export function generateMarkdownToc(markdown: string, options: TocGeneratorOptions = DEFAULT_TOC_OPTIONS): TocGenerationResult {
   if (!markdown.trim()) {
     return {
       tocMarkdown: "",
@@ -118,9 +115,7 @@ export function generateMarkdownToc(
     };
   }
 
-  const normalized = markdown
-    .replace(/\r\n/g, "\n")
-    .replace(/^---\n[\s\S]*?\n---\n*/, "");
+  const normalized = markdown.replace(/\r\n/g, "\n").replace(/^---\n[\s\S]*?\n---\n*/, "");
 
   const tokens = marked.lexer(normalized, { gfm: true });
   const slugger = createGitHubSlugger();
@@ -141,9 +136,7 @@ export function generateMarkdownToc(
     }
   }
 
-  const filtered = allHeadings.filter(
-    (h) => h.depth >= options.minDepth && h.depth <= options.maxDepth,
-  );
+  const filtered = allHeadings.filter((h) => h.depth >= options.minDepth && h.depth <= options.maxDepth);
 
   if (filtered.length === 0) {
     return {
@@ -186,9 +179,7 @@ export function generateMarkdownToc(
   const indentUnit = " ".repeat(options.indentSize);
   const lines = items.map((item) => {
     const indent = indentUnit.repeat(item.level);
-    const label = options.includeLinks
-      ? `[${item.text}](#${item.slug})`
-      : item.text;
+    const label = options.includeLinks ? `[${item.text}](#${item.slug})` : item.text;
 
     let marker: string;
     if (options.listStyle === "hierarchical") {

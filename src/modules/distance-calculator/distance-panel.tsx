@@ -1,9 +1,9 @@
+import { Button } from "#/components/ui/button";
 import { CopyButton } from "#/components/ui/copy-button";
 import { Input } from "#/components/ui/input";
 import { Label } from "#/components/ui/label";
 import { cn } from "#/lib/utils";
 import { ArrowsLeftRightIcon } from "@phosphor-icons/react";
-import { Button } from "#/components/ui/button";
 import {
   formatBearing,
   formatCoord,
@@ -94,19 +94,18 @@ export function DistancePanel({
         </div>
         <div className="flex flex-wrap gap-1">
           {UNITS.map((item) => (
-            <Button
-              key={item.id}
-              size="xs"
-              variant={unit === item.id ? "default" : "outline"}
-              onClick={() => onUnitChange(item.id)}
-            >
+            <Button key={item.id} size="xs" variant={unit === item.id ? "default" : "outline"} onClick={() => onUnitChange(item.id)}>
               {item.label}
             </Button>
           ))}
         </div>
         <dl className="grid grid-cols-1 gap-2">
           <Stat label="Initial bearing" value={formatBearing(bearing)} />
-          <Stat label="Midpoint" value={`${formatCoord(mid.lat)}, ${formatCoord(mid.lng)}`} copyValue={`${formatCoord(mid.lat)}, ${formatCoord(mid.lng)}`} />
+          <Stat
+            label="Midpoint"
+            value={`${formatCoord(mid.lat)}, ${formatCoord(mid.lng)}`}
+            copyValue={`${formatCoord(mid.lat)}, ${formatCoord(mid.lng)}`}
+          />
         </dl>
       </div>
     </div>

@@ -40,7 +40,9 @@ function CompositionBar({ analysis }: { analysis: TextAnalysis }) {
       <span className="text-xs font-semibold tracking-wide text-muted-foreground uppercase">Composition</span>
       <div className="flex h-2 overflow-hidden rounded-full bg-muted">
         {parts.map((part) =>
-          part.count === 0 ? null : <div key={part.label} className={cn("h-full", part.className)} style={{ width: `${(part.count / total) * 100}%` }} />,
+          part.count === 0 ? null : (
+            <div key={part.label} className={cn("h-full", part.className)} style={{ width: `${(part.count / total) * 100}%` }} />
+          ),
         )}
       </div>
       <ul className="grid grid-cols-2 gap-x-4 gap-y-1 text-xs sm:grid-cols-5">

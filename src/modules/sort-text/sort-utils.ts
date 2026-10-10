@@ -19,11 +19,7 @@ export type SortAlgorithm =
 
 export type NumberStripMode = "none" | "leading" | "all";
 
-export type DuplicateFilterMode =
-  | "all"
-  | "remove"
-  | "only-duplicates"
-  | "count-occurrences";
+export type DuplicateFilterMode = "all" | "remove" | "only-duplicates" | "count-occurrences";
 
 export type OutputView =
   | "plain"
@@ -95,8 +91,7 @@ export interface SortTextResult {
  */
 export function stripLeadingNumbering(line: string): string {
   // Matches leading numbering with dot, parenthesis, bracket, colon, or hyphen
-  const leadingNumRegex =
-    /^(\s*)(?:(?:\d+|[ivxlcdm]+|[a-z])[.):\-\]]|\(?\d+\)|\[\d+\]|\d+\s*[-–—:]\s*)\s*/i;
+  const leadingNumRegex = /^(\s*)(?:(?:\d+|[ivxlcdm]+|[a-z])[.):\-\]]|\(?\d+\)|\[\d+\]|\d+\s*[-–—:]\s*)\s*/i;
   return line.replace(leadingNumRegex, "$1");
 }
 
@@ -156,27 +151,15 @@ export function toAlpha(n: number): string {
 /**
  * Robust date extractor that scans a line for standard ISO, formatted, or textual dates.
  */
-export function extractDateFromLine(
-  line: string,
-  preference: "auto" | "us" | "eu" = "auto",
-): Date | null {
+export function extractDateFromLine(line: string, preference: "auto" | "us" | "eu" = "auto"): Date | null {
   const clean = line.trim();
   if (!clean) return null;
 
   // 1. ISO 8601 or YYYY-MM-DD / YYYY/MM/DD / YYYY.MM.DD
-  const isoMatch = clean.match(
-    /\b(\d{4})[-/.](0?[1-9]|1[0-2])[-/.](0?[1-9]|[12]\d|3[01])(?:[T\s](\d{1,2}):(\d{2})(?::(\d{2}))?)?/i,
-  );
+  const isoMatch = clean.match(/\b(\d{4})[-/.](0?[1-9]|1[0-2])[-/.](0?[1-9]|[12]\d|3[01])(?:[T\s](\d{1,2}):(\d{2})(?::(\d{2}))?)?/i);
   if (isoMatch) {
     const [, year, month, day, h = "0", m = "0", s = "0"] = isoMatch;
-    const date = new Date(
-      Number(year),
-      Number(month) - 1,
-      Number(day),
-      Number(h),
-      Number(m),
-      Number(s),
-    );
+    const date = new Date(Number(year), Number(month) - 1, Number(day), Number(h), Number(m), Number(s));
     if (!isNaN(date.getTime())) return date;
   }
 
@@ -190,9 +173,7 @@ export function extractDateFromLine(
   }
 
   // 3. Delimited Date: MM/DD/YYYY or DD/MM/YYYY
-  const delimitedMatch = clean.match(
-    /\b(0?[1-9]|[12]\d|3[01])[-/.](0?[1-9]|[12]\d|3[01])[-/.](\d{2,4})\b/,
-  );
+  const delimitedMatch = clean.match(/\b(0?[1-9]|[12]\d|3[01])[-/.](0?[1-9]|[12]\d|3[01])[-/.](\d{2,4})\b/);
   if (delimitedMatch) {
     const n1 = Number(delimitedMatch[1]);
     const n2 = Number(delimitedMatch[2]);
@@ -252,12 +233,7 @@ export function extractFirstNumber(line: string): number | null {
  * Escapes special HTML characters.
  */
 export function escapeHtml(str: string): string {
-  return str
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#039;");
+  return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
 }
 
 /**
@@ -275,10 +251,7 @@ function pseudoRandom(seed: number) {
 /**
  * Primary processor function for Sort Text
  */
-export function processSortText(
-  rawInput: string,
-  options: SortTextOptions,
-): SortTextResult {
+export function processSortText(rawInput: string, options: SortTextOptions): SortTextResult {
   const rawLines = rawInput.split(/\r?\n/);
   const inputCount = rawLines.length;
 
@@ -316,9 +289,7 @@ export function processSortText(
 
   for (let i = 0; i < preppedItems.length; i++) {
     const item = preppedItems[i];
-    const key = options.caseSensitiveDuplicates
-      ? item.text
-      : item.text.toLowerCase();
+    const key = options.caseSensitiveDuplicates ? item.text : item.text.toLowerCase();
 
     const currentCount = countsMap.get(key) || 0;
     countsMap.set(key, currentCount + 1);
@@ -334,9 +305,7 @@ export function processSortText(
   if (options.duplicateMode === "remove") {
     const seen = new Set<string>();
     for (const item of preppedItems) {
-      const key = options.caseSensitiveDuplicates
-        ? item.text
-        : item.text.toLowerCase();
+      const key = options.caseSensitiveDuplicates ? item.text : item.text.toLowerCase();
       if (!seen.has(key)) {
         seen.add(key);
         filteredItems.push(item);
@@ -347,9 +316,7 @@ export function processSortText(
   } else if (options.duplicateMode === "only-duplicates") {
     const seen = new Set<string>();
     for (const item of preppedItems) {
-      const key = options.caseSensitiveDuplicates
-        ? item.text
-        : item.text.toLowerCase();
+      const key = options.caseSensitiveDuplicates ? item.text : item.text.toLowerCase();
       if ((countsMap.get(key) || 0) > 1 && !seen.has(key)) {
         seen.add(key);
         filteredItems.push(item);
@@ -362,23 +329,15 @@ export function processSortText(
 
   // 4. Enrich with extracted date & numeric values for sorting
   const enrichedItems: ProcessedItem[] = filteredItems.map((item) => {
-    const key = options.caseSensitiveDuplicates
-      ? item.text
-      : item.text.toLowerCase();
+    const key = options.caseSensitiveDuplicates ? item.text : item.text.toLowerCase();
     const count = countsMap.get(key) || 1;
-    const extractedDate = extractDateFromLine(
-      item.text,
-      options.dateFormatPreference,
-    );
+    const extractedDate = extractDateFromLine(item.text, options.dateFormatPreference);
     if (extractedDate) datesDetectedCount++;
     const extractedNumber = extractFirstNumber(item.text);
 
     return {
       original: item.original,
-      processed:
-        options.duplicateMode === "count-occurrences" && count > 1
-          ? `${item.text} (x${count})`
-          : item.text,
+      processed: options.duplicateMode === "count-occurrences" && count > 1 ? `${item.text} (x${count})` : item.text,
       extractedDate,
       extractedNumber,
       occurrenceCount: count,
@@ -391,9 +350,7 @@ export function processSortText(
     const seen = new Set<string>();
     itemsToSort = [];
     for (const it of enrichedItems) {
-      const key = options.caseSensitiveDuplicates
-        ? it.processed
-        : it.processed.toLowerCase();
+      const key = options.caseSensitiveDuplicates ? it.processed : it.processed.toLowerCase();
       if (!seen.has(key)) {
         seen.add(key);
         itemsToSort.push(it);
@@ -520,11 +477,7 @@ export function processSortText(
   const resultLines = sorted.map((item) => item.processed);
 
   // 6. Format Output According to View
-  const formattedOutput = formatOutputView(
-    resultLines,
-    options.outputView,
-    options.orderedDelimiter,
-  );
+  const formattedOutput = formatOutputView(resultLines, options.outputView, options.orderedDelimiter);
 
   return {
     lines: resultLines,
@@ -544,11 +497,7 @@ export function processSortText(
 /**
  * Formats a list of lines into the requested OutputView representation.
  */
-export function formatOutputView(
-  lines: string[],
-  view: OutputView,
-  delimiter: string = ". ",
-): string {
+export function formatOutputView(lines: string[], view: OutputView, delimiter: string = ". "): string {
   if (lines.length === 0) return "";
 
   const padLength = Math.max(2, String(lines.length).length);
@@ -561,33 +510,25 @@ export function formatOutputView(
       return lines.map((l, i) => `${i + 1}${delimiter}${l}`).join("\n");
 
     case "ordered-padded":
-      return lines
-        .map((l, i) => `${String(i + 1).padStart(padLength, "0")}${delimiter}${l}`)
-        .join("\n");
+      return lines.map((l, i) => `${String(i + 1).padStart(padLength, "0")}${delimiter}${l}`).join("\n");
 
     case "ordered-alpha-lower":
       return lines.map((l, i) => `${toAlpha(i + 1)}${delimiter}${l}`).join("\n");
 
     case "ordered-alpha-upper":
-      return lines
-        .map((l, i) => `${toAlpha(i + 1).toUpperCase()}${delimiter}${l}`)
-        .join("\n");
+      return lines.map((l, i) => `${toAlpha(i + 1).toUpperCase()}${delimiter}${l}`).join("\n");
 
     case "ordered-roman-lower":
       return lines.map((l, i) => `${toRoman(i + 1)}${delimiter}${l}`).join("\n");
 
     case "ordered-roman-upper":
-      return lines
-        .map((l, i) => `${toRoman(i + 1).toUpperCase()}${delimiter}${l}`)
-        .join("\n");
+      return lines.map((l, i) => `${toRoman(i + 1).toUpperCase()}${delimiter}${l}`).join("\n");
 
     case "ordered-markdown":
       return lines.map((l, i) => `${i + 1}. ${l}`).join("\n");
 
     case "ordered-html":
-      return `<ol>\n${lines
-        .map((l) => `  <li>${escapeHtml(l)}</li>`)
-        .join("\n")}\n</ol>`;
+      return `<ol>\n${lines.map((l) => `  <li>${escapeHtml(l)}</li>`).join("\n")}\n</ol>`;
 
     case "unordered-bullet":
       return lines.map((l) => `• ${l}`).join("\n");
@@ -596,9 +537,7 @@ export function formatOutputView(
       return lines.map((l) => `- ${l}`).join("\n");
 
     case "unordered-html":
-      return `<ul>\n${lines
-        .map((l) => `  <li>${escapeHtml(l)}</li>`)
-        .join("\n")}\n</ul>`;
+      return `<ul>\n${lines.map((l) => `  <li>${escapeHtml(l)}</li>`).join("\n")}\n</ul>`;
 
     case "delimited-comma":
       return lines.join(", ");

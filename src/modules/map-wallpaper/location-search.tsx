@@ -1,4 +1,13 @@
-import { Combobox, ComboboxInput, ComboboxContent, ComboboxList, ComboboxItem, ComboboxEmpty, ComboboxGroup, ComboboxLabel } from "#/components/ui/combobox";
+import {
+  Combobox,
+  ComboboxInput,
+  ComboboxContent,
+  ComboboxList,
+  ComboboxItem,
+  ComboboxEmpty,
+  ComboboxGroup,
+  ComboboxLabel,
+} from "#/components/ui/combobox";
 import { InputGroupAddon } from "#/components/ui/input-group";
 import { useDebounce } from "#/hooks/use-debounce";
 import { geoCodedQueryOptions, geoCodedLocationDetailsQueryOptions } from "#/lib/query-factory";

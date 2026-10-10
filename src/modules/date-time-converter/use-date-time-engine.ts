@@ -1,8 +1,17 @@
-import { formatDatetime, formatInTimezone, formatOffset, getMetadata, getOffsetMinutes, getSystemTimezone, isDaytime, parseInput, } from "@/lib/date-time-utils";
+import { useNavigate, useSearch } from "@tanstack/react-router";
 import { format as dateFnsFormat, getUnixTime, isValid, parseISO } from "date-fns";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { useNavigate, useSearch } from "@tanstack/react-router";
 import { useDateTimeStore, type InputMode } from "./use-date-time-store";
+import {
+  formatDatetime,
+  formatInTimezone,
+  formatOffset,
+  getMetadata,
+  getOffsetMinutes,
+  getSystemTimezone,
+  isDaytime,
+  parseInput,
+} from "@/lib/date-time-utils";
 
 export function useDateTimeEngine() {
   const {
@@ -37,7 +46,7 @@ export function useDateTimeEngine() {
       isMounted.current = true;
       if (search.timezones) {
         useDateTimeStore.setState({
-          timezones: search.timezones.split(",").map((tz, i) => ({ id: `${tz}-${i}`, timezone: tz, pinned: tz === "UTC" }))
+          timezones: search.timezones.split(",").map((tz, i) => ({ id: `${tz}-${i}`, timezone: tz, pinned: tz === "UTC" })),
         });
       }
       if (search.dt) {
@@ -46,8 +55,8 @@ export function useDateTimeEngine() {
       return;
     }
 
-    const timezonesStr = timezones.map(t => t.timezone).join(",");
-    
+    const timezonesStr = timezones.map((t) => t.timezone).join(",");
+
     if (search.timezones !== timezonesStr || search.dt !== (baseDatetime || undefined)) {
       navigate({
         from: "/tools/$toolID/",

@@ -5,7 +5,8 @@ import { Textarea } from "#/components/ui/textarea";
 import { useQRCodeStore } from "./use-qr-code-store";
 
 export function QRCodeContent() {
-  const { text, setText, errorCorrection, setErrorCorrection, darkColor, setDarkColor, lightColor, setLightColor, margin, setMargin, mode, setMode } = useQRCodeStore();
+  const { text, setText, errorCorrection, setErrorCorrection, darkColor, setDarkColor, lightColor, setLightColor, margin, setMargin, mode, setMode } =
+    useQRCodeStore();
 
   return (
     <div className="col-span-1 flex flex-col gap-4 lg:col-span-2">

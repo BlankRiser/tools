@@ -46,8 +46,8 @@
   --radius-3xl: calc(var(--radius) * 2.2);
   --radius-4xl: calc(var(--radius) * 2.6);
   --font-heading: var(--font-sans);
-  --font-sans: 'Geist Variable', sans-serif;
-  --font-mono: 'JetBrains Mono Variable', monospace;
+  --font-sans: "Geist Variable", sans-serif;
+  --font-mono: "JetBrains Mono Variable", monospace;
 }
 @theme {
   --text-2xs: 10px;

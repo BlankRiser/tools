@@ -1,4 +1,5 @@
 import { CopyButton } from "#/components/ui/copy-button";
+
 import type { RegexMatch } from "./run-regex";
 
 export function MatchList({ matches }: { matches: RegexMatch[] }) {
@@ -18,7 +19,7 @@ export function MatchList({ matches }: { matches: RegexMatch[] }) {
                   [{match.index}, {match.end})
                 </span>
               </p>
-              <p className="mt-1 break-all font-mono text-sm">{match.match || "∅ empty"}</p>
+              <p className="mt-1 font-mono text-sm break-all">{match.match || "∅ empty"}</p>
             </div>
             <CopyButton value={match.match} className="shrink-0" />
           </div>
@@ -30,7 +31,7 @@ export function MatchList({ matches }: { matches: RegexMatch[] }) {
                     {group.name ? `?<${group.name}>` : `$${groupIndex + 1}`}
                     {group.start != null && group.end != null ? ` · [${group.start}, ${group.end})` : ""}
                   </p>
-                  <p className="break-all font-mono text-xs">{group.value === undefined ? "undefined" : group.value}</p>
+                  <p className="font-mono text-xs break-all">{group.value === undefined ? "undefined" : group.value}</p>
                 </li>
               ))}
             </ul>

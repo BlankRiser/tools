@@ -4,14 +4,7 @@ import { CopyButton } from "#/components/ui/copy-button";
 import { Label } from "#/components/ui/label";
 import { Textarea } from "#/components/ui/textarea";
 import { cn } from "#/lib/utils";
-import {
-  CheckIcon,
-  ClipboardTextIcon,
-  CodeIcon,
-  EyeIcon,
-  FileArrowUpIcon,
-  TrashIcon,
-} from "@phosphor-icons/react";
+import { CheckIcon, ClipboardTextIcon, CodeIcon, EyeIcon, FileArrowUpIcon, TrashIcon } from "@phosphor-icons/react";
 import { useCallback, useMemo, useRef, useState } from "react";
 import { toast } from "sonner";
 import { convertMarkdown, copyRichTextToClipboard } from "./markdown-converter";
@@ -68,7 +61,7 @@ const RICH_TEXT_PREVIEW_CLASSES = cn(
   "[&_ul]:my-2.5 [&_ul]:list-disc [&_ul]:space-y-1 [&_ul]:pl-6",
   "[&_ol]:my-2.5 [&_ol]:list-decimal [&_ol]:space-y-1 [&_ol]:pl-6",
   "[&_li]:leading-relaxed [&_li>input[type=checkbox]]:mr-2 [&_li>input[type=checkbox]]:accent-primary",
-  "[&_blockquote]:my-3 [&_blockquote]:rounded-r-md [&_blockquote]:border-l-2 [&_blockquote]:border-primary/60 [&_blockquote]:bg-muted/40 [&_blockquote]:py-1.5 [&_blockquote]:pr-3 [&_blockquote]:pl-3.5 [&_blockquote]:italic [&_blockquote]:text-muted-foreground",
+  "[&_blockquote]:my-3 [&_blockquote]:rounded-r-md [&_blockquote]:border-l-2 [&_blockquote]:border-primary/60 [&_blockquote]:bg-muted/40 [&_blockquote]:py-1.5 [&_blockquote]:pr-3 [&_blockquote]:pl-3.5 [&_blockquote]:text-muted-foreground [&_blockquote]:italic",
   "[&_code]:rounded [&_code]:bg-muted [&_code]:px-1.5 [&_code]:py-0.5 [&_code]:font-mono [&_code]:text-xs [&_code]:text-foreground",
   "[&_pre]:my-3 [&_pre]:overflow-x-auto [&_pre]:rounded-lg [&_pre]:border [&_pre]:border-border/60 [&_pre]:bg-muted/50 [&_pre]:p-3.5 [&_pre]:font-mono [&_pre]:text-xs [&_pre]:leading-relaxed",
   "[&_pre_code]:bg-transparent [&_pre_code]:p-0 [&_pre_code]:text-xs",
@@ -134,18 +127,10 @@ export function MarkdownToRichTextPage() {
               <FileArrowUpIcon data-icon="inline-start" />
               Load .md
             </Button>
-            <Button
-              variant="outline"
-              onClick={() => setMarkdown(SAMPLE_MARKDOWN)}
-              disabled={markdown === SAMPLE_MARKDOWN}
-            >
+            <Button variant="outline" onClick={() => setMarkdown(SAMPLE_MARKDOWN)} disabled={markdown === SAMPLE_MARKDOWN}>
               Sample
             </Button>
-            <Button
-              variant="ghost"
-              onClick={() => setMarkdown("")}
-              disabled={!markdown}
-            >
+            <Button variant="ghost" onClick={() => setMarkdown("")} disabled={!markdown}>
               <TrashIcon data-icon="inline-start" />
               Clear
             </Button>
@@ -159,7 +144,7 @@ export function MarkdownToRichTextPage() {
               <Label htmlFor="markdown-input" className="text-base font-semibold">
                 Markdown Source
               </Label>
-              <span className="font-mono text-xs tabular-nums text-muted-foreground">
+              <span className="font-mono text-xs text-muted-foreground tabular-nums">
                 {conversion.wordCount.toLocaleString()} words · {conversion.charCount.toLocaleString()} chars
               </span>
             </div>
@@ -170,7 +155,7 @@ export function MarkdownToRichTextPage() {
               onChange={(e) => setMarkdown(e.target.value)}
               spellCheck={false}
               placeholder="Type or paste Markdown here..."
-              className="h-[34rem] min-h-[26rem] resize-none overflow-auto font-mono text-sm leading-relaxed [field-sizing:fixed]"
+              className="[field-sizing:fixed] h-[34rem] min-h-[26rem] resize-none overflow-auto font-mono text-sm leading-relaxed"
             />
           </div>
 
@@ -183,9 +168,7 @@ export function MarkdownToRichTextPage() {
                   onClick={() => setActiveTab("preview")}
                   className={cn(
                     "inline-flex items-center gap-1.5 rounded-md px-2.5 py-1 text-xs font-medium transition-colors",
-                    activeTab === "preview"
-                      ? "bg-background text-foreground shadow-xs"
-                      : "text-muted-foreground hover:text-foreground",
+                    activeTab === "preview" ? "bg-background text-foreground shadow-xs" : "text-muted-foreground hover:text-foreground",
                   )}
                 >
                   <EyeIcon className="size-3.5" />
@@ -196,9 +179,7 @@ export function MarkdownToRichTextPage() {
                   onClick={() => setActiveTab("html")}
                   className={cn(
                     "inline-flex items-center gap-1.5 rounded-md px-2.5 py-1 text-xs font-medium transition-colors",
-                    activeTab === "html"
-                      ? "bg-background text-foreground shadow-xs"
-                      : "text-muted-foreground hover:text-foreground",
+                    activeTab === "html" ? "bg-background text-foreground shadow-xs" : "text-muted-foreground hover:text-foreground",
                   )}
                 >
                   <CodeIcon className="size-3.5" />
@@ -207,17 +188,8 @@ export function MarkdownToRichTextPage() {
               </div>
 
               <div className="flex items-center gap-1.5">
-                <CopyButton
-                  value={activeTab === "html" ? conversion.html : conversion.plainText}
-                  variant="outline"
-                  size="icon-sm"
-                />
-                <Button
-                  size="sm"
-                  onClick={handleCopyRichText}
-                  disabled={!conversion.html}
-                  className="gap-1.5"
-                >
+                <CopyButton value={activeTab === "html" ? conversion.html : conversion.plainText} variant="outline" size="icon-sm" />
+                <Button size="sm" onClick={handleCopyRichText} disabled={!conversion.html} className="gap-1.5">
                   {copiedRich ? (
                     <>
                       <CheckIcon weight="bold" className="size-4" />
@@ -236,12 +208,8 @@ export function MarkdownToRichTextPage() {
             {!conversion.html ? (
               <div className="flex h-[34rem] min-h-[26rem] flex-col items-center justify-center rounded-lg border border-dashed border-border/70 bg-card/30 p-6 text-center">
                 <ClipboardTextIcon className="mb-2 size-8 text-muted-foreground/60" weight="duotone" />
-                <p className="text-sm font-medium text-muted-foreground">
-                  Rich text preview will appear here
-                </p>
-                <p className="mt-1 text-xs text-muted-foreground/80">
-                  Start typing Markdown on the left or load a sample document.
-                </p>
+                <p className="text-sm font-medium text-muted-foreground">Rich text preview will appear here</p>
+                <p className="mt-1 text-xs text-muted-foreground/80">Start typing Markdown on the left or load a sample document.</p>
               </div>
             ) : activeTab === "preview" ? (
               <div
@@ -252,7 +220,7 @@ export function MarkdownToRichTextPage() {
                 dangerouslySetInnerHTML={{ __html: conversion.html }}
               />
             ) : (
-              <pre className="h-[34rem] min-h-[26rem] overflow-auto rounded-lg border border-input bg-card p-4 font-mono text-xs leading-relaxed text-foreground whitespace-pre-wrap break-words dark:bg-input/20">
+              <pre className="h-[34rem] min-h-[26rem] overflow-auto rounded-lg border border-input bg-card p-4 font-mono text-xs leading-relaxed break-words whitespace-pre-wrap text-foreground dark:bg-input/20">
                 <code>{conversion.html}</code>
               </pre>
             )}

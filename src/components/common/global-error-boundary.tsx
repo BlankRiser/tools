@@ -8,11 +8,7 @@ type Props = {
 
 export const GlobalErrorBoundary = ({ children }: Props) => {
   return (
-    <ErrorBoundary
-      fallbackRender={({ error, resetErrorBoundary }) => (
-        <GlobalErrorBoundaryFallback error={error} reset={resetErrorBoundary} />
-      )}
-    >
+    <ErrorBoundary fallbackRender={({ error, resetErrorBoundary }) => <GlobalErrorBoundaryFallback error={error} reset={resetErrorBoundary} />}>
       {children}
     </ErrorBoundary>
   );
@@ -23,10 +19,7 @@ type GlobalErrorBoundaryFallbackProps = {
   reset: FallbackProps["resetErrorBoundary"];
 };
 
-const GlobalErrorBoundaryFallback: React.FC<GlobalErrorBoundaryFallbackProps> = ({
-  error,
-  reset,
-}) => {
+const GlobalErrorBoundaryFallback: React.FC<GlobalErrorBoundaryFallbackProps> = ({ error, reset }) => {
   return (
     <section>
       <h3>Something went wrong!</h3>

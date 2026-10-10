@@ -8,6 +8,7 @@ import {
   EraserIcon,
   EyeIcon,
   FileCodeIcon,
+  FilePdfIcon,
   HashIcon,
   ImageIcon,
   KeyIcon,
@@ -25,12 +26,7 @@ import {
 } from "@phosphor-icons/react";
 import { linkOptions } from "@tanstack/react-router";
 
-export const TOOL_CATEGORIES = [
-  "Geospatial & Maps",
-  "Text & Regex",
-  "Encoding & Web",
-  "Converters & Formatters",
-] as const;
+export const TOOL_CATEGORIES = ["Geospatial & Maps", "Text & Regex", "Encoding & Web", "Converters & Formatters"] as const;
 
 export type ToolCategory = (typeof TOOL_CATEGORIES)[number];
 
@@ -208,7 +204,8 @@ export const toolsList = linkOptions([
     id: "sort-text",
     name: "Sort Text Lines Ordered List Deduplicate",
     title: "Sort Text & Lists",
-    description: "Sort lines alphabetically, naturally, or chronologically by date. Filter duplicates, strip numbers, and render as custom ordered lists.",
+    description:
+      "Sort lines alphabetically, naturally, or chronologically by date. Filter duplicates, strip numbers, and render as custom ordered lists.",
     category: "Text & Regex" as ToolCategory,
     icon: ListNumbersIcon,
     comingSoon: false,
@@ -345,6 +342,19 @@ export const toolsList = linkOptions([
     to: "/tools/$toolID",
     params: {
       toolID: "string-case-converter",
+    },
+  },
+  {
+    id: "pdf-tools",
+    name: "PDF Tools Merge Split Reorder Rotate Watermark Password Protect Unlock",
+    title: "PDF Organizer & Security",
+    description: "Upload multiple PDFs to unlock protected files, merge, reorder, rotate, split pages, add watermarks, and password-protect.",
+    category: "Converters & Formatters" as ToolCategory,
+    icon: FilePdfIcon,
+    comingSoon: false,
+    to: "/tools/$toolID",
+    params: {
+      toolID: "pdf-tools",
     },
   },
 ]);

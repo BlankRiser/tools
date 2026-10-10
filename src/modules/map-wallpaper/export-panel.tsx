@@ -1,6 +1,5 @@
-import { EXPORT_RESOLUTIONS, useMapExport } from "#/hooks/use-map-export";
 import { Button } from "#/components/ui/button";
-
+import { EXPORT_RESOLUTIONS, useMapExport } from "#/hooks/use-map-export";
 import maplibregl from "maplibre-gl";
 
 interface ExportPanelProps {
@@ -12,8 +11,8 @@ export function ExportPanel({ map, isReady }: ExportPanelProps) {
   const { exportMap, isExporting, exportProgress } = useMapExport(map);
 
   return (
-    <div className="p-4 border-t bg-muted/30">
-      <h2 className="text-sm font-semibold mb-3">Export</h2>
+    <div className="border-t bg-muted/30 p-4">
+      <h2 className="mb-3 text-sm font-semibold">Export</h2>
       <div className="space-y-2">
         {EXPORT_RESOLUTIONS.map((res) => (
           <Button
@@ -31,11 +30,8 @@ export function ExportPanel({ map, isReady }: ExportPanelProps) {
           </Button>
         ))}
         {isExporting && (
-          <div className="w-full bg-secondary rounded-full h-1.5 mt-2 overflow-hidden">
-            <div
-              className="bg-primary h-1.5 transition-all duration-300"
-              style={{ width: `${exportProgress}%` }}
-            />
+          <div className="mt-2 h-1.5 w-full overflow-hidden rounded-full bg-secondary">
+            <div className="h-1.5 bg-primary transition-all duration-300" style={{ width: `${exportProgress}%` }} />
           </div>
         )}
       </div>

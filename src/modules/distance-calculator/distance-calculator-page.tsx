@@ -3,6 +3,7 @@ import { MapProvider } from "@vis.gl/react-maplibre";
 import { useState } from "react";
 import { DistanceMap } from "./distance-map";
 import { DistancePanel } from "./distance-panel";
+
 import type { DistanceUnit, LatLng } from "./haversine";
 
 const LONDON: LatLng = { lat: 51.5074, lng: -0.1278 };

@@ -155,7 +155,7 @@ export function JwtCodecPage() {
               onChange={(event) => applyEncoded(event.target.value)}
               spellCheck={false}
               placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9…"
-              className="h-64 resize-none overflow-auto font-mono text-sm break-all field-sizing-fixed"
+              className="field-sizing-fixed h-64 resize-none overflow-auto font-mono text-sm break-all"
               aria-invalid={encoded.trim() && !decoded.ok ? true : undefined}
             />
             <TokenParts token={encoded} />
@@ -238,7 +238,7 @@ export function JwtCodecPage() {
                 onChange={(event) => setSecret(event.target.value)}
                 spellCheck={false}
                 placeholder="HMAC secret used to sign and verify"
-                className="h-24 resize-none overflow-auto font-mono text-sm field-sizing-fixed"
+                className="field-sizing-fixed h-24 resize-none overflow-auto font-mono text-sm"
               />
             </div>
           ) : (
@@ -254,7 +254,7 @@ export function JwtCodecPage() {
                   onChange={(event) => setPublicKey(event.target.value)}
                   spellCheck={false}
                   placeholder={"-----BEGIN PUBLIC KEY-----\n…\n-----END PUBLIC KEY-----"}
-                  className="h-40 resize-none overflow-auto font-mono text-xs field-sizing-fixed"
+                  className="field-sizing-fixed h-40 resize-none overflow-auto font-mono text-xs"
                 />
               </div>
               <div className="flex flex-col gap-2">
@@ -268,7 +268,7 @@ export function JwtCodecPage() {
                   onChange={(event) => setPrivateKey(event.target.value)}
                   spellCheck={false}
                   placeholder={"-----BEGIN PRIVATE KEY-----\n…\n-----END PRIVATE KEY-----"}
-                  className="h-40 resize-none overflow-auto font-mono text-xs field-sizing-fixed"
+                  className="field-sizing-fixed h-40 resize-none overflow-auto font-mono text-xs"
                 />
               </div>
             </div>
@@ -308,7 +308,7 @@ function JsonEditor({
         onChange={(event) => onChange(event.target.value)}
         spellCheck={false}
         placeholder={placeholder}
-        className="h-40 resize-none overflow-auto font-mono text-sm field-sizing-fixed"
+        className="field-sizing-fixed h-40 resize-none overflow-auto font-mono text-sm"
         aria-invalid={error ? true : undefined}
       />
       {error && <p className="text-sm font-medium text-destructive">{error}</p>}
@@ -323,7 +323,7 @@ function TokenParts({ token }: { token: string }) {
   const colors = ["text-rose-500", "text-violet-500", "text-cyan-600 dark:text-cyan-400"];
 
   return (
-    <p className="break-all font-mono text-2xs leading-relaxed">
+    <p className="font-mono text-2xs leading-relaxed break-all">
       {parts.map((part, index) => (
         <span key={`${index}-${part.slice(0, 8)}`}>
           {index > 0 && <span className="text-muted-foreground">.</span>}

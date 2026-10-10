@@ -78,9 +78,9 @@ export function TextInspectorPage() {
               onChange={(event) => updateText(event.target.value)}
               placeholder="Paste or type here. Large documents are welcome."
               spellCheck={false}
-              className="h-[32rem] min-h-[28rem] resize-none overflow-auto font-mono text-sm [field-sizing:fixed]"
+              className="[field-sizing:fixed] h-[32rem] min-h-[28rem] resize-none overflow-auto font-mono text-sm"
             />
-            <p className="text-xs tabular-nums text-muted-foreground">
+            <p className="text-xs text-muted-foreground tabular-nums">
               {formatCount(text.length)} characters
               {analysis.bytes > 0 ? ` · ${formatBytes(analysis.bytes)}` : ""}
               {isPending ? " · updating…" : ""}

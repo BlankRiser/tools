@@ -39,7 +39,7 @@ export function FrequencyList({ title, items, emptyLabel, searchable = false }: 
                 <div className="min-w-0">
                   <div className="flex items-baseline justify-between gap-2">
                     <span className="truncate font-mono text-sm">{item.token}</span>
-                    <span className="shrink-0 font-mono text-xs tabular-nums text-muted-foreground">
+                    <span className="shrink-0 font-mono text-xs text-muted-foreground tabular-nums">
                       {formatCount(item.count)} · {formatShare(item.share)}
                     </span>
                   </div>

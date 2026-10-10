@@ -18,13 +18,7 @@ import {
 } from "@phosphor-icons/react";
 import { useCallback, useMemo, useRef, useState } from "react";
 import { toast } from "sonner";
-import {
-  convertData,
-  DEFAULT_CONVERTER_OPTIONS,
-  detectFormat,
-  type DataConverterOptions,
-  type DataFormat,
-} from "./data-converter";
+import { convertData, DEFAULT_CONVERTER_OPTIONS, detectFormat, type DataConverterOptions, type DataFormat } from "./data-converter";
 
 const FORMAT_OPTIONS: Array<{ value: DataFormat; label: string; ext: string }> = [
   { value: "json", label: "JSON", ext: ".json" },
@@ -89,10 +83,7 @@ export function DataConverterPage() {
   const [copied, setCopied] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const conversion = useMemo(
-    () => convertData(input, sourceFormat, targetFormat, options),
-    [input, sourceFormat, targetFormat, options],
-  );
+  const conversion = useMemo(() => convertData(input, sourceFormat, targetFormat, options), [input, sourceFormat, targetFormat, options]);
 
   const handleSwap = () => {
     if (conversion.output && !conversion.error) {
@@ -220,9 +211,7 @@ export function DataConverterPage() {
                     onClick={() => setSourceFormat(f.value)}
                     className={cn(
                       "rounded-md px-2.5 py-1 font-mono text-xs font-medium transition-colors",
-                      sourceFormat === f.value
-                        ? "bg-background text-foreground shadow-xs"
-                        : "text-muted-foreground hover:text-foreground",
+                      sourceFormat === f.value ? "bg-background text-foreground shadow-xs" : "text-muted-foreground hover:text-foreground",
                     )}
                   >
                     {f.label}
@@ -253,9 +242,7 @@ export function DataConverterPage() {
                     onClick={() => setTargetFormat(f.value)}
                     className={cn(
                       "rounded-md px-2.5 py-1 font-mono text-xs font-medium transition-colors",
-                      targetFormat === f.value
-                        ? "bg-background text-foreground shadow-xs"
-                        : "text-muted-foreground hover:text-foreground",
+                      targetFormat === f.value ? "bg-background text-foreground shadow-xs" : "text-muted-foreground hover:text-foreground",
                     )}
                   >
                     {f.label}
@@ -298,9 +285,7 @@ export function DataConverterPage() {
                         onClick={() => setOptions((o) => ({ ...o, jsonIndent: indent }))}
                         className={cn(
                           "flex-1 rounded-md border border-border px-2 py-1 text-xs font-medium",
-                          options.jsonIndent === indent
-                            ? "bg-primary text-primary-foreground"
-                            : "bg-muted/40 text-muted-foreground hover:bg-muted",
+                          options.jsonIndent === indent ? "bg-primary text-primary-foreground" : "bg-muted/40 text-muted-foreground hover:bg-muted",
                         )}
                       >
                         {indent === 0 ? "Minified" : `${indent} spaces`}
@@ -320,9 +305,7 @@ export function DataConverterPage() {
                         onClick={() => setOptions((o) => ({ ...o, yamlIndent: indent }))}
                         className={cn(
                           "flex-1 rounded-md border border-border px-2 py-1 text-xs font-medium",
-                          options.yamlIndent === indent
-                            ? "bg-primary text-primary-foreground"
-                            : "bg-muted/40 text-muted-foreground hover:bg-muted",
+                          options.yamlIndent === indent ? "bg-primary text-primary-foreground" : "bg-muted/40 text-muted-foreground hover:bg-muted",
                         )}
                       >
                         {indent} spaces
@@ -336,9 +319,7 @@ export function DataConverterPage() {
                   <label className="flex cursor-pointer items-center gap-2 text-xs">
                     <Checkbox
                       checked={options.csvHasHeader}
-                      onCheckedChange={(checked) =>
-                        setOptions((o) => ({ ...o, csvHasHeader: checked === true }))
-                      }
+                      onCheckedChange={(checked) => setOptions((o) => ({ ...o, csvHasHeader: checked === true }))}
                     />
                     <span>First row is column headers (CSV/TSV)</span>
                   </label>
@@ -358,7 +339,7 @@ export function DataConverterPage() {
                   Source ({sourceFormat.toUpperCase()})
                 </Label>
               </div>
-              <span className="font-mono text-xs tabular-nums text-muted-foreground">
+              <span className="font-mono text-xs text-muted-foreground tabular-nums">
                 {input.length.toLocaleString()} chars · {input ? input.split("\n").length : 0} lines
               </span>
             </div>
@@ -369,7 +350,7 @@ export function DataConverterPage() {
               onChange={(e) => setInput(e.target.value)}
               spellCheck={false}
               placeholder={`Paste ${sourceFormat.toUpperCase()} data here...`}
-              className="h-[34rem] min-h-[26rem] resize-none overflow-auto font-mono text-xs leading-relaxed [field-sizing:fixed]"
+              className="[field-sizing:fixed] h-[34rem] min-h-[26rem] resize-none overflow-auto font-mono text-xs leading-relaxed"
             />
           </div>
 
@@ -388,22 +369,11 @@ export function DataConverterPage() {
               </div>
 
               <div className="flex items-center gap-2">
-                <Button
-                  size="sm"
-                  variant="outline"
-                  onClick={handleDownload}
-                  disabled={!conversion.output || !!conversion.error}
-                  className="gap-1.5"
-                >
+                <Button size="sm" variant="outline" onClick={handleDownload} disabled={!conversion.output || !!conversion.error} className="gap-1.5">
                   <DownloadSimpleIcon weight="bold" className="size-4" />
                   Download
                 </Button>
-                <Button
-                  size="sm"
-                  onClick={handleCopy}
-                  disabled={!conversion.output || !!conversion.error}
-                  className="gap-1.5"
-                >
+                <Button size="sm" onClick={handleCopy} disabled={!conversion.output || !!conversion.error} className="gap-1.5">
                   {copied ? (
                     <>
                       <CheckIcon weight="bold" className="size-4" />
@@ -422,18 +392,12 @@ export function DataConverterPage() {
             {conversion.error ? (
               <div className="flex h-[34rem] min-h-[26rem] flex-col items-center justify-center rounded-lg border border-destructive/40 bg-destructive/5 p-6 text-center">
                 <WarningCircleIcon className="mb-2 size-8 text-destructive" weight="fill" />
-                <p className="text-sm font-semibold text-destructive">
-                  Invalid {sourceFormat.toUpperCase()} Syntax
-                </p>
-                <p className="mt-1 max-w-md font-mono text-xs text-muted-foreground whitespace-pre-wrap break-all">
-                  {conversion.error}
-                </p>
+                <p className="text-sm font-semibold text-destructive">Invalid {sourceFormat.toUpperCase()} Syntax</p>
+                <p className="mt-1 max-w-md font-mono text-xs break-all whitespace-pre-wrap text-muted-foreground">{conversion.error}</p>
               </div>
             ) : !conversion.output ? (
               <div className="flex h-[34rem] min-h-[26rem] flex-col items-center justify-center rounded-lg border border-dashed border-border/70 bg-card/30 p-6 text-center">
-                <p className="text-sm font-medium text-muted-foreground">
-                  Converted data will appear here
-                </p>
+                <p className="text-sm font-medium text-muted-foreground">Converted data will appear here</p>
                 <p className="mt-1 text-xs text-muted-foreground/80">
                   Paste {sourceFormat.toUpperCase()} on the left or select a sample dataset above.
                 </p>
@@ -444,7 +408,7 @@ export function DataConverterPage() {
                 value={conversion.output}
                 readOnly
                 spellCheck={false}
-                className="h-[34rem] min-h-[26rem] resize-none overflow-auto font-mono text-xs leading-relaxed [field-sizing:fixed]"
+                className="[field-sizing:fixed] h-[34rem] min-h-[26rem] resize-none overflow-auto font-mono text-xs leading-relaxed"
               />
             )}
           </div>

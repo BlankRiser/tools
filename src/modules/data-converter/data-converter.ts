@@ -28,11 +28,7 @@ export interface ConversionResult {
 // CSV / TSV Parsing & Stringifying (RFC-4180 compliant)
 // -------------------------------------------------------------
 
-export function parseDelimitedText(
-  text: string,
-  delimiter: string,
-  hasHeader: boolean,
-): any[] {
+export function parseDelimitedText(text: string, delimiter: string, hasHeader: boolean): any[] {
   const lines: string[][] = [];
   let currentRow: string[] = [];
   let currentField = "";
@@ -87,10 +83,7 @@ export function parseDelimitedText(
       if (!Number.isNaN(num)) return num;
     }
     // Attempt parsing JSON objects/arrays in CSV cell
-    if (
-      (trimmed.startsWith("{") && trimmed.endsWith("}")) ||
-      (trimmed.startsWith("[") && trimmed.endsWith("]"))
-    ) {
+    if ((trimmed.startsWith("{") && trimmed.endsWith("}")) || (trimmed.startsWith("[") && trimmed.endsWith("]"))) {
       try {
         return JSON.parse(trimmed);
       } catch {
@@ -172,9 +165,7 @@ export function stringifyDelimitedText(data: any, delimiter: string): string {
   }
 
   const headerLine = headers.map((h) => formatCell(h, delimiter)).join(delimiter);
-  const dataLines = rows.map((row) =>
-    headers.map((h) => formatCell(row[h], delimiter)).join(delimiter),
-  );
+  const dataLines = rows.map((row) => headers.map((h) => formatCell(row[h], delimiter)).join(delimiter));
 
   return [headerLine, ...dataLines].join("\n");
 }
@@ -197,15 +188,10 @@ export function stringifyXml(data: any, rootTag = "root"): string {
       if (childEntries.length === 0) {
         return `${indent}<${cleanKey}/>`;
       }
-      const children = childEntries
-        .map(([k, v]) => serializeNode(k, v, `${indent}  `))
-        .join("\n");
+      const children = childEntries.map(([k, v]) => serializeNode(k, v, `${indent}  `)).join("\n");
       return `${indent}<${cleanKey}>\n${children}\n${indent}</${cleanKey}>`;
     }
-    const escaped = String(val)
-      .replace(/&/g, "&amp;")
-      .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;");
+    const escaped = String(val).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
     return `${indent}<${cleanKey}>${escaped}</${cleanKey}>`;
   }
 
@@ -285,10 +271,7 @@ export function detectFormat(text: string): DataFormat {
   }
 
   // JSON detection
-  if (
-    (trimmed.startsWith("{") && trimmed.endsWith("}")) ||
-    (trimmed.startsWith("[") && trimmed.endsWith("]"))
-  ) {
+  if ((trimmed.startsWith("{") && trimmed.endsWith("}")) || (trimmed.startsWith("[") && trimmed.endsWith("]"))) {
     try {
       JSON.parse(trimmed);
       return "json";

@@ -43,7 +43,10 @@ function capitalize(word: string): string {
 }
 
 function mapLines(input: string, convertLine: (line: string) => string): string {
-  return input.split(/\r\n|\n|\r/).map(convertLine).join("\n");
+  return input
+    .split(/\r\n|\n|\r/)
+    .map(convertLine)
+    .join("\n");
 }
 
 function fromWords(input: string, join: (words: string[]) => string): string {
@@ -58,9 +61,7 @@ function fromWords(input: string, join: (words: string[]) => string): string {
 }
 
 export function toCamelCase(input: string): string {
-  return fromWords(input, (words) =>
-    words.map((word, index) => (index === 0 ? word.toLocaleLowerCase() : capitalize(word))).join(""),
-  );
+  return fromWords(input, (words) => words.map((word, index) => (index === 0 ? word.toLocaleLowerCase() : capitalize(word))).join(""));
 }
 
 export function toPascalCase(input: string): string {
@@ -100,9 +101,7 @@ export function toTitleCase(input: string): string {
 }
 
 export function toSentenceCase(input: string): string {
-  return fromWords(input, (words) =>
-    words.map((word, index) => (index === 0 ? capitalize(word) : word.toLocaleLowerCase())).join(" "),
-  );
+  return fromWords(input, (words) => words.map((word, index) => (index === 0 ? capitalize(word) : word.toLocaleLowerCase())).join(" "));
 }
 
 export function toLowerCase(input: string): string {

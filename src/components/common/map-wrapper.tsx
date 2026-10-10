@@ -8,13 +8,10 @@ export const MAP_STYLES = {
   "openfreemap-liberty": "https://tiles.openfreemap.org/styles/liberty",
   "openfreemap-dark": "https://tiles.openfreemap.org/styles/dark",
 
-  "OSM Bright":
-    "https://openmaptiles.github.io/osm-bright-gl-style/style-cdn.json",
+  "OSM Bright": "https://openmaptiles.github.io/osm-bright-gl-style/style-cdn.json",
   Positron: "https://openmaptiles.github.io/positron-gl-style/style-cdn.json",
-  "Dark Matter":
-    "https://openmaptiles.github.io/dark-matter-gl-style/style-cdn.json",
-  "MapTiler Basic":
-    "https://openmaptiles.github.io/maptiler-basic-gl-style/style-cdn.json",
+  "Dark Matter": "https://openmaptiles.github.io/dark-matter-gl-style/style-cdn.json",
+  "MapTiler Basic": "https://openmaptiles.github.io/maptiler-basic-gl-style/style-cdn.json",
 };
 
 function resolveDark(theme: string): boolean {
@@ -23,24 +20,16 @@ function resolveDark(theme: string): boolean {
   return typeof window !== "undefined" && window.matchMedia("(prefers-color-scheme: dark)").matches;
 }
 
-export const MapWrapper = forwardRef<any, MapProps>(
-  ({ children, mapStyle, ...mapProps }, ref) => {
-    const { theme } = useTheme();
+export const MapWrapper = forwardRef<any, MapProps>(({ children, mapStyle, ...mapProps }, ref) => {
+  const { theme } = useTheme();
 
-    const resolvedStyle =
-      mapStyle ?? (resolveDark(theme) ? MAP_STYLES["openfreemap-dark"] : MAP_STYLES["openfreemap-liberty"]);
+  const resolvedStyle = mapStyle ?? (resolveDark(theme) ? MAP_STYLES["openfreemap-dark"] : MAP_STYLES["openfreemap-liberty"]);
 
-    return (
-      <Map
-        ref={ref}
-        style={{ width: "100%", height: "100%" }}
-        mapStyle={resolvedStyle}
-        {...mapProps}
-      >
-        {children}
-      </Map>
-    );
-  },
-);
+  return (
+    <Map ref={ref} style={{ width: "100%", height: "100%" }} mapStyle={resolvedStyle} {...mapProps}>
+      {children}
+    </Map>
+  );
+});
 
 MapWrapper.displayName = "MapWrapper";

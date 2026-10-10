@@ -3,20 +3,10 @@ import { Button } from "#/components/ui/button";
 import { Checkbox } from "#/components/ui/checkbox";
 import { Label } from "#/components/ui/label";
 import { Textarea } from "#/components/ui/textarea";
-import {
-  CheckIcon,
-  CopyIcon,
-  EraserIcon,
-  FileArrowUpIcon,
-  TrashIcon,
-} from "@phosphor-icons/react";
+import { CheckIcon, CopyIcon, EraserIcon, FileArrowUpIcon, TrashIcon } from "@phosphor-icons/react";
 import { useCallback, useMemo, useRef, useState } from "react";
 import { toast } from "sonner";
-import {
-  DEFAULT_STRIP_OPTIONS,
-  stripMarkdown,
-  type StripMarkdownOptions,
-} from "./strip-markdown";
+import { DEFAULT_STRIP_OPTIONS, stripMarkdown, type StripMarkdownOptions } from "./strip-markdown";
 
 const SAMPLE_MARKDOWN = `## Quarterly summary
 
@@ -69,10 +59,7 @@ export function MarkdownStripperPage() {
   const [copied, setCopied] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const result = useMemo(
-    () => stripMarkdown(markdown, options),
-    [markdown, options],
-  );
+  const result = useMemo(() => stripMarkdown(markdown, options), [markdown, options]);
 
   const toggleOption = (key: keyof StripMarkdownOptions, checked: boolean) => {
     setOptions((prev) => ({
@@ -126,18 +113,10 @@ export function MarkdownStripperPage() {
               <FileArrowUpIcon data-icon="inline-start" />
               Load .md
             </Button>
-            <Button
-              variant="outline"
-              onClick={() => setMarkdown(SAMPLE_MARKDOWN)}
-              disabled={markdown === SAMPLE_MARKDOWN}
-            >
+            <Button variant="outline" onClick={() => setMarkdown(SAMPLE_MARKDOWN)} disabled={markdown === SAMPLE_MARKDOWN}>
               Sample
             </Button>
-            <Button
-              variant="ghost"
-              onClick={() => setMarkdown("")}
-              disabled={!markdown}
-            >
+            <Button variant="ghost" onClick={() => setMarkdown("")} disabled={!markdown}>
               <TrashIcon data-icon="inline-start" />
               Clear
             </Button>
@@ -147,20 +126,10 @@ export function MarkdownStripperPage() {
         {/* Options Bar */}
         <div className="flex flex-wrap items-center gap-x-6 gap-y-2.5 rounded-xl border border-border/60 bg-card/40 px-4 py-3">
           {OPTION_ITEMS.map((item) => (
-            <label
-              key={item.key}
-              className="flex cursor-pointer items-center gap-2 text-sm select-none"
-            >
-              <Checkbox
-                checked={options[item.key]}
-                onCheckedChange={(checked) =>
-                  toggleOption(item.key, checked === true)
-                }
-              />
+            <label key={item.key} className="flex cursor-pointer items-center gap-2 text-sm select-none">
+              <Checkbox checked={options[item.key]} onCheckedChange={(checked) => toggleOption(item.key, checked === true)} />
               <span className="font-medium">{item.label}</span>
-              <span className="hidden text-xs text-muted-foreground xl:inline">
-                ({item.hint})
-              </span>
+              <span className="hidden text-xs text-muted-foreground xl:inline">({item.hint})</span>
             </label>
           ))}
         </div>
@@ -172,9 +141,7 @@ export function MarkdownStripperPage() {
               <Label htmlFor="strip-markdown-input" className="text-base font-semibold">
                 Markdown Input
               </Label>
-              <span className="font-mono text-xs tabular-nums text-muted-foreground">
-                {result.originalChars.toLocaleString()} chars
-              </span>
+              <span className="font-mono text-xs text-muted-foreground tabular-nums">{result.originalChars.toLocaleString()} chars</span>
             </div>
 
             <Textarea
@@ -183,7 +150,7 @@ export function MarkdownStripperPage() {
               onChange={(e) => setMarkdown(e.target.value)}
               spellCheck={false}
               placeholder="Paste Markdown with # headings, **bold**, [links](...), code blocks, or tables..."
-              className="h-[32rem] min-h-[24rem] resize-none overflow-auto font-mono text-sm leading-relaxed [field-sizing:fixed]"
+              className="[field-sizing:fixed] h-[32rem] min-h-[24rem] resize-none overflow-auto font-mono text-sm leading-relaxed"
             />
           </div>
 
@@ -202,15 +169,10 @@ export function MarkdownStripperPage() {
               </div>
 
               <div className="flex items-center gap-2">
-                <span className="font-mono text-xs tabular-nums text-muted-foreground">
+                <span className="font-mono text-xs text-muted-foreground tabular-nums">
                   {result.wordCount.toLocaleString()} words · {result.cleanedChars.toLocaleString()} chars
                 </span>
-                <Button
-                  size="sm"
-                  onClick={handleCopy}
-                  disabled={!result.text}
-                  className="gap-1.5"
-                >
+                <Button size="sm" onClick={handleCopy} disabled={!result.text} className="gap-1.5">
                   {copied ? (
                     <>
                       <CheckIcon weight="bold" className="size-4" />
@@ -229,12 +191,8 @@ export function MarkdownStripperPage() {
             {!result.text ? (
               <div className="flex h-[32rem] min-h-[24rem] flex-col items-center justify-center rounded-lg border border-dashed border-border/70 bg-card/30 p-6 text-center">
                 <EraserIcon className="mb-2 size-8 text-muted-foreground/60" weight="duotone" />
-                <p className="text-sm font-medium text-muted-foreground">
-                  Clean plain text will appear here
-                </p>
-                <p className="mt-1 text-xs text-muted-foreground/80">
-                  Paste Markdown on the left to strip all formatting symbols.
-                </p>
+                <p className="text-sm font-medium text-muted-foreground">Clean plain text will appear here</p>
+                <p className="mt-1 text-xs text-muted-foreground/80">Paste Markdown on the left to strip all formatting symbols.</p>
               </div>
             ) : (
               <Textarea
@@ -242,7 +200,7 @@ export function MarkdownStripperPage() {
                 value={result.text}
                 readOnly
                 spellCheck={false}
-                className="h-[32rem] min-h-[24rem] resize-none overflow-auto font-mono text-sm leading-relaxed [field-sizing:fixed]"
+                className="[field-sizing:fixed] h-[32rem] min-h-[24rem] resize-none overflow-auto font-mono text-sm leading-relaxed"
               />
             )}
           </div>

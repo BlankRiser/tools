@@ -4,13 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "#/components/ui/card";
 import { CopyButton } from "#/components/ui/copy-button";
 import { Input } from "#/components/ui/input";
 import { Label } from "#/components/ui/label";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "#/components/ui/select";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "#/components/ui/select";
 import { cn } from "#/lib/utils";
 import {
   ArrowRightIcon,
@@ -28,15 +22,7 @@ import {
 } from "@phosphor-icons/react";
 import { useMemo, useState } from "react";
 import { toast } from "sonner";
-import {
-  DAY_ABBRS,
-  DAY_NAMES,
-  describeCron,
-  getNextCronRuns,
-  MONTH_ABBRS,
-  MONTH_NAMES,
-  validateCron,
-} from "./cron-utils";
+import { DAY_ABBRS, DAY_NAMES, describeCron, getNextCronRuns, MONTH_ABBRS, MONTH_NAMES, validateCron } from "./cron-utils";
 
 type ActiveTab = "minute" | "hour" | "dayOfMonth" | "month" | "dayOfWeek";
 
@@ -160,9 +146,7 @@ export function CronBuilderPage() {
   // Copy all next runs formatted
   const handleCopyNextRuns = async () => {
     if (nextRuns.length === 0) return;
-    const text = nextRuns
-      .map((r, i) => `#${i + 1}: ${useUtc ? r.formattedUtc : r.formatted} (${r.relative})`)
-      .join("\n");
+    const text = nextRuns.map((r, i) => `#${i + 1}: ${useUtc ? r.formattedUtc : r.formatted} (${r.relative})`).join("\n");
     try {
       await navigator.clipboard.writeText(text);
       setCopiedAll(true);
@@ -192,7 +176,7 @@ export function CronBuilderPage() {
 
   return (
     <GlobalErrorBoundary>
-      <div className="mx-auto flex h-[calc(100dvh-3.5rem)] w-full max-w-7xl flex-col gap-4 p-4 lg:p-6 overflow-y-auto">
+      <div className="mx-auto flex h-[calc(100dvh-3.5rem)] w-full max-w-7xl flex-col gap-4 overflow-y-auto p-4 lg:p-6">
         {/* Header */}
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div>
@@ -203,7 +187,7 @@ export function CronBuilderPage() {
           </div>
 
           <div className="flex flex-wrap items-center gap-2">
-            <CopyButton value={expression} label="Copy Expression" size="sm" variant="default" />
+            <CopyButton value={expression} size="icon-sm" variant="outline" />
             <Button
               variant="outline"
               size="sm"
@@ -240,21 +224,17 @@ export function CronBuilderPage() {
                     type="button"
                     onClick={() => setActiveTab(seg.key)}
                     className={cn(
-                      "flex flex-col items-center justify-center rounded-lg border p-2.5 sm:p-3.5 transition-all text-center group cursor-pointer",
+                      "group flex cursor-pointer flex-col items-center justify-center rounded-lg border p-2.5 text-center transition-all sm:p-3.5",
                       isActive
-                        ? "border-primary bg-primary/10 text-primary ring-2 ring-primary/30 shadow-xs"
-                        : "border-border bg-muted/30 hover:border-primary/40 hover:bg-muted/60 text-foreground",
+                        ? "border-primary bg-primary/10 text-primary shadow-xs ring-2 ring-primary/30"
+                        : "border-border bg-muted/30 text-foreground hover:border-primary/40 hover:bg-muted/60",
                     )}
                   >
-                    <span className="font-mono text-base font-bold sm:text-2xl tracking-wide">
-                      {seg.val}
-                    </span>
-                    <span className="mt-1 text-2xs font-semibold uppercase tracking-wider text-muted-foreground group-hover:text-foreground">
+                    <span className="font-mono text-base font-bold tracking-wide sm:text-2xl">{seg.val}</span>
+                    <span className="mt-1 text-2xs font-semibold tracking-wider text-muted-foreground uppercase group-hover:text-foreground">
                       {seg.label}
                     </span>
-                    <span className="hidden text-3xs text-muted-foreground/80 sm:inline">
-                      {seg.sub}
-                    </span>
+                    <span className="text-3xs hidden text-muted-foreground/80 sm:inline">{seg.sub}</span>
                   </button>
                 );
               })}
@@ -268,9 +248,9 @@ export function CronBuilderPage() {
                   onChange={(e) => setExpression(e.target.value)}
                   placeholder="* * * * *"
                   spellCheck={false}
-                  className="font-mono text-sm tracking-wider pr-10"
+                  className="pr-10 font-mono text-sm tracking-wider"
                 />
-                <div className="absolute right-3 top-1/2 -translate-y-1/2">
+                <div className="absolute top-1/2 right-3 -translate-y-1/2">
                   {validation.isValid ? (
                     <CheckIcon className="size-4 text-emerald-500" weight="bold" />
                   ) : (
@@ -284,8 +264,8 @@ export function CronBuilderPage() {
                 className={cn(
                   "flex items-center gap-1.5 rounded-lg px-3 py-2 text-xs font-medium",
                   validation.isValid
-                    ? "bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30"
-                    : "bg-destructive/10 text-destructive border border-destructive/30",
+                    ? "border border-emerald-500/30 bg-emerald-500/10 text-emerald-700 dark:text-emerald-300"
+                    : "border border-destructive/30 bg-destructive/10 text-destructive",
                 )}
               >
                 {validation.isValid ? (
@@ -339,7 +319,7 @@ export function CronBuilderPage() {
                   }}
                   title={`${p.expression} - ${p.description}`}
                   className={cn(
-                    "rounded-md border px-2.5 py-1 text-2xs font-medium transition-colors cursor-pointer",
+                    "cursor-pointer rounded-md border px-2.5 py-1 text-2xs font-medium transition-colors",
                     isSelected
                       ? "border-primary bg-primary text-primary-foreground shadow-xs"
                       : "border-border/80 bg-muted/30 text-muted-foreground hover:border-primary/50 hover:bg-primary/10 hover:text-primary",
@@ -379,10 +359,8 @@ export function CronBuilderPage() {
                       type="button"
                       onClick={() => setActiveTab(t.key)}
                       className={cn(
-                        "rounded-md px-2 py-1 text-2xs font-medium transition-colors cursor-pointer",
-                        activeTab === t.key
-                          ? "bg-background text-foreground shadow-xs"
-                          : "text-muted-foreground hover:text-foreground",
+                        "cursor-pointer rounded-md px-2 py-1 text-2xs font-medium transition-colors",
+                        activeTab === t.key ? "bg-background text-foreground shadow-xs" : "text-muted-foreground hover:text-foreground",
                       )}
                     >
                       {t.label}
@@ -398,7 +376,7 @@ export function CronBuilderPage() {
                 <div className="flex flex-col gap-3">
                   <div className="flex flex-wrap items-center justify-between gap-2 border-b border-border/60 pb-2">
                     <span className="text-xs font-medium text-muted-foreground">
-                      Minute: <code className="font-mono text-foreground font-semibold">{parts.minute}</code>
+                      Minute: <code className="font-mono font-semibold text-foreground">{parts.minute}</code>
                     </span>
                     <div className="flex items-center gap-1.5">
                       <Button size="xs" variant="ghost" onClick={() => updatePart("minute", "*")}>
@@ -422,12 +400,18 @@ export function CronBuilderPage() {
                           <button
                             key={`min-${i}`}
                             type="button"
-                            onClick={() => toggleCommaValue("minute", i, Array.from({ length: 60 }, (_, x) => x))}
+                            onClick={() =>
+                              toggleCommaValue(
+                                "minute",
+                                i,
+                                Array.from({ length: 60 }, (_, x) => x),
+                              )
+                            }
                             className={cn(
-                              "flex h-7 items-center justify-center rounded-md font-mono text-2xs font-medium transition-colors cursor-pointer",
+                              "flex h-7 cursor-pointer items-center justify-center rounded-md font-mono text-2xs font-medium transition-colors",
                               sel
-                                ? "bg-primary text-primary-foreground font-bold shadow-xs"
-                                : "bg-muted/40 hover:bg-muted text-muted-foreground hover:text-foreground border border-border/40",
+                                ? "bg-primary font-bold text-primary-foreground shadow-xs"
+                                : "border border-border/40 bg-muted/40 text-muted-foreground hover:bg-muted hover:text-foreground",
                             )}
                           >
                             {String(i).padStart(2, "0")}
@@ -444,7 +428,7 @@ export function CronBuilderPage() {
                 <div className="flex flex-col gap-3">
                   <div className="flex flex-wrap items-center justify-between gap-2 border-b border-border/60 pb-2">
                     <span className="text-xs font-medium text-muted-foreground">
-                      Hour: <code className="font-mono text-foreground font-semibold">{parts.hour}</code>
+                      Hour: <code className="font-mono font-semibold text-foreground">{parts.hour}</code>
                     </span>
                     <div className="flex items-center gap-1.5">
                       <Button size="xs" variant="ghost" onClick={() => updatePart("hour", "*")}>
@@ -470,16 +454,24 @@ export function CronBuilderPage() {
                           <button
                             key={`hour-${i}`}
                             type="button"
-                            onClick={() => toggleCommaValue("hour", i, Array.from({ length: 24 }, (_, x) => x))}
+                            onClick={() =>
+                              toggleCommaValue(
+                                "hour",
+                                i,
+                                Array.from({ length: 24 }, (_, x) => x),
+                              )
+                            }
                             className={cn(
-                              "flex flex-col items-center justify-center rounded-md p-1.5 font-mono text-2xs font-medium transition-colors cursor-pointer",
+                              "flex cursor-pointer flex-col items-center justify-center rounded-md p-1.5 font-mono text-2xs font-medium transition-colors",
                               sel
-                                ? "bg-primary text-primary-foreground font-bold shadow-xs"
-                                : "bg-muted/40 hover:bg-muted text-muted-foreground hover:text-foreground border border-border/40",
+                                ? "bg-primary font-bold text-primary-foreground shadow-xs"
+                                : "border border-border/40 bg-muted/40 text-muted-foreground hover:bg-muted hover:text-foreground",
                             )}
                           >
                             <span className="text-xs">{String(i).padStart(2, "0")}:00</span>
-                            <span className="text-3xs opacity-80">{displayH} {period}</span>
+                            <span className="text-3xs opacity-80">
+                              {displayH} {period}
+                            </span>
                           </button>
                         );
                       })}
@@ -493,7 +485,7 @@ export function CronBuilderPage() {
                 <div className="flex flex-col gap-3">
                   <div className="flex flex-wrap items-center justify-between gap-2 border-b border-border/60 pb-2">
                     <span className="text-xs font-medium text-muted-foreground">
-                      Day of Month: <code className="font-mono text-foreground font-semibold">{parts.dayOfMonth}</code>
+                      Day of Month: <code className="font-mono font-semibold text-foreground">{parts.dayOfMonth}</code>
                     </span>
                     <div className="flex items-center gap-1.5">
                       <Button size="xs" variant="ghost" onClick={() => updatePart("dayOfMonth", "*")}>
@@ -519,13 +511,17 @@ export function CronBuilderPage() {
                             key={`dom-${dayNum}`}
                             type="button"
                             onClick={() =>
-                              toggleCommaValue("dayOfMonth", dayNum, Array.from({ length: 31 }, (_, x) => x + 1))
+                              toggleCommaValue(
+                                "dayOfMonth",
+                                dayNum,
+                                Array.from({ length: 31 }, (_, x) => x + 1),
+                              )
                             }
                             className={cn(
-                              "flex h-8 items-center justify-center rounded-md font-mono text-xs font-medium transition-colors cursor-pointer",
+                              "flex h-8 cursor-pointer items-center justify-center rounded-md font-mono text-xs font-medium transition-colors",
                               sel
-                                ? "bg-primary text-primary-foreground font-bold shadow-xs"
-                                : "bg-muted/40 hover:bg-muted text-muted-foreground hover:text-foreground border border-border/40",
+                                ? "bg-primary font-bold text-primary-foreground shadow-xs"
+                                : "border border-border/40 bg-muted/40 text-muted-foreground hover:bg-muted hover:text-foreground",
                             )}
                           >
                             {dayNum}
@@ -542,7 +538,7 @@ export function CronBuilderPage() {
                 <div className="flex flex-col gap-3">
                   <div className="flex flex-wrap items-center justify-between gap-2 border-b border-border/60 pb-2">
                     <span className="text-xs font-medium text-muted-foreground">
-                      Month: <code className="font-mono text-foreground font-semibold">{parts.month}</code>
+                      Month: <code className="font-mono font-semibold text-foreground">{parts.month}</code>
                     </span>
                     <div className="flex items-center gap-1.5">
                       <Button size="xs" variant="ghost" onClick={() => updatePart("month", "*")}>
@@ -568,16 +564,22 @@ export function CronBuilderPage() {
                             key={name}
                             type="button"
                             onClick={() =>
-                              toggleCommaValue("month", mNum, Array.from({ length: 12 }, (_, x) => x + 1))
+                              toggleCommaValue(
+                                "month",
+                                mNum,
+                                Array.from({ length: 12 }, (_, x) => x + 1),
+                              )
                             }
                             className={cn(
-                              "flex flex-col items-start rounded-md p-2 text-xs font-medium transition-colors cursor-pointer",
+                              "flex cursor-pointer flex-col items-start rounded-md p-2 text-xs font-medium transition-colors",
                               sel
-                                ? "bg-primary text-primary-foreground font-bold shadow-xs"
-                                : "bg-muted/40 hover:bg-muted text-muted-foreground hover:text-foreground border border-border/40",
+                                ? "bg-primary font-bold text-primary-foreground shadow-xs"
+                                : "border border-border/40 bg-muted/40 text-muted-foreground hover:bg-muted hover:text-foreground",
                             )}
                           >
-                            <span className="font-mono text-2xs opacity-80">{MONTH_ABBRS[i]} ({mNum})</span>
+                            <span className="font-mono text-2xs opacity-80">
+                              {MONTH_ABBRS[i]} ({mNum})
+                            </span>
                             <span className="truncate">{name}</span>
                           </button>
                         );
@@ -592,7 +594,7 @@ export function CronBuilderPage() {
                 <div className="flex flex-col gap-3">
                   <div className="flex flex-wrap items-center justify-between gap-2 border-b border-border/60 pb-2">
                     <span className="text-xs font-medium text-muted-foreground">
-                      Day of Week: <code className="font-mono text-foreground font-semibold">{parts.dayOfWeek}</code>
+                      Day of Week: <code className="font-mono font-semibold text-foreground">{parts.dayOfWeek}</code>
                     </span>
                     <div className="flex items-center gap-1.5">
                       <Button size="xs" variant="ghost" onClick={() => updatePart("dayOfWeek", "*")}>
@@ -617,17 +619,23 @@ export function CronBuilderPage() {
                             key={name}
                             type="button"
                             onClick={() =>
-                              toggleCommaValue("dayOfWeek", i, Array.from({ length: 7 }, (_, x) => x))
+                              toggleCommaValue(
+                                "dayOfWeek",
+                                i,
+                                Array.from({ length: 7 }, (_, x) => x),
+                              )
                             }
                             className={cn(
-                              "flex items-center justify-between rounded-md p-2.5 text-xs font-medium transition-colors cursor-pointer",
+                              "flex cursor-pointer items-center justify-between rounded-md p-2.5 text-xs font-medium transition-colors",
                               sel
-                                ? "bg-primary text-primary-foreground font-bold shadow-xs"
-                                : "bg-muted/40 hover:bg-muted text-muted-foreground hover:text-foreground border border-border/40",
+                                ? "bg-primary font-bold text-primary-foreground shadow-xs"
+                                : "border border-border/40 bg-muted/40 text-muted-foreground hover:bg-muted hover:text-foreground",
                             )}
                           >
                             <span>{name}</span>
-                            <span className="font-mono text-2xs opacity-75">{DAY_ABBRS[i]} ({i})</span>
+                            <span className="font-mono text-2xs opacity-75">
+                              {DAY_ABBRS[i]} ({i})
+                            </span>
                           </button>
                         );
                       })}
@@ -666,17 +674,20 @@ export function CronBuilderPage() {
                     </button>
 
                     {/* Count Select */}
-                    <Select
-                      value={String(nextRunCount)}
-                      onValueChange={(val) => setNextRunCount(Number(val))}
-                    >
+                    <Select value={String(nextRunCount)} onValueChange={(val) => setNextRunCount(Number(val))}>
                       <SelectTrigger size="sm" className="h-6 text-2xs">
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="5" className="text-2xs">Next 5 runs</SelectItem>
-                        <SelectItem value="10" className="text-2xs">Next 10 runs</SelectItem>
-                        <SelectItem value="20" className="text-2xs">Next 20 runs</SelectItem>
+                        <SelectItem value="5" className="text-2xs">
+                          Next 5 runs
+                        </SelectItem>
+                        <SelectItem value="10" className="text-2xs">
+                          Next 10 runs
+                        </SelectItem>
+                        <SelectItem value="20" className="text-2xs">
+                          Next 20 runs
+                        </SelectItem>
                       </SelectContent>
                     </Select>
 
@@ -708,25 +719,17 @@ export function CronBuilderPage() {
                         className="group flex items-center justify-between gap-3 p-2.5 text-xs transition-colors hover:bg-muted/30"
                       >
                         <div className="flex items-center gap-2.5 overflow-hidden">
-                          <span className="flex size-5 shrink-0 items-center justify-center rounded-full bg-emerald-500/10 font-mono text-3xs font-bold text-emerald-600 dark:text-emerald-400">
+                          <span className="text-3xs flex size-5 shrink-0 items-center justify-center rounded-full bg-emerald-500/10 font-mono font-bold text-emerald-600 dark:text-emerald-400">
                             #{idx + 1}
                           </span>
                           <div className="flex flex-col">
-                            <span className="font-mono text-xs font-medium text-foreground">
-                              {useUtc ? run.formattedUtc : run.formatted}
-                            </span>
-                            <span className="text-2xs text-muted-foreground">
-                              {run.relative}
-                            </span>
+                            <span className="font-mono text-xs font-medium text-foreground">{useUtc ? run.formattedUtc : run.formatted}</span>
+                            <span className="text-2xs text-muted-foreground">{run.relative}</span>
                           </div>
                         </div>
 
                         <div className="shrink-0 opacity-0 transition-opacity group-hover:opacity-100">
-                          <CopyButton
-                            value={useUtc ? run.formattedUtc : run.formatted}
-                            size="icon-xs"
-                            variant="ghost"
-                          />
+                          <CopyButton value={useUtc ? run.formattedUtc : run.formatted} size="icon-xs" variant="ghost" />
                         </div>
                       </div>
                     ))}
@@ -758,10 +761,8 @@ export function CronBuilderPage() {
                         type="button"
                         onClick={() => setSnippetLanguage(lang.key)}
                         className={cn(
-                          "rounded px-2 py-0.5 font-medium transition-colors cursor-pointer",
-                          snippetLanguage === lang.key
-                            ? "bg-background text-foreground shadow-xs"
-                            : "text-muted-foreground hover:text-foreground",
+                          "cursor-pointer rounded px-2 py-0.5 font-medium transition-colors",
+                          snippetLanguage === lang.key ? "bg-background text-foreground shadow-xs" : "text-muted-foreground hover:text-foreground",
                         )}
                       >
                         {lang.label}
@@ -772,10 +773,8 @@ export function CronBuilderPage() {
               </CardHeader>
               <CardContent className="py-0">
                 <div className="relative rounded-lg border border-border bg-muted/40 p-3 font-mono text-xs text-foreground">
-                  <pre className="overflow-x-auto whitespace-pre-wrap leading-relaxed">
-                    {generatedCode}
-                  </pre>
-                  <div className="absolute right-2 top-2">
+                  <pre className="overflow-x-auto leading-relaxed whitespace-pre-wrap">{generatedCode}</pre>
+                  <div className="absolute top-2 right-2">
                     <CopyButton value={generatedCode} size="icon-xs" variant="ghost" />
                   </div>
                 </div>
@@ -789,10 +788,18 @@ export function CronBuilderPage() {
           <div className="flex items-center gap-2">
             <InfoIcon className="size-3.5 text-primary" />
             <span className="font-semibold text-foreground">Cron Characters:</span>
-            <span><code className="rounded bg-muted px-1 font-mono text-foreground">*</code> Any value</span>
-            <span><code className="rounded bg-muted px-1 font-mono text-foreground">,</code> Value list (1,3,5)</span>
-            <span><code className="rounded bg-muted px-1 font-mono text-foreground">-</code> Range (1-5)</span>
-            <span><code className="rounded bg-muted px-1 font-mono text-foreground">/</code> Step values (*/15)</span>
+            <span>
+              <code className="rounded bg-muted px-1 font-mono text-foreground">*</code> Any value
+            </span>
+            <span>
+              <code className="rounded bg-muted px-1 font-mono text-foreground">,</code> Value list (1,3,5)
+            </span>
+            <span>
+              <code className="rounded bg-muted px-1 font-mono text-foreground">-</code> Range (1-5)
+            </span>
+            <span>
+              <code className="rounded bg-muted px-1 font-mono text-foreground">/</code> Step values (*/15)
+            </span>
           </div>
 
           <div className="flex items-center gap-2 font-mono">

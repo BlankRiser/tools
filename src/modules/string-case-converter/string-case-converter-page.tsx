@@ -55,7 +55,7 @@ export function StringCaseConverterPage() {
               onChange={(event) => setText(event.target.value)}
               spellCheck={false}
               placeholder="Paste a variable name, a heading, or one identifier per line."
-              className="h-128 min-h-80 resize-none overflow-auto font-mono text-sm field-sizing-fixed"
+              className="field-sizing-fixed h-128 min-h-80 resize-none overflow-auto font-mono text-sm"
             />
           </div>
 
@@ -68,7 +68,7 @@ export function StringCaseConverterPage() {
                     <p className="font-mono text-xs font-medium">{item.label}</p>
                     <p className="text-2xs text-muted-foreground">{item.example}</p>
                   </div>
-                  <p className="min-w-0 flex-1 whitespace-pre-wrap break-all font-mono text-sm leading-relaxed">
+                  <p className="min-w-0 flex-1 font-mono text-sm leading-relaxed break-all whitespace-pre-wrap">
                     {item.value || <span className="text-muted-foreground">—</span>}
                   </p>
                   <CopyButton value={item.value} className="mt-0.5 shrink-0 opacity-60 group-hover:opacity-100" />
