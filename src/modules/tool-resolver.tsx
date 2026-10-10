@@ -21,6 +21,12 @@ const GeoJsonViewerPageLazy = React.lazy(() =>
 
 const GeoJsonViewerPageRoute = () => <GeoJsonViewerPageLazy initialMode="viewer" />;
 const BoundingBoxPickerPageRoute = () => <GeoJsonViewerPageLazy initialMode="bbox" />;
+const SortTextPageLazy = React.lazy(() =>
+  import("./sort-text/sort-text-page").then((m) => ({ default: m.SortTextPage })),
+);
+const CronBuilderPageLazy = React.lazy(() =>
+  import("./cron-expression-builder/cron-builder-page").then((m) => ({ default: m.CronBuilderPage })),
+);
 
 const ToolMap: Partial<Record<ToolID, React.ComponentType>> = {
   "map-wallpaper": MapWallpaperPage,
@@ -28,6 +34,7 @@ const ToolMap: Partial<Record<ToolID, React.ComponentType>> = {
   "qr-code-generator": QRCodeGenPage,
   "url-parser": URLParserPage,
   "date-time-converter": DateTimeConverterPage,
+  "cron-expression-builder": CronBuilderPageLazy,
   "text-inspector": TextInspectorPage,
   "base64-image-codec": Base64ImageCodecPage,
   "string-case-converter": StringCaseConverterPage,
@@ -40,6 +47,7 @@ const ToolMap: Partial<Record<ToolID, React.ComponentType>> = {
   "json-csv": DataConverterPage,
   "geojson-viewer": GeoJsonViewerPageRoute,
   "bounding-box-picker": BoundingBoxPickerPageRoute,
+  "sort-text": SortTextPageLazy,
 };
 
 export function ToolResolver({ toolID }: { toolID: ToolID }) {
