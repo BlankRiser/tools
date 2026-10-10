@@ -5,6 +5,7 @@ import {
   ClockIcon,
   CompassIcon,
   CursorTextIcon,
+  DatabaseIcon,
   EraserIcon,
   EyeIcon,
   FileCodeIcon,
@@ -137,12 +138,12 @@ export const toolsList = linkOptions([
   },
   {
     id: "color-generator",
-    name: "Color Generator",
-    title: "Color Generator",
-    description: "Generate, convert, and explore color palettes across HEX, RGB, HSL, and more.",
+    name: "Color Converter Generator HEX RGB RGBA HSL HSLA CMYK HSV HSB HWB OKLCH LAB",
+    title: "Color Converter",
+    description: "Convert colors bidirectionally between HEX, RGB, RGBA, HSL, HSLA, HSV, HWB, CMYK, OKLCH, and CIE LAB with contrast analysis.",
     category: "Converters & Formatters" as ToolCategory,
     icon: PaletteIcon,
-    comingSoon: true,
+    comingSoon: false,
     to: "/tools/$toolID",
     params: {
       toolID: "color-generator",
@@ -355,6 +356,19 @@ export const toolsList = linkOptions([
     to: "/tools/$toolID",
     params: {
       toolID: "pdf-tools",
+    },
+  },
+  {
+    id: "data-explorer",
+    name: "Data Explorer JSON CSV TSV XML YAML Query Filter Group Nested Array Key Extractor Metadata",
+    title: "Data Explorer & Query",
+    description: "Inspect schema metadata, extract keys across nested arrays, filter with multi-rule conditions, and group values across JSON, CSV, TSV, and XML.",
+    category: "Converters & Formatters" as ToolCategory,
+    icon: DatabaseIcon,
+    comingSoon: false,
+    to: "/tools/$toolID",
+    params: {
+      toolID: "data-explorer",
     },
   },
 ]);
