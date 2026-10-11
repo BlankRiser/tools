@@ -27,6 +27,9 @@ const GeoJsonViewerPageLazy = React.lazy(() =>
 const GradientGeneratorPage = React.lazy(() =>
   import("./gradient-generator/gradient-generator-page").then((m) => ({ default: m.GradientGeneratorPage })),
 );
+const HtmlToJsxPage = React.lazy(() =>
+  import("./html-to-jsx/html-to-jsx-page").then((m) => ({ default: m.HtmlToJsxPage })),
+);
 const JsonFormatterPage = React.lazy(() =>
   import("./json-formatter/json-formatter-page").then((m) => ({ default: m.JsonFormatterPage })),
 );
@@ -91,6 +94,7 @@ const ToolMap: Partial<Record<ToolID, React.ComponentType>> = {
   "pdf-tools": PdfToolsPage,
   "data-explorer": DataExplorerPage,
   "gradient-generator": GradientGeneratorPage,
+  "html-to-jsx": HtmlToJsxPage,
 };
 
 export function ToolResolver({ toolID }: { toolID: ToolID }) {

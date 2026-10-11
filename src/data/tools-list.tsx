@@ -357,6 +357,19 @@ export const toolsList = linkOptions([
       toolID: "gradient-generator",
     },
   },
+  {
+    id: "html-to-jsx",
+    name: "HTML to JSX TSX Converter SVG React Component Inline Style",
+    title: "HTML to JSX Converter",
+    description: "Convert HTML markup and SVG graphics into clean React JSX or typed TSX components with inline CSS-to-object conversion and Shiki syntax highlighting.",
+    category: "Converters & Formatters" as ToolCategory,
+    icon: FileCodeIcon,
+    comingSoon: false,
+    to: "/tools/$toolID",
+    params: {
+      toolID: "html-to-jsx",
+    },
+  },
 ]);
 
 export type ToolItem = (typeof toolsList)[number];
