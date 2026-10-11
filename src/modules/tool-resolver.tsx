@@ -24,6 +24,12 @@ const DistanceCalculatorPage = React.lazy(() => import("./distance-calculator/di
 const GeoJsonViewerPageLazy = React.lazy(() =>
   import("./geojson-viewer/geojson-viewer-page").then((m) => ({ default: m.GeoJsonViewerPage })),
 );
+const GradientGeneratorPage = React.lazy(() =>
+  import("./gradient-generator/gradient-generator-page").then((m) => ({ default: m.GradientGeneratorPage })),
+);
+const JsonFormatterPage = React.lazy(() =>
+  import("./json-formatter/json-formatter-page").then((m) => ({ default: m.JsonFormatterPage })),
+);
 const JwtCodecPage = React.lazy(() =>
   import("./jwt-codec/jwt-codec-page").then((m) => ({ default: m.JwtCodecPage })),
 );
@@ -78,11 +84,13 @@ const ToolMap: Partial<Record<ToolID, React.ComponentType>> = {
   "markdown-stripper": MarkdownStripperPage,
   "markdown-toc-generator": MarkdownTocGeneratorPage,
   "json-csv": DataConverterPage,
+  "json-formatter": JsonFormatterPage,
   "geojson-viewer": GeoJsonViewerPageRoute,
   "bounding-box-picker": BoundingBoxPickerPageRoute,
   "sort-text": SortTextPage,
   "pdf-tools": PdfToolsPage,
   "data-explorer": DataExplorerPage,
+  "gradient-generator": GradientGeneratorPage,
 };
 
 export function ToolResolver({ toolID }: { toolID: ToolID }) {

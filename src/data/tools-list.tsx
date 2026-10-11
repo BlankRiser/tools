@@ -3,7 +3,6 @@ import {
   ArrowsInIcon,
   CalendarIcon,
   ClockIcon,
-  CompassIcon,
   CursorTextIcon,
   DatabaseIcon,
   EraserIcon,
@@ -15,15 +14,15 @@ import {
   KeyIcon,
   LinkIcon,
   ListNumbersIcon,
-  MapPinIcon,
   MapTrifoldIcon,
   NavigationArrowIcon,
   PaletteIcon,
   PolygonIcon,
   QrCodeIcon,
   RulerIcon,
+  SwatchesIcon,
   TableIcon,
-  TextAaIcon,
+  TextAaIcon
 } from "@phosphor-icons/react";
 import { linkOptions } from "@tanstack/react-router";
 
@@ -59,19 +58,6 @@ export const toolsList = linkOptions([
     },
   },
   {
-    id: "coordinate-converter",
-    name: "Coordinate Converter",
-    title: "Coordinate Converter",
-    description: "Convert between lat/lng, DMS, UTM, and MGRS coordinate formats instantly.",
-    category: "Geospatial & Maps" as ToolCategory,
-    icon: CompassIcon,
-    comingSoon: true,
-    to: "/tools/$toolID",
-    params: {
-      toolID: "coordinate-converter",
-    },
-  },
-  {
     id: "distance-calculator",
     name: "Distance Calculator",
     title: "Distance Calculator",
@@ -95,19 +81,6 @@ export const toolsList = linkOptions([
     to: "/tools/$toolID",
     params: {
       toolID: "bounding-box-picker",
-    },
-  },
-  {
-    id: "wkt-geojson",
-    name: "WKT to GeoJSON",
-    title: "WKT ↔ GeoJSON",
-    description: "Convert between Well-Known Text and GeoJSON geometry formats.",
-    category: "Geospatial & Maps" as ToolCategory,
-    icon: MapPinIcon,
-    comingSoon: true,
-    to: "/tools/$toolID",
-    params: {
-      toolID: "wkt-geojson",
     },
   },
   {
@@ -295,12 +268,12 @@ export const toolsList = linkOptions([
   },
   {
     id: "json-formatter",
-    name: "JSON Formatter",
+    name: "JSON & JSONL Formatter Validator Minifier",
     title: "JSON Formatter",
-    description: "Format, validate, and minify JSON with syntax highlighting and error reporting.",
+    description: "Validate, format, and minify JSON and JSONL with Shiki syntax highlighting, tree view, and line-level error diagnostics.",
     category: "Converters & Formatters" as ToolCategory,
     icon: FileCodeIcon,
-    comingSoon: true,
+    comingSoon: false,
     to: "/tools/$toolID",
     params: {
       toolID: "json-formatter",
@@ -369,6 +342,19 @@ export const toolsList = linkOptions([
     to: "/tools/$toolID",
     params: {
       toolID: "data-explorer",
+    },
+  },
+  {
+    id: "gradient-generator",
+    name: "Gradient & Texture Studio CSS Tailwind Mesh Halftone Contours Fractal Glass Liquid Grain Woven Ocean",
+    title: "Gradient & Texture Studio",
+    description: "Create multi-stop CSS & Tailwind gradients with 18 texture families (halftone, contours, fractal glass, liquid, grain, woven, ocean, blobs) across all color spaces.",
+    category: "Converters & Formatters" as ToolCategory,
+    icon: SwatchesIcon,
+    comingSoon: false,
+    to: "/tools/$toolID",
+    params: {
+      toolID: "gradient-generator",
     },
   },
 ]);
