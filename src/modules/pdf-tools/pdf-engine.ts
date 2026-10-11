@@ -1,9 +1,9 @@
-import { decryptPDF, isEncrypted } from "@pdfsmaller/pdf-decrypt";
 import { encryptPDF } from "@pdfsmaller/pdf-encrypt";
 import { zipSync } from "fflate";
 import { PDFDocument, StandardFonts, degrees, rgb } from "pdf-lib";
 import * as pdfjsLib from "pdfjs-dist";
 import pdfjsWorkerUrl from "pdfjs-dist/build/pdf.worker.min.mjs?url";
+import { decryptPdfBytes, inspectPdfEncryption, type PdfEncryptionAlgorithm } from "./pdf-decrypt";
 
 if (typeof window !== "undefined") {
   pdfjsLib.GlobalWorkerOptions.workerSrc = pdfjsWorkerUrl;
@@ -16,7 +16,7 @@ export interface UploadedPdfFile {
   rawBytes: Uint8Array;
   unlockedBytes: Uint8Array | null;
   isEncrypted: boolean;
-  encryptionAlgorithm?: "AES-256" | "RC4";
+  encryptionAlgorithm?: PdfEncryptionAlgorithm;
   isUnlocked: boolean;
   passwordUsed?: string;
   unlockError?: string;
@@ -113,35 +113,174 @@ export const FILE_COLOR_TAGS = [
 
 /**
  * Checks whether a PDF byte array is password-protected.
+ * Supports RC4 (V=1,2,4), AES-128 (V=4,R=4), AES-256 (V=5,R=5/R=6),
+ * Linearized multi-XRef streams, and encrypted object streams (/ObjStm).
  */
 export async function checkPdfEncryption(bytes: Uint8Array): Promise<{
   encrypted: boolean;
-  algorithm?: "AES-256" | "RC4";
+  algorithm?: PdfEncryptionAlgorithm;
   autoUnlockedBytes?: Uint8Array;
 }> {
   try {
-    const status = await isEncrypted(bytes);
-    if (!status.encrypted) {
-      return { encrypted: false };
+    const status = await inspectPdfEncryption(bytes);
+    if (status.encrypted) {
+      // Check if an empty user password unlocks it (owner-password-only PDF)
+      try {
+        const autoUnlocked = await decryptPdfBytes(bytes.slice(0), "");
+        const doc = await PDFDocument.load(autoUnlocked, {
+          ignoreEncryption: true,
+          updateMetadata: false,
+        });
+        if (doc.getPageCount() > 0) {
+          return {
+            encrypted: true,
+            algorithm: status.algorithm,
+            autoUnlockedBytes: autoUnlocked,
+          };
+        }
+      } catch {
+        // Requires a non-empty user password
+      }
+
+      return {
+        encrypted: true,
+        algorithm: status.algorithm,
+      };
     }
-    return {
-      encrypted: true,
-      algorithm: status.algorithm,
-    };
   } catch {
-    return { encrypted: false };
+    // Fall through to secondary checks
+  }
+
+  // Secondary check: verify if pdf-lib detects encryption when ignoreEncryption is false
+  try {
+    await PDFDocument.load(bytes, {
+      ignoreEncryption: false,
+      updateMetadata: false,
+    });
+  } catch (err) {
+    const msg = err instanceof Error ? `${err.name} ${err.message}` : String(err);
+    if (/encrypt|password/i.test(msg)) {
+      return { encrypted: true };
+    }
+  }
+
+  // Tertiary check in browser: verify with pdf.js (handles any non-standard XRef layouts)
+  if (typeof document !== "undefined") {
+    let loadingTask: ReturnType<typeof pdfjsLib.getDocument> | null = null;
+    try {
+      loadingTask = pdfjsLib.getDocument({ data: bytes.slice(0) });
+      await loadingTask.promise;
+    } catch (err) {
+      const errName = (err as { name?: string })?.name ?? "";
+      const errMsg = err instanceof Error ? err.message : String(err);
+      if (errName === "PasswordException" || /password/i.test(errMsg)) {
+        return { encrypted: true };
+      }
+    } finally {
+      if (loadingTask) {
+        await loadingTask.destroy().catch(() => {});
+      }
+    }
+  }
+
+  return { encrypted: false };
+}
+
+/**
+ * Reconstructs a clean unlocked PDFDocument using pdf.js page rendering
+ * as a last-resort fallback if a PDF unlocked by pdf.js has damaged/non-standard
+ * internal structures that pdf-lib cannot parse directly.
+ */
+async function reconstructUnlockedPdfViaPdfJs(bytes: Uint8Array, password: string): Promise<Uint8Array> {
+  const loadingTask = pdfjsLib.getDocument({
+    data: bytes.slice(0),
+    password,
+  });
+
+  try {
+    const pdfDoc = await loadingTask.promise;
+    const outDoc = await PDFDocument.create();
+
+    for (let i = 1; i <= pdfDoc.numPages; i++) {
+      const page = await pdfDoc.getPage(i);
+      const baseViewport = page.getViewport({ scale: 1 });
+      const renderViewport = page.getViewport({ scale: 2 });
+
+      const canvas = document.createElement("canvas");
+      canvas.width = Math.max(1, Math.floor(renderViewport.width));
+      canvas.height = Math.max(1, Math.floor(renderViewport.height));
+      const ctx = canvas.getContext("2d");
+
+      await page.render({
+        canvas,
+        canvasContext: ctx ?? undefined,
+        viewport: renderViewport,
+      }).promise;
+
+      const dataUrl = canvas.toDataURL("image/jpeg", 0.92);
+      const base64 = dataUrl.split(",")[1] ?? "";
+      const imgBytes = Uint8Array.from(atob(base64), (c) => c.charCodeAt(0));
+      const embeddedJpg = await outDoc.embedJpg(imgBytes);
+
+      const newPage = outDoc.addPage([baseViewport.width, baseViewport.height]);
+      newPage.drawImage(embeddedJpg, {
+        x: 0,
+        y: 0,
+        width: baseViewport.width,
+        height: baseViewport.height,
+      });
+    }
+
+    return await outDoc.save();
+  } catch (err) {
+    const errName = (err as { name?: string })?.name ?? "";
+    const errMsg = err instanceof Error ? err.message : String(err);
+    if (errName === "PasswordException" || /password/i.test(errMsg)) {
+      throw new Error("Invalid password: the provided password cannot unlock this PDF");
+    }
+    throw err;
+  } finally {
+    await loadingTask.destroy().catch(() => {});
   }
 }
 
 /**
  * Attempts to decrypt an encrypted PDF with the given password.
+ * Preserves full vector content, text, fonts, and unpacked object streams (/ObjStm),
+ * with a browser fallback to pdf.js if the PDF contains non-standard syntax.
  */
 export async function unlockPdfBytes(bytes: Uint8Array, password: string): Promise<Uint8Array> {
-  // Pass a copy of bytes so original buffer is never mutated
-  const decrypted = await decryptPDF(bytes.slice(0), password);
-  // Validate that pdf-lib can parse the resulting decrypted PDF
-  await PDFDocument.load(decrypted, { ignoreEncryption: true });
-  return decrypted;
+  let primaryError: unknown = null;
+
+  try {
+    // Pass a copy of bytes so original buffer is never mutated
+    const decrypted = await decryptPdfBytes(bytes.slice(0), password);
+    // Validate that pdf-lib can parse the resulting decrypted PDF and find its pages
+    const doc = await PDFDocument.load(decrypted, {
+      ignoreEncryption: true,
+      updateMetadata: false,
+    });
+    if (doc.getPageCount() > 0) {
+      return decrypted;
+    }
+    primaryError = new Error("Decrypted PDF contained 0 readable pages");
+  } catch (err) {
+    primaryError = err;
+  }
+
+  // In browser environments, try pdf.js fallback in case of non-standard PDF syntax
+  if (typeof document !== "undefined") {
+    try {
+      return await reconstructUnlockedPdfViaPdfJs(bytes, password);
+    } catch (fallbackErr) {
+      const msg = fallbackErr instanceof Error ? fallbackErr.message : String(fallbackErr);
+      if (/password/i.test(msg)) {
+        throw fallbackErr;
+      }
+    }
+  }
+
+  throw primaryError instanceof Error ? primaryError : new Error("Failed to unlock PDF with the provided password");
 }
 
 /**

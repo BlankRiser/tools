@@ -291,11 +291,13 @@ export function PdfToolsPage() {
 
           if (encStatus.encrypted) {
             // Check if an empty user password unlocks it (owner-only password)
-            let autoUnlocked: Uint8Array | null = null;
-            try {
-              autoUnlocked = await unlockPdfBytes(bytes, "");
-            } catch {
-              autoUnlocked = null;
+            let autoUnlocked: Uint8Array | null = encStatus.autoUnlockedBytes ?? null;
+            if (!autoUnlocked) {
+              try {
+                autoUnlocked = await unlockPdfBytes(bytes, "");
+              } catch {
+                autoUnlocked = null;
+              }
             }
 
             if (autoUnlocked) {
@@ -338,22 +340,45 @@ export function PdfToolsPage() {
             }
           } else {
             // Unprotected PDF
-            const pageCount = await loadUnlockedFilePages(fileId, name, colorTag, bytes);
-            setFiles((prev) => [
-              ...prev,
-              {
-                id: fileId,
-                name,
-                size: bytes.byteLength,
-                rawBytes: bytes,
-                unlockedBytes: bytes,
-                isEncrypted: false,
-                isUnlocked: true,
-                pageCount,
-                colorTag,
-              },
-            ]);
-            addedUnlockedCount++;
+            try {
+              const pageCount = await loadUnlockedFilePages(fileId, name, colorTag, bytes);
+              setFiles((prev) => [
+                ...prev,
+                {
+                  id: fileId,
+                  name,
+                  size: bytes.byteLength,
+                  rawBytes: bytes,
+                  unlockedBytes: bytes,
+                  isEncrypted: false,
+                  isUnlocked: true,
+                  pageCount,
+                  colorTag,
+                },
+              ]);
+              addedUnlockedCount++;
+            } catch (err) {
+              const msg = err instanceof Error ? err.message : String(err);
+              if (/encrypt|password/i.test(msg)) {
+                setFiles((prev) => [
+                  ...prev,
+                  {
+                    id: fileId,
+                    name,
+                    size: bytes.byteLength,
+                    rawBytes: bytes,
+                    unlockedBytes: null,
+                    isEncrypted: true,
+                    isUnlocked: false,
+                    pageCount: 0,
+                    colorTag,
+                  },
+                ]);
+                addedLockedCount++;
+              } else {
+                throw err;
+              }
+            }
           }
         }
 
