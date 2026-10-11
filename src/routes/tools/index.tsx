@@ -1,8 +1,8 @@
 import { Button } from "#/components/ui/button";
-import { Card, CardDescription, CardHeader, CardTitle } from "#/components/ui/card";
 import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupInput } from "#/components/ui/input-group";
 import { TOOL_CATEGORIES, type ToolCategory, type ToolItem, toolsList } from "#/data/tools-list";
-import { ArrowUpRightIcon, MagnifyingGlassIcon, XIcon } from "@phosphor-icons/react";
+import { cn } from "#/lib/utils";
+import { ArrowUpRightIcon, MagnifyingGlassIcon, ShieldCheckIcon, XIcon } from "@phosphor-icons/react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { matchSorter } from "match-sorter";
 import { useEffect, useMemo, useRef, useState } from "react";
@@ -13,6 +13,7 @@ export const Route = createFileRoute("/tools/")({
 
 function ToolsRoute() {
   const [searchQuery, setSearchQuery] = useState("");
+  const [activeCategory, setActiveCategory] = useState<ToolCategory | "all">("all");
   const searchInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -40,12 +41,17 @@ function ToolsRoute() {
   const availableTools = useMemo(() => toolsList.filter((tool) => !tool.comingSoon), []);
 
   const filteredTools = useMemo(() => {
+    const byCategory =
+      activeCategory === "all"
+        ? availableTools
+        : availableTools.filter((tool) => tool.category === activeCategory);
+
     const query = searchQuery.trim();
-    if (!query) return availableTools;
-    return matchSorter(availableTools, query, {
+    if (!query) return byCategory;
+    return matchSorter(byCategory, query, {
       keys: ["id", "name", "title", "description", "params.toolID", "category"],
     });
-  }, [availableTools, searchQuery]);
+  }, [availableTools, activeCategory, searchQuery]);
 
   const groupedTools = useMemo(() => {
     const query = searchQuery.trim();
@@ -60,7 +66,12 @@ function ToolsRoute() {
       }
     }
 
-    const categoriesOrder = query ? Array.from(groupsMap.keys()) : TOOL_CATEGORIES;
+    const categoriesOrder =
+      activeCategory !== "all"
+        ? [activeCategory]
+        : query
+          ? Array.from(groupsMap.keys())
+          : TOOL_CATEGORIES;
 
     return categoriesOrder
       .map((category) => ({
@@ -68,18 +79,33 @@ function ToolsRoute() {
         tools: groupsMap.get(category) ?? [],
       }))
       .filter((group) => group.tools.length > 0);
-  }, [filteredTools, searchQuery]);
+  }, [filteredTools, activeCategory, searchQuery]);
 
   return (
-    <div className="mx-auto max-w-5xl px-4 py-10">
-      <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+    <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6">
+      <div className="mb-8 flex flex-col gap-4 border-b border-border/80 pb-6 sm:flex-row sm:items-end sm:justify-between">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight">Tools</h1>
-          <p className="mt-1 text-sm text-muted-foreground">A collection of utilities and generators to explore and visualize data.</p>
+          <div className="mb-2 inline-flex items-center gap-1.5 font-mono text-xs text-primary">
+            <ShieldCheckIcon className="size-3.5" weight="fill" />
+            <span>100% Client-Side Execution • Zero Backend</span>
+          </div>
+          <h1 className="text-3xl font-bold tracking-tight">Developer Tool Directory</h1>
+          <p className="mt-1.5 max-w-2xl text-sm text-muted-foreground">
+            All {availableTools.length} browser-native utilities, formatters, converters, and visualizers. Built by{" "}
+            <a
+              href="https://ram.codes"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-medium text-foreground underline decoration-border underline-offset-4 hover:text-primary"
+            >
+              Ram (ram.codes)
+            </a>
+            .
+          </p>
         </div>
 
         <div className="w-full sm:w-80">
-          <InputGroup className="h-9 bg-card/60">
+          <InputGroup className="h-9 bg-card">
             <InputGroupAddon align="inline-start">
               <MagnifyingGlassIcon className="size-4 text-muted-foreground" />
             </InputGroupAddon>
@@ -126,6 +152,40 @@ function ToolsRoute() {
         </div>
       </div>
 
+      {/* Category Filter Pills */}
+      <div className="mb-8 flex flex-wrap items-center gap-1.5">
+        <button
+          type="button"
+          onClick={() => setActiveCategory("all")}
+          className={cn(
+            "rounded-md px-3 py-1.5 font-mono text-xs font-medium transition-colors",
+            activeCategory === "all"
+              ? "bg-foreground text-background"
+              : "border border-border/80 bg-card text-muted-foreground hover:text-foreground",
+          )}
+        >
+          All Categories ({availableTools.length})
+        </button>
+        {TOOL_CATEGORIES.map((cat) => {
+          const count = availableTools.filter((t) => t.category === cat).length;
+          return (
+            <button
+              key={cat}
+              type="button"
+              onClick={() => setActiveCategory((prev) => (prev === cat ? "all" : cat))}
+              className={cn(
+                "rounded-md px-3 py-1.5 font-mono text-xs font-medium transition-colors",
+                activeCategory === cat
+                  ? "bg-foreground text-background"
+                  : "border border-border/80 bg-card text-muted-foreground hover:text-foreground",
+              )}
+            >
+              {cat} ({count})
+            </button>
+          );
+        })}
+      </div>
+
       {groupedTools.length === 0 ? (
         <div className="flex flex-col items-center justify-center rounded-xl border border-dashed border-border/70 bg-card/30 px-6 py-16 text-center">
           <div className="mb-3 flex size-10 items-center justify-center rounded-lg bg-muted text-muted-foreground">
@@ -141,38 +201,54 @@ function ToolsRoute() {
             className="mt-4"
             onClick={() => {
               setSearchQuery("");
+              setActiveCategory("all");
               searchInputRef.current?.focus();
             }}
           >
-            Clear search
+            Reset filters
           </Button>
         </div>
       ) : (
-        <div className="space-y-10">
+        <div className="space-y-12">
           {groupedTools.map(({ category, tools }) => (
             <section key={category} className="space-y-4">
-              <div className="flex items-center justify-between border-b border-border/50 pb-2">
-                <h2 className="text-sm font-semibold tracking-tight text-foreground">{category}</h2>
-                <span className="rounded-full bg-muted px-2 py-0.5 font-mono text-2xs font-medium text-muted-foreground">{tools.length}</span>
+              <div className="flex items-center justify-between border-b border-border/70 pb-2">
+                <h2 className="text-base font-semibold tracking-tight text-foreground">{category}</h2>
+                <span className="rounded bg-muted px-2 py-0.5 font-mono text-2xs font-medium text-muted-foreground">
+                  {tools.length} {tools.length === 1 ? "tool" : "tools"}
+                </span>
               </div>
 
-              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                {tools.map((tool) => {
+              <div className="grid grid-cols-1 gap-px overflow-hidden rounded-xl border border-border/80 bg-border/80 sm:grid-cols-2 lg:grid-cols-3">
+                {tools.map((tool, idx) => {
                   const Icon = tool.icon;
+                  const indexLabel = String(idx + 1).padStart(2, "0");
                   return (
-                    <Link key={tool.params.toolID} to={tool.to} params={tool.params} className="group outline-none">
-                      <Card className="h-full transition-colors group-focus-visible:ring-2 group-focus-visible:ring-ring hover:border-primary/40 hover:bg-accent/40">
-                        <CardHeader>
-                          <div className="flex items-start justify-between">
-                            <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary/10 text-primary transition-colors group-hover:bg-primary/20">
-                              <Icon className="size-5" weight="duotone" />
+                    <Link
+                      key={tool.params.toolID}
+                      to={tool.to}
+                      params={tool.params}
+                      className="group flex flex-col justify-between bg-card p-5 transition-colors outline-none hover:bg-accent/40 focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-primary"
+                    >
+                      <div>
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center gap-2.5">
+                            <div className="flex h-8 w-8 items-center justify-center rounded-md border border-border/80 bg-background text-primary transition-colors group-hover:border-primary/40 group-hover:bg-primary/10">
+                              <Icon className="size-4" weight="duotone" />
                             </div>
-                            <ArrowUpRightIcon className="h-4 w-4 text-muted-foreground opacity-0 transition-opacity group-hover:opacity-100" />
+                            <span className="font-mono text-[11px] text-muted-foreground/70">
+                              {indexLabel}
+                            </span>
                           </div>
-                          <CardTitle className="mt-2 text-sm">{tool.title}</CardTitle>
-                          <CardDescription className="text-xs leading-relaxed">{tool.description}</CardDescription>
-                        </CardHeader>
-                      </Card>
+                          <ArrowUpRightIcon className="h-4 w-4 text-muted-foreground opacity-50 transition-all group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-foreground group-hover:opacity-100" />
+                        </div>
+                        <h3 className="mt-3.5 text-sm font-semibold text-foreground transition-colors group-hover:text-primary">
+                          {tool.title}
+                        </h3>
+                        <p className="mt-1.5 text-xs leading-relaxed text-muted-foreground">
+                          {tool.description}
+                        </p>
+                      </div>
                     </Link>
                   );
                 })}

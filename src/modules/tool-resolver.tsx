@@ -113,13 +113,40 @@ export function ToolResolver({ toolID }: { toolID: ToolID }) {
   );
 }
 
+import { ToolOrbitalSphere } from "#/components/common/tool-orbital-sphere";
+import { Link } from "@tanstack/react-router";
+
 function ToolNotFound() {
   return (
-    <div className="flex min-h-[calc(100dvh-2.8rem)] items-center justify-center bg-background">
-      <div className="text-center">
-        <h1 className="mb-2 text-4xl font-bold text-foreground">Tool Not Found</h1>
-        <p className="text-lg text-muted-foreground">We couldn't find the tool you're looking for.</p>
+    <div className="mx-auto flex min-h-[calc(100dvh-3.5rem)] max-w-5xl flex-col items-center justify-center gap-8 px-6 py-12 text-center">
+      <div className="max-w-lg">
+        <p className="font-mono text-xs font-semibold uppercase tracking-widest text-primary">
+          404 • Tool Not Found
+        </p>
+        <h1 className="mt-2 text-3xl font-bold tracking-tight sm:text-4xl">
+          We couldn't find that tool
+        </h1>
+        <p className="mt-2.5 text-sm leading-relaxed text-muted-foreground">
+          Pick any orbiting utility in the sphere below to launch it immediately, or return to
+          the main directory.
+        </p>
+        <div className="mt-5 flex flex-wrap items-center justify-center gap-3">
+          <Link
+            to="/tools"
+            className="inline-flex h-9 items-center rounded-md bg-primary px-4 text-xs font-semibold text-primary-foreground transition-opacity hover:opacity-90"
+          >
+            Browse All Tools
+          </Link>
+          <Link
+            to="/"
+            className="inline-flex h-9 items-center rounded-md border border-border/80 bg-card px-4 text-xs font-medium text-foreground transition-colors hover:bg-accent"
+          >
+            Return Home
+          </Link>
+        </div>
       </div>
+
+      <ToolOrbitalSphere className="max-w-[420px]" />
     </div>
   );
 }
