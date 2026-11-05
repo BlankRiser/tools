@@ -1,5 +1,6 @@
 import {
   ArrowsClockwiseIcon,
+  WaveformIcon,
   ArrowsInIcon,
   CalendarIcon,
   ClockIcon,
@@ -21,16 +22,39 @@ import {
   QrCodeIcon,
   RulerIcon,
   SwatchesIcon,
+  ShieldIcon,
   TableIcon,
   TextAaIcon
 } from "@phosphor-icons/react";
 import { linkOptions } from "@tanstack/react-router";
 
-export const TOOL_CATEGORIES = ["Geospatial & Maps", "Text & Regex", "Encoding & Web", "Converters & Formatters"] as const;
+export const TOOL_CATEGORIES = ["Geospatial & Maps", "Text & Regex", "Encoding & Web", "Converters & Formatters", "Audio & Privacy"] as const;
 
 export type ToolCategory = (typeof TOOL_CATEGORIES)[number];
 
 export const toolsList = linkOptions([
+  {
+    id: "audio-cleaner-transcriber",
+    name: "Audio Cleaner and Transcriber",
+    title: "Audio Cleaner & Transcriber",
+    description: "Clean speech, detect language, transcribe audio, and label speakers on device.",
+    category: "Audio & Privacy" as ToolCategory,
+    icon: WaveformIcon,
+    comingSoon: false,
+    to: "/tools/$toolID",
+    params: { toolID: "audio-cleaner-transcriber" },
+  },
+  {
+    id: "note-redactor",
+    name: "Note Privacy Redactor PII",
+    title: "Note Redactor",
+    description: "Find and replace personal information in notes locally in your browser.",
+    category: "Audio & Privacy" as ToolCategory,
+    icon: ShieldIcon,
+    comingSoon: false,
+    to: "/tools/$toolID",
+    params: { toolID: "note-redactor" },
+  },
   {
     id: "map-wallpaper",
     name: "Map Wallpaper",

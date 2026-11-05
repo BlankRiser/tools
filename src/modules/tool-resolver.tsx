@@ -4,6 +4,8 @@ import type { ToolID } from "#/data/tools-list";
 const Base64ImageCodecPage = React.lazy(() =>
   import("./base64-image-codec/base64-image-codec-page").then((m) => ({ default: m.Base64ImageCodecPage })),
 );
+const AudioCleanerTranscriberPage = React.lazy(() => import("./audio-tools/audio-cleaner-transcriber-page"));
+const NoteRedactorPage = React.lazy(() => import("./audio-tools/note-redactor-page"));
 const ColorConverterPage = React.lazy(() =>
   import("./color-converter/color-converter-page").then((m) => ({ default: m.ColorConverterPage })),
 );
@@ -70,6 +72,8 @@ const GeoJsonViewerPageRoute = () => <GeoJsonViewerPageLazy initialMode="viewer"
 const BoundingBoxPickerPageRoute = () => <GeoJsonViewerPageLazy initialMode="bbox" />;
 
 const ToolMap: Partial<Record<ToolID, React.ComponentType>> = {
+  "audio-cleaner-transcriber": AudioCleanerTranscriberPage,
+  "note-redactor": NoteRedactorPage,
   "map-wallpaper": MapWallpaperPage,
   "diff-checker": DiffCheckerPage,
   "qr-code-generator": QRCodeGenPage,
