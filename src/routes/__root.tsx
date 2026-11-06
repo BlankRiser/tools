@@ -95,7 +95,7 @@ function RootComponent() {
     <div className="flex min-h-dvh flex-col bg-background text-foreground">
       <RouteSeoSynchronizer />
       <Navbar />
-      <main className="flex-1 antialiased">
+      <main className="flex-1">
         <Outlet />
       </main>
       <Footer />

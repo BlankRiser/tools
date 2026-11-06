@@ -110,9 +110,16 @@ export function ToolResolver({ toolID }: { toolID: ToolID }) {
 
   return (
     <React.Suspense
-      fallback={<div className="flex min-h-[calc(100dvh-2.8rem)] items-center justify-center text-sm text-muted-foreground">Loading tool…</div>}
+      fallback={
+        <div className="flex min-h-[calc(100dvh-4rem)] items-center justify-center font-mono text-xs text-muted-foreground">
+          <span className="mr-2 size-2 rounded-full bg-primary animate-ping" />
+          // INITIALIZING_{toolID.toUpperCase()}...
+        </div>
+      }
     >
-      <Tool />
+      <div id="tool-workspace" className="contents">
+        <Tool />
+      </div>
     </React.Suspense>
   );
 }

@@ -1,250 +1,102 @@
 import { Button } from "#/components/ui/button";
-import { type ToolID, toolsList } from "#/data/tools-list";
+import { toolsList } from "#/data/tools-list";
 import { useTheme } from "#/hooks/use-theme";
 import {
   ArrowUpRightIcon,
   GithubLogoIcon,
   MoonStarsIcon,
-  ShieldCheckIcon,
   SunDimIcon,
 } from "@phosphor-icons/react";
-import { Link, useRouterState } from "@tanstack/react-router";
+import { Link } from "@tanstack/react-router";
 import * as React from "react";
 import { DevHavenLogo } from "./devhaven-logo";
-
-const DEFAULT_NAV_TOOL_IDS: ToolID[] = [
-  "json-formatter",
-  "data-explorer",
-  "gradient-generator",
-  "html-to-jsx",
-];
-
-// Concise labels for the navbar pills so any of the 24 tools fits cleanly
-const SHORT_NAV_LABELS: Partial<Record<ToolID, string>> = {
-  "json-formatter": "JSON",
-  "data-explorer": "Data Explorer",
-  "gradient-generator": "Gradients",
-  "html-to-jsx": "HTML → JSX",
-  "json-csv": "Data Converter",
-  "pdf-tools": "PDF Tools",
-  "color-generator": "Colors",
-  "cron-expression-builder": "Cron Builder",
-  "date-time-converter": "Date & Time",
-  "diff-checker": "Diff Checker",
-  "regex-tester": "Regex",
-  "sort-text": "Sort Text",
-  "markdown-to-rich-text": "MD → Rich Text",
-  "markdown-stripper": "MD Stripper",
-  "markdown-toc-generator": "MD TOC",
-  "string-case-converter": "Case Converter",
-  "text-inspector": "Text Inspector",
-  "jwt-encoder-decoder": "JWT Codec",
-  "url-parser": "URL Parser",
-  "base64-image-codec": "Base64 Image",
-  "qr-code-generator": "QR Generator",
-  "map-wallpaper": "Map Wallpaper",
-  "geojson-viewer": "GeoJSON Viewer",
-  "bounding-box-picker": "BBox Picker",
-  "distance-calculator": "Distance Calc",
-};
-
-interface RecentNavState {
-  slots: ToolID[];
-  cursor: number;
-  filledCount: number;
-}
-
-const STORAGE_KEY = "devhaven:navbar-recent-tools:v1";
-
-function loadInitialNavState(): RecentNavState {
-  if (typeof window === "undefined") {
-    return {
-      slots: [...DEFAULT_NAV_TOOL_IDS],
-      cursor: 0,
-      filledCount: 0,
-    };
-  }
-
-  try {
-    const raw = window.localStorage.getItem(STORAGE_KEY);
-    if (!raw) {
-      return {
-        slots: [...DEFAULT_NAV_TOOL_IDS],
-        cursor: 0,
-        filledCount: 0,
-      };
-    }
-    const parsed = JSON.parse(raw) as Partial<RecentNavState>;
-    const validIds = new Set(toolsList.filter((t) => !t.comingSoon).map((t) => t.params.toolID));
-    if (
-      Array.isArray(parsed.slots) &&
-      parsed.slots.length === 4 &&
-      parsed.slots.every((id) => validIds.has(id as ToolID)) &&
-      typeof parsed.cursor === "number" &&
-      typeof parsed.filledCount === "number"
-    ) {
-      return {
-        slots: parsed.slots as ToolID[],
-        cursor: parsed.cursor % 4,
-        filledCount: Math.min(4, Math.max(0, parsed.filledCount)),
-      };
-    }
-  } catch {
-    // Ignore storage errors
-  }
-
-  return {
-    slots: [...DEFAULT_NAV_TOOL_IDS],
-    cursor: 0,
-    filledCount: 0,
-  };
-}
+import { NavSearchCombobox } from "./nav-search-combobox";
 
 export function Navbar() {
   const { theme, setTheme } = useTheme();
-  const [navState, setNavState] = React.useState<RecentNavState>(loadInitialNavState);
 
-  const pathname = useRouterState({
-    select: (state) => state.location.pathname,
-  });
-
-  const activeToolsMap = React.useMemo(() => {
-    const map = new Map<ToolID, (typeof toolsList)[number]>();
-    for (const tool of toolsList) {
-      if (!tool.comingSoon) {
-        map.set(tool.params.toolID, tool);
-      }
-    }
-    return map;
+  const activeToolsCount = React.useMemo(() => {
+    return toolsList.filter((tool) => !tool.comingSoon).length;
   }, []);
-
-  // Track visited tool routes and replace navbar slots from left to right
-  React.useEffect(() => {
-    if (!pathname.startsWith("/tools/")) return;
-    const slug = pathname.replace(/^\/tools\//, "").replace(/\/$/, "") as ToolID;
-    if (!activeToolsMap.has(slug)) return;
-
-    setNavState((prev) => {
-      const existingIdx = prev.slots.indexOf(slug);
-
-      // Already in the visited slots: keep positions stable
-      if (existingIdx !== -1 && existingIdx < prev.filledCount) {
-        return prev;
-      }
-
-      const nextSlots = [...prev.slots];
-
-      if (existingIdx !== -1 && existingIdx >= prev.filledCount) {
-        // Tool was in an unvisited default slot to the right: swap into current left-to-right cursor
-        const displaced = nextSlots[prev.cursor];
-        nextSlots[prev.cursor] = slug;
-        nextSlots[existingIdx] = displaced;
-      } else {
-        // Replace slot at current left-to-right cursor
-        nextSlots[prev.cursor] = slug;
-      }
-
-      const nextState: RecentNavState = {
-        slots: nextSlots,
-        cursor: (prev.cursor + 1) % 4,
-        filledCount: Math.min(4, prev.filledCount + 1),
-      };
-
-      try {
-        window.localStorage.setItem(STORAGE_KEY, JSON.stringify(nextState));
-      } catch {
-        // Ignore storage write errors
-      }
-
-      return nextState;
-    });
-  }, [pathname, activeToolsMap]);
 
   const toggleTheme = () => {
     setTheme(theme === "light" ? "dark" : "light");
   };
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-border/70 bg-background/85 backdrop-blur-md">
+    <header className="site-nav sticky top-0 z-50 w-full border-b border-border/70 bg-background/80 backdrop-blur-xl backdrop-saturate-150 transition-colors">
       <nav
         aria-label="Primary Navigation"
-        className="mx-auto flex h-12 max-w-7xl items-center justify-between gap-4 px-4 sm:px-6"
+        className="mx-auto flex h-14 max-w-7xl items-center justify-between gap-2 px-3 sm:gap-4 sm:px-6 lg:px-8"
       >
         {/* Brand & Client-Side Privacy Indicator */}
-        <div className="flex items-center gap-3">
+        <div className="flex shrink-0 items-center gap-3">
           <Link
             to="/"
             viewTransition={{ types: ["slide-left"] }}
-            className="flex items-center gap-2 text-sm font-semibold tracking-tight text-foreground transition-colors hover:text-primary"
+            className="group flex items-center gap-2.5 text-foreground transition-opacity hover:opacity-90"
           >
-            <DevHavenLogo className="size-7 text-foreground transition-colors hover:text-primary" />
-            <span>DevHaven</span>
-            <span className="font-mono text-xs font-normal text-muted-foreground">
-              /tools
-            </span>
+            <div className="flex size-8 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary transition-all group-hover:scale-105 group-hover:bg-primary/15">
+              <DevHavenLogo className="size-4.5" />
+            </div>
+            <div className="flex items-baseline gap-1.5">
+              <span className="font-heading text-base font-bold tracking-tight">
+                DevHaven
+              </span>
+              <span className="nav-route-slug font-mono text-[11px] font-normal text-muted-foreground/75">
+                /tools
+              </span>
+            </div>
           </Link>
 
-          <span
-            className="hidden items-center gap-1.5 rounded-full border border-border/80 bg-muted/50 px-2.5 py-0.5 font-mono text-[11px] text-muted-foreground md:inline-flex"
-            title="All computation runs locally in your browser. Zero server uploads."
+          <div
+            className="hidden items-center gap-1.5 rounded-full border border-border/75 bg-muted/40 px-2.5 py-0.5 font-mono text-[11px] text-muted-foreground/85 transition-colors hover:bg-muted/70 hover:text-foreground xl:inline-flex"
+            title="All computation runs locally in your browser sandbox. Zero bytes sent to any remote server."
           >
-            <ShieldCheckIcon className="size-3.5 text-primary" weight="fill" />
-            100% Client-Side
-          </span>
+            <span className="relative flex size-2">
+              <span className="absolute inline-flex size-full animate-ping rounded-full bg-emerald-400 opacity-60 duration-1000" />
+              <span className="relative inline-flex size-2 rounded-full bg-emerald-500" />
+            </span>
+            <span>100% Client-Side</span>
+          </div>
         </div>
 
-        {/* Center / Right Navigation Links */}
-        <div className="flex items-center gap-1">
+        {/* Center: Command Search Combobox */}
+        <div className="flex flex-1 items-center justify-center px-1 sm:px-4">
+          <NavSearchCombobox />
+        </div>
+
+        {/* Right Navigation & External Links */}
+        <div className="flex shrink-0 items-center gap-1 sm:gap-1.5">
           <Link
             to="/tools"
-            className="inline-flex items-center gap-1.5 rounded-md px-2.5 py-1.5 text-xs font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
+            className="inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-medium text-muted-foreground transition-all hover:bg-muted/70 hover:text-foreground active:scale-95"
             activeProps={{
-              className: "bg-accent text-foreground",
+              className: "bg-secondary text-foreground font-semibold border border-border/70 shadow-2xs",
             }}
             activeOptions={{
               exact: true,
             }}
             viewTransition={{ types: ["slide-right"] }}
           >
-            <span>All Tools</span>
-            <span className="rounded bg-muted px-1.5 py-0.2 font-mono text-[10px] text-muted-foreground">
-              {activeToolsMap.size}
+            <span className="hidden sm:inline">All Tools</span>
+            <span className="sm:hidden">Tools</span>
+            <span className="nav-tool-count rounded-full bg-muted border border-border/60 px-1.5 py-0.2 font-mono text-[10px] font-medium text-foreground/80">
+              {activeToolsCount}
             </span>
           </Link>
 
-          {/* Dynamic 4-Slot Tool Bar (Defaults replaced left-to-right as tools are visited) */}
-          <div className="hidden items-center gap-0.5 lg:flex">
-            {navState.slots.map((toolID) => {
-              const tool = activeToolsMap.get(toolID);
-              const label = SHORT_NAV_LABELS[toolID] ?? tool?.title ?? toolID;
-              return (
-                <Link
-                  key={toolID}
-                  to="/tools/$toolID"
-                  params={{ toolID }}
-                  title={tool?.title}
-                  className="rounded-md px-2.5 py-1.5 text-xs font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
-                  activeProps={{
-                    className: "bg-accent text-foreground",
-                  }}
-                >
-                  {label}
-                </Link>
-              );
-            })}
-          </div>
-
-          <div className="mx-1.5 h-4 w-px bg-border/80" />
+          <div className="mx-0.5 h-4 w-px bg-border/60 sm:mx-1" />
 
           <a
             href="https://ram.codes"
             target="_blank"
             rel="noopener noreferrer"
-            className="hidden items-center gap-1 rounded-md px-2.5 py-1.5 font-mono text-xs font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-foreground sm:inline-flex"
+            className="hidden items-center gap-1 rounded-full px-2.5 py-1 font-mono text-xs font-medium text-muted-foreground transition-colors hover:bg-muted/70 hover:text-foreground lg:inline-flex"
             title="Developed by Ram (ram.codes)"
           >
             <span>ram.codes</span>
-            <ArrowUpRightIcon className="size-3 opacity-70" />
+            <ArrowUpRightIcon className="size-3 opacity-60" />
           </a>
 
           <a
@@ -253,7 +105,7 @@ export function Navbar() {
             rel="noopener noreferrer"
             aria-label="Ram on GitHub (@BlankRiser)"
             title="GitHub (@BlankRiser)"
-            className="inline-flex size-8 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
+            className="inline-flex size-8 items-center justify-center rounded-full text-muted-foreground transition-all hover:bg-muted/80 hover:text-foreground active:scale-95"
           >
             <GithubLogoIcon className="size-4" />
           </a>
@@ -263,12 +115,12 @@ export function Navbar() {
             variant="ghost"
             onClick={toggleTheme}
             aria-label={`Switch to ${theme === "light" ? "dark" : "light"} theme`}
-            className="text-muted-foreground hover:text-foreground"
+            className="size-8 rounded-full text-muted-foreground transition-all hover:bg-muted/80 hover:text-foreground active:scale-95"
           >
             {theme === "light" ? (
-              <SunDimIcon weight="bold" />
+              <SunDimIcon className="size-4" weight="bold" />
             ) : (
-              <MoonStarsIcon weight="bold" />
+              <MoonStarsIcon className="size-4" weight="bold" />
             )}
           </Button>
         </div>

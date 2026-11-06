@@ -1,80 +1,75 @@
-import { ArrowUpRightIcon, CodeIcon, CpuIcon, GithubLogoIcon, GlobeSimpleIcon, KeyboardIcon, ShieldCheckIcon, SparkleIcon } from "@phosphor-icons/react";
+import { ArrowUpRightIcon, CpuIcon, GithubLogoIcon, GlobeSimpleIcon, KeyboardIcon, ShieldCheckIcon, SparkleIcon } from "@phosphor-icons/react";
 import { Button } from "../ui/button";
 
 const ARCHITECTURAL_PRINCIPLES = [
-    {
-      index: "01",
-      icon: ShieldCheckIcon,
-      title: "Zero Backend. 100% In-Browser.",
-      description:
-        "Every parser, cryptographic signer, PDF processor, and canvas renderer executes inside your local browser tab. Your production JSON logs, JWT secrets, and private documents never touch a network socket.",
-    },
-    {
-      index: "02",
-      icon: CpuIcon,
-      title: "Engineered for Real Depth",
-      description:
-        "Built to handle complex engineering workflows rather than toy examples: multi-depth array key extraction, 10-space color math (OKLCH, LAB, CMYK), SVG-to-TSX AST conversion, and Shiki tokenization.",
-    },
-    {
-      index: "03",
-      icon: KeyboardIcon,
-      title: "Zero Friction & Offline-Ready",
-      description:
-        "No sign-ups, no paywalls, no rate limits, no cookie banners, and no analytics trackers. Press Command+K or / from anywhere to filter tools and jump straight into your workflow.",
-    },
-    {
-      index: "04",
-      icon: CodeIcon,
-      title: "Open-Source Craft by Ram",
-      description:
-        "Designed and developed by Ram (ram.codes / @BlankRiser) with React 19, TanStack Router, Shiki, MapLibre GL, and WebCrypto. Inspect the source code or contribute directly on GitHub.",
-    },
-  ];
+  {
+    index: "01",
+    icon: ShieldCheckIcon,
+    title: "Zero Surveillance, Zero Paywalls",
+    description:
+      "No account creation, no advertising cookies, no tracking pixels, and no artificial usage tiers. Every utility runs freely with no network telemetry or data retention.",
+  },
+  {
+    index: "02",
+    icon: CpuIcon,
+    title: "Production Engineering Depth",
+    description:
+      "Engineered for demanding workloads rather than toy demos: recursive JSON5 parsing, 10-space bidirectional color science, multi-page PDF reorganization, and MapLibre vector layers.",
+  },
+  {
+    index: "03",
+    icon: KeyboardIcon,
+    title: "Keyboard-First Ergonomics",
+    description:
+      "Optimized for uninterrupted developer flow. Trigger tools with global shortcuts (⌘K or /), toggle formatters instantly, and copy sanitized outputs in a single keystroke.",
+  },
+];
 
-export const Principles = ()=>{
-    return  <section className="border-b border-border/80 bg-card/30 py-14 sm:py-16">
-    <div className="mx-auto max-w-7xl px-4 sm:px-6">
-      <div className="max-w-2xl">
-        <p className="font-mono text-xs font-semibold uppercase tracking-wider text-primary">
-          Architecture & Privacy Guarantee
-        </p>
-        <h2 className="mt-1 text-2xl font-bold tracking-tight sm:text-3xl">
-          Why engineers bookmark DevHaven Tools
-        </h2>
-        <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-          Most online developer utilities wrap simple scripts in ad-heavy pages or upload your
-          data to remote servers. DevHaven Tools is architected as a local-first desktop-grade
-          workbench inside your browser.
-        </p>
-      </div>
+export const Principles = () => {
+  return (
+    <section className="border-b border-border/80 bg-card/20 py-16 sm:py-20">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6">
+        <div className="max-w-2xl">
+          <p className="font-mono text-xs font-semibold uppercase tracking-wider text-primary">
+            Engineering Principles
+          </p>
+          <h2 className="mt-1.5 font-heading text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
+            Built for developers who value privacy and craft
+          </h2>
+          <p className="mt-2.5 text-sm leading-relaxed text-muted-foreground">
+            Most online utilities wrap trivial scripts with intrusive ad banners or secretly upload your payloads to remote servers.
+            DevHaven Tools was built from scratch as an honest, air-gapped developer workbench.
+          </p>
+        </div>
 
-      <div className="mt-8 grid grid-cols-1 gap-px overflow-hidden rounded-xl border border-border/80 bg-border/80 sm:grid-cols-2 lg:grid-cols-4">
-        {ARCHITECTURAL_PRINCIPLES.map((item) => {
-          const Icon = item.icon;
-          return (
-            <div
-              key={item.index}
-              className="flex flex-col justify-between bg-card p-6"
-            >
-              <div>
-                <div className="flex items-center justify-between">
-                  <span className="font-mono text-xs font-semibold text-primary">
-                    {item.index}
-                  </span>
-                  <Icon className="size-5 text-muted-foreground" weight="duotone" />
+        <div className="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-3">
+          {ARCHITECTURAL_PRINCIPLES.map((item) => {
+            const Icon = item.icon;
+            return (
+              <div
+                key={item.index}
+                className="tech-crosshair-wrap flex flex-col justify-between rounded-xl border border-border/80 bg-card p-6 shadow-xs"
+              >
+                <span className="tech-crosshair-tl">+</span>
+                <span className="tech-crosshair-tr">+</span>
+                <div>
+                  <div className="flex items-center justify-between">
+                    <span className="font-mono text-xs font-semibold text-primary">
+                      [ {item.index} ]
+                    </span>
+                    <Icon className="size-5 text-primary" weight="duotone" />
+                  </div>
+                  <h3 className="mt-4 font-heading text-base font-semibold text-foreground">
+                    {item.title}
+                  </h3>
+                  <p className="mt-2 text-xs leading-relaxed text-muted-foreground">
+                    {item.description}
+                  </p>
                 </div>
-                <h3 className="mt-4 text-sm font-semibold text-foreground">
-                  {item.title}
-                </h3>
-                <p className="mt-2 text-xs leading-relaxed text-muted-foreground">
-                  {item.description}
-                </p>
               </div>
-            </div>
-          );
-        })}
-      </div>
+            );
+          })}
+        </div>
 
       {/* Creator Attribution Banner */}
       <div className="mt-8 flex flex-col items-start justify-between gap-4 rounded-xl border border-border/80 bg-card p-5 sm:flex-row sm:items-center">
@@ -136,4 +131,5 @@ export const Principles = ()=>{
       </div>
     </div>
   </section>
-}
+  );
+};

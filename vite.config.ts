@@ -13,11 +13,7 @@ const config = defineConfig({
       target: "react",
       autoCodeSplitting: true,
     }),
-    viteReact({
-      babel: {
-        plugins: ["babel-plugin-react-compiler"],
-      },
-    }),
+    viteReact(),
   ],
 });
 

@@ -1,6 +1,9 @@
+/* Hallmark · checked: 2026-11-05 · genre: modern-minimal (inferred) · scope: app and directory · v2.0.0 */
+/* Critique · DevHaven had a compact green interface; this pass builds orange daylight, an ink-blue night theme, and a calmer type scale. */
 @import "tailwindcss";
 @import "shadcn/tailwind.css";
 @import "tw-animate-css";
+@import "@fontsource-variable/dm-sans";
 @import "@fontsource-variable/geist";
 @import "@fontsource-variable/jetbrains-mono/wght.css";
 
@@ -45,8 +48,8 @@
   --radius-2xl: calc(var(--radius) * 1.8);
   --radius-3xl: calc(var(--radius) * 2.2);
   --radius-4xl: calc(var(--radius) * 2.6);
-  --font-heading: var(--font-sans);
-  --font-sans: "Geist Variable", sans-serif;
+  --font-heading: "DM Sans Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Geist Variable", ui-sans-serif, system-ui, sans-serif;
   --font-mono: "JetBrains Mono Variable", monospace;
 }
 @theme {
@@ -55,72 +58,84 @@
 }
 
 :root {
-  --radius: 0.625rem;
-  --background: oklch(0.991 0.003 150);
-  --foreground: oklch(0.155 0.008 150);
-  --card: oklch(0.997 0.002 150);
-  --card-foreground: oklch(0.155 0.008 150);
-  --popover: oklch(0.997 0.002 150);
-  --popover-foreground: oklch(0.155 0.008 150);
-  --primary: oklch(0.515 0.152 150.5);
-  --primary-foreground: oklch(0.985 0.012 155);
-  --secondary: oklch(0.962 0.005 150);
-  --secondary-foreground: oklch(0.21 0.008 150);
-  --muted: oklch(0.964 0.004 150);
-  --muted-foreground: oklch(0.51 0.01 150);
-  --accent: oklch(0.958 0.006 150);
-  --accent-foreground: oklch(0.205 0.008 150);
+  color-scheme: light;
+  --font-heading: "DM Sans Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-ui: "Geist Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-code: "JetBrains Mono Variable", ui-monospace, monospace;
+  --page-gutter: clamp(1rem, 4vw, 3.5rem);
+  --content-width: 80rem;
+  --focus-ring: oklch(0.67 0.17 43);
+  --motion-out: cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+:root {
+  --radius: 0.875rem;
+  --background: oklch(0.985 0.008 75);
+  --foreground: oklch(0.19 0.018 45);
+  --card: oklch(0.998 0.003 75);
+  --card-foreground: oklch(0.19 0.018 45);
+  --popover: oklch(0.998 0.003 75);
+  --popover-foreground: oklch(0.19 0.018 45);
+  --primary: oklch(0.65 0.19 43);
+  --primary-foreground: oklch(0.99 0.008 75);
+  --secondary: oklch(0.95 0.018 68);
+  --secondary-foreground: oklch(0.28 0.035 43);
+  --muted: oklch(0.955 0.009 75);
+  --muted-foreground: oklch(0.46 0.022 48);
+  --accent: oklch(0.94 0.03 60);
+  --accent-foreground: oklch(0.23 0.025 45);
   --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.912 0.005 150);
-  --input: oklch(0.912 0.005 150);
-  --ring: oklch(0.515 0.152 150.5);
+  --border: oklch(0.89 0.015 65);
+  --input: oklch(0.86 0.018 65);
+  --ring: oklch(0.65 0.19 43);
   --chart-1: oklch(0.871 0.15 154.449);
   --chart-2: oklch(0.723 0.219 149.579);
   --chart-3: oklch(0.627 0.194 149.214);
   --chart-4: oklch(0.527 0.154 150.069);
   --chart-5: oklch(0.448 0.119 151.328);
-  --sidebar: oklch(0.985 0.003 150);
-  --sidebar-foreground: oklch(0.155 0.008 150);
-  --sidebar-primary: oklch(0.627 0.194 149.214);
-  --sidebar-primary-foreground: oklch(0.982 0.018 155.826);
-  --sidebar-accent: oklch(0.964 0.004 150);
-  --sidebar-accent-foreground: oklch(0.205 0.008 150);
-  --sidebar-border: oklch(0.912 0.005 150);
-  --sidebar-ring: oklch(0.708 0.008 150);
+  --sidebar: oklch(0.97 0.01 70);
+  --sidebar-foreground: oklch(0.19 0.018 45);
+  --sidebar-primary: oklch(0.65 0.19 43);
+  --sidebar-primary-foreground: oklch(0.99 0.008 75);
+  --sidebar-accent: oklch(0.94 0.03 60);
+  --sidebar-accent-foreground: oklch(0.23 0.025 45);
+  --sidebar-border: oklch(0.89 0.015 65);
+  --sidebar-ring: oklch(0.65 0.19 43);
 }
 
 .dark {
-  --background: oklch(0.148 0.006 150);
-  --foreground: oklch(0.975 0.004 150);
-  --card: oklch(0.188 0.007 150);
-  --card-foreground: oklch(0.975 0.004 150);
-  --popover: oklch(0.188 0.007 150);
-  --popover-foreground: oklch(0.975 0.004 150);
-  --primary: oklch(0.645 0.175 150.5);
-  --primary-foreground: oklch(0.148 0.015 150);
-  --secondary: oklch(0.245 0.008 150);
-  --secondary-foreground: oklch(0.975 0.004 150);
-  --muted: oklch(0.235 0.007 150);
-  --muted-foreground: oklch(0.695 0.008 150);
-  --accent: oklch(0.245 0.009 150);
-  --accent-foreground: oklch(0.975 0.004 150);
+  color-scheme: dark;
+  --background: oklch(0.13 0.018 255);
+  --foreground: oklch(0.96 0.012 80);
+  --card: oklch(0.18 0.022 255);
+  --card-foreground: oklch(0.96 0.012 80);
+  --popover: oklch(0.2 0.024 255);
+  --popover-foreground: oklch(0.96 0.012 80);
+  --primary: oklch(0.72 0.16 32);
+  --primary-foreground: oklch(0.14 0.02 255);
+  --secondary: oklch(0.23 0.026 255);
+  --secondary-foreground: oklch(0.94 0.014 80);
+  --muted: oklch(0.22 0.022 255);
+  --muted-foreground: oklch(0.72 0.018 245);
+  --accent: oklch(0.25 0.03 255);
+  --accent-foreground: oklch(0.96 0.012 80);
   --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(0.98 0.005 150 / 11%);
-  --input: oklch(0.98 0.005 150 / 15%);
-  --ring: oklch(0.645 0.175 150.5);
+  --border: oklch(0.93 0.025 250 / 16%);
+  --input: oklch(0.93 0.025 250 / 22%);
+  --ring: oklch(0.72 0.16 32);
   --chart-1: oklch(0.871 0.15 154.449);
   --chart-2: oklch(0.723 0.219 149.579);
   --chart-3: oklch(0.627 0.194 149.214);
   --chart-4: oklch(0.527 0.154 150.069);
   --chart-5: oklch(0.448 0.119 151.328);
-  --sidebar: oklch(0.188 0.007 150);
-  --sidebar-foreground: oklch(0.975 0.004 150);
-  --sidebar-primary: oklch(0.723 0.219 149.579);
-  --sidebar-primary-foreground: oklch(0.982 0.018 155.826);
-  --sidebar-accent: oklch(0.235 0.007 150);
-  --sidebar-accent-foreground: oklch(0.975 0.004 150);
-  --sidebar-border: oklch(0.98 0.005 150 / 11%);
-  --sidebar-ring: oklch(0.556 0.008 150);
+  --sidebar: oklch(0.16 0.02 255);
+  --sidebar-foreground: oklch(0.96 0.012 80);
+  --sidebar-primary: oklch(0.72 0.16 32);
+  --sidebar-primary-foreground: oklch(0.14 0.02 255);
+  --sidebar-accent: oklch(0.22 0.022 255);
+  --sidebar-accent-foreground: oklch(0.96 0.012 80);
+  --sidebar-border: oklch(0.93 0.025 250 / 16%);
+  --sidebar-ring: oklch(0.72 0.16 32);
 }
 
 @layer base {
@@ -128,11 +143,276 @@
     @apply border-border outline-ring/50;
   }
 
-  body {
-    @apply bg-background text-foreground;
-  }
   html {
     @apply font-sans;
+    overflow-x: clip;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: var(--font-ui);
+    font-size: 0.9375rem;
+    line-height: 1.55;
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    font-optical-sizing: auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  .font-heading {
+    font-family: var(--font-heading);
+    letter-spacing: -0.015em;
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+  }
+
+  input[type="color"] {
+    -webkit-appearance: none;
+    appearance: none;
+  }
+
+  input[type="color"]::-webkit-color-swatch-wrapper {
+    padding: 0;
+  }
+
+  input[type="color"]::-webkit-color-swatch {
+    border: none;
+    border-radius: 9999px;
+  }
+
+  input[type="color"]::-moz-color-swatch {
+    border: none;
+    border-radius: 9999px;
+  }
+}
+
+body {
+  overflow-x: clip;
+}
+
+/* rig.ai Technical Visual System */
+.tech-mono {
+  font-family: var(--font-mono);
+  font-feature-settings: "tnum" 1;
+}
+
+.tech-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 0.25rem 0.625rem;
+  border-radius: 0.375rem;
+  border: 1px solid var(--border);
+  background-color: color-mix(in oklab, var(--card) 90%, transparent);
+  color: var(--muted-foreground);
+}
+
+.tech-crosshair-wrap {
+  position: relative;
+}
+.tech-crosshair-tl {
+  position: absolute;
+  top: -0.45rem;
+  left: -0.45rem;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--muted-foreground);
+  opacity: 0.5;
+  pointer-events: none;
+  line-height: 1;
+}
+.tech-crosshair-tr {
+  position: absolute;
+  top: -0.45rem;
+  right: -0.45rem;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--muted-foreground);
+  opacity: 0.5;
+  pointer-events: none;
+  line-height: 1;
+}
+.tech-crosshair-bl {
+  position: absolute;
+  bottom: -0.45rem;
+  left: -0.45rem;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--muted-foreground);
+  opacity: 0.5;
+  pointer-events: none;
+  line-height: 1;
+}
+.tech-crosshair-br {
+  position: absolute;
+  bottom: -0.45rem;
+  right: -0.45rem;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--muted-foreground);
+  opacity: 0.5;
+  pointer-events: none;
+  line-height: 1;
+}
+
+.site-nav {
+  background: color-mix(in oklab, var(--background) 88%, transparent);
+  backdrop-filter: blur(18px) saturate(150%);
+}
+
+.directory-intro h1 {
+  max-width: 16ch;
+  font-size: clamp(2rem, 4vw, 3.25rem);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  font-weight: 600;
+}
+
+.tool-directory-card {
+  min-height: 12rem;
+  transition:
+    background-color 180ms var(--motion-out),
+    color 180ms ease;
+}
+
+.tool-directory-card:focus-visible {
+  outline-offset: -3px;
+}
+
+.tool-directory-card h3 {
+  font-size: 1rem;
+  line-height: 1.35;
+}
+.tool-directory-card p {
+  font-size: 0.875rem;
+  line-height: 1.55;
+}
+
+/* Compact, refined header styling for all tool workspaces */
+#tool-workspace h1 {
+  font-family: var(--font-heading);
+  font-size: clamp(1.25rem, 1.8vw, 1.5rem);
+  line-height: 1.25;
+  letter-spacing: -0.012em;
+  font-weight: 600 !important;
+}
+
+#tool-workspace h1 + p,
+#tool-workspace header p {
+  font-size: 0.8125rem !important;
+  line-height: 1.45;
+  margin-top: 0.25rem !important;
+  max-width: 44rem;
+  color: var(--muted-foreground);
+  opacity: 0.9;
+}
+
+/* Tool page container padding reduction to maximize vertical workspace */
+#tool-workspace > div > div.max-w-7xl,
+#tool-workspace > div > div.max-w-6xl {
+  padding-top: 1.25rem;
+  padding-bottom: 1.5rem;
+  gap: 1.25rem;
+}
+
+/* Header row polish */
+#tool-workspace div:has(> div > h1),
+#tool-workspace header:has(h1) {
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid color-mix(in oklab, var(--border) 60%, transparent);
+}
+
+#tool-workspace :where(input, textarea, select, [data-slot="input"]) {
+  min-height: 2.375rem;
+  font-size: 0.875rem;
+}
+
+@media (max-width: 40rem) {
+  .nav-route-slug,
+  .nav-tool-count {
+    display: none;
+  }
+  #tool-workspace h1 {
+    font-size: 1.25rem;
+  }
+  .directory-intro h1 {
+    font-size: 2rem;
+  }
+  .tool-directory-card {
+    min-height: 10rem;
+  }
+}
+
+/* Small utility labels were difficult to scan at their previous sizes. */
+.text-xs {
+  font-size: 0.8125rem;
+  line-height: 1.45;
+}
+.text-sm {
+  font-size: 0.9375rem;
+  line-height: 1.5;
+}
+[class*="text-[9px]"],
+[class*="text-[10px]"],
+[class*="text-[11px]"] {
+  font-size: 0.75rem !important;
+  line-height: 1.4;
+}
+
+::selection {
+  background: color-mix(in oklab, var(--primary) 25%, transparent);
+}
+
+:where(button, a, input, textarea, select, [role="button"], [tabindex]):focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 3px;
+}
+
+:where(button, [role="button"], a) {
+  -webkit-tap-highlight-color: transparent;
+}
+
+:where(input, textarea, select, [data-slot="input"]) {
+  font: inherit;
+}
+
+[data-slot="button"]:active {
+  transform: scale(0.98);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  [data-slot="button"] {
+    transition:
+      transform 140ms var(--motion-out),
+      background-color 160ms ease,
+      color 160ms ease,
+      border-color 160ms ease;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
 }
 
@@ -153,4 +433,3 @@
     transform: rotate(0deg);
   }
 }
-

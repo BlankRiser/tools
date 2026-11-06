@@ -27,16 +27,23 @@ const ColorPicker = ({
   className?: string;
 }) => {
   return (
-    <input
-      type="color"
+    <div
       title={title}
-      className={`cursor-pointer overflow-hidden border-0 bg-transparent p-0 transition-opacity ${
-        className ? className : "h-5 w-5 rounded"
-      } ${disabled ? "cursor-not-allowed opacity-40" : ""}`}
-      value={value}
-      onChange={onChange}
-      disabled={disabled}
-    />
+      className={`group relative inline-flex shrink-0 items-center justify-center rounded-full border border-border/80 shadow-xs transition-transform hover:scale-110 active:scale-95 focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-1 focus-within:ring-offset-background ${
+        className || "size-5"
+      } ${disabled ? "cursor-not-allowed opacity-40 hover:scale-100" : "cursor-pointer"}`}
+      style={{ backgroundColor: value }}
+    >
+      <input
+        type="color"
+        aria-label={title || "Choose color"}
+        className="absolute inset-0 size-full cursor-pointer rounded-full opacity-0 disabled:cursor-not-allowed"
+        value={value}
+        onChange={onChange}
+        disabled={disabled}
+      />
+      <span className="pointer-events-none absolute inset-0 rounded-full ring-1 ring-black/10 ring-inset dark:ring-white/20" />
+    </div>
   );
 };
 
@@ -219,14 +226,14 @@ export function LayerStylingPanel({
                               onChange={(e) => updateLayerColor(layer.id, layer.type, "fill", e.target.value)}
                               disabled={!isReady || !isLayerVisible}
                               title={`Fill: ${layer.id}`}
-                              className="h-4 w-4 rounded-sm"
+                              className="size-4"
                             />
                             <ColorPicker
                               value={colors[layer.id]?.stroke || "#000000"}
                               onChange={(e) => updateLayerColor(layer.id, layer.type, "stroke", e.target.value)}
                               disabled={!isReady || !isLayerVisible}
                               title={`Stroke: ${layer.id}`}
-                              className="h-4 w-4 rounded-sm"
+                              className="size-4"
                             />
                           </div>
                         </div>
